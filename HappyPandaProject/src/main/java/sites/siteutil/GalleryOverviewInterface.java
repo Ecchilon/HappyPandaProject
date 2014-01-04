@@ -1,15 +1,12 @@
-package sites.siteinterface;
-
-import com.ecchilon.happypandaproject.GalleryItem;
-
-import java.util.ArrayList;
+package sites.siteutil;
+import java.util.List;
 
 /**
  * Created by Alex on 1/4/14.
  */
 public interface GalleryOverviewInterface {
-    public interface GalleryPageCreatedCallback {
-        public void GalleryOverviewPageCreated(ArrayList<GalleryItem> pageItems);
+    public interface GalleryPageCreatedCallback<T> {
+        public void GalleryOverviewPageCreated(List<T> pageItems);
         public void PageCreationFailed();
     }
 
