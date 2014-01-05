@@ -12,8 +12,8 @@ public interface GalleryOverviewInterface {
 
     /**
      * Get the next page of the overview, if available. If not available, PageCreationFailed() should be called on the listener
-     * @param currentIndex Index of the application's current page. First request will start at 0.
+     * @param index Index of the application's current page. First request will start at 0.
      * @param listener Listener to pass the constructed list of items to.
      */
-    public void nextPage(int currentIndex, GalleryPageCreatedCallback listener);
+    public void getPage(int index, GalleryPageCreatedCallback listener);
 }

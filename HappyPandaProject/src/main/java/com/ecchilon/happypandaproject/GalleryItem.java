@@ -1,7 +1,7 @@
 package com.ecchilon.happypandaproject;
 
 /**
- * Created by Alex on 1/4/14.
+ * Created by Ecchilon on 1/4/14.
  */
 public class GalleryItem {
 }
