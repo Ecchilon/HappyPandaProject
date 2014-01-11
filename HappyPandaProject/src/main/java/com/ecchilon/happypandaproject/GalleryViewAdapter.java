@@ -3,9 +3,7 @@ package com.ecchilon.happypandaproject;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.zip.Inflater;
-
-import sites.siteutil.GalleryOverviewInterface;
+import sites.util.GalleryOverviewInterface;
 import util.PagedScrollAdapter;
 
 /**

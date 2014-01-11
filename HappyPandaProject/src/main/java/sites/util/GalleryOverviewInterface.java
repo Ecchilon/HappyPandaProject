@@ -1,4 +1,4 @@
-package sites.siteutil;
+package sites.util;
 import java.util.List;
 
 /**

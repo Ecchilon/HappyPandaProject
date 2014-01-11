@@ -6,7 +6,7 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import sites.siteutil.GalleryOverviewInterface;
+import sites.util.GalleryOverviewInterface;
 
 /**
  * Created by Ecchilon on 1/4/14.

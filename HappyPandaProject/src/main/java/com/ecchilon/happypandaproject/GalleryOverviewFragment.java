@@ -7,10 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import java.util.List;
-
-import sites.siteutil.GalleryOverviewInterface;
-import sites.siteutil.SiteFactory;
+import sites.util.GalleryOverviewInterface;
+import sites.util.SiteFactory;
 
 /**
  * Created by Ecchilon on 1/4/14.

@@ -1,6 +1,8 @@
 package com.ecchilon.happypandaproject;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -8,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +20,7 @@ import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class GalleryOverview extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -85,6 +89,33 @@ public class GalleryOverview extends ActionBarActivity
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
             getMenuInflater().inflate(R.menu.gallery_overview, menu);
+            //Set up the search button
+            final MenuItem searchItem = menu.findItem(R.id.action_search);
+            SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String s) {
+                    if(s != null && s.trim().length() > 0)
+                    {
+                        Intent searchIntent = new Intent(GalleryOverview.this, SearchActivity.class);
+                        searchIntent.putExtra(SearchActivity.EXTRA_SEARCH, s);
+
+                        if(searchIntent.resolveActivity(getPackageManager()) != null)
+                        {
+                            GalleryOverview.this.startActivity(searchIntent);
+                            searchItem.collapseActionView();
+                        }
+                    }
+
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    return true;
+                }
+            });
+
             restoreActionBar();
             return true;
         }
@@ -132,8 +163,8 @@ public class GalleryOverview extends ActionBarActivity
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.gallery_fragment_overview, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
+            //TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            //textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
 

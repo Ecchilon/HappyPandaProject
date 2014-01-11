@@ -1,9 +1,15 @@
-package sites.siteutil;
+package sites.util;
+
+import android.content.Context;
 
 /**
  * Created by Ecchilon on 1/4/14.
  */
-public abstract class SearchInterface extends PagedGalleryAbstract {
+public abstract class SearchAbstract extends PagedGalleryAbstract {
+
+    public SearchAbstract(Context context){
+        super(context);
+    }
 
     String mQuery;
 

@@ -1,4 +1,6 @@
-package sites.siteutil;
+package sites.util;
+
+import sites.DummyGalleryInterface;
 
 /**
  * Created by Alex on 1/4/14.

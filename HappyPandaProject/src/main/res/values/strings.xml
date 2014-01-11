@@ -9,7 +9,10 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
-
+    <string name="action_search">Search</string>
+    <string name="search_hint">Keywords</string>
     <string name="end_of_overview">No more pages found. Refresh?</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
