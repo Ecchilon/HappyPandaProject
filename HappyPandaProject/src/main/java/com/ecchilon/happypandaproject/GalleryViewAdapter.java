@@ -3,7 +3,7 @@ package com.ecchilon.happypandaproject;
 import android.view.View;
 import android.view.ViewGroup;
 
-import sites.util.GalleryOverviewInterface;
+import sites.GalleryOverviewInterface;
 import util.PagedScrollAdapter;
 
 /**
@@ -41,9 +41,12 @@ public class GalleryViewAdapter extends PagedScrollAdapter<GalleryItem> {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         if(view == null)
-            view = View.inflate(viewGroup.getContext(), R.layout.gallery_item, viewGroup);
+            view = View.inflate(viewGroup.getContext(), R.layout.gallery_item, null);
 
         //TODO do stuff with gallery item
+        GalleryItem currentItem = getItem(i);
+
+
 
         return  view;
     }

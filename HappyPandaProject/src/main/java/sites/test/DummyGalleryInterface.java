@@ -1,15 +1,15 @@
-package sites;
+package sites.test;
 
 import com.ecchilon.happypandaproject.GalleryItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import sites.util.GalleryOverviewInterface;
+import sites.GalleryOverviewInterface;
 
 /**
  * A simply dummy class to test the factory and the fragments
- * Created by Ecchilon on 1/4/14.
+ * Created by Alex on 1/4/14.
  */
 public class DummyGalleryInterface implements GalleryOverviewInterface {
 
@@ -23,6 +23,7 @@ public class DummyGalleryInterface implements GalleryOverviewInterface {
                 items.add(new GalleryItem());
 
             listener.GalleryOverviewPageCreated(items);
+            repetitions++;
         }
         else
             listener.PageCreationFailed();

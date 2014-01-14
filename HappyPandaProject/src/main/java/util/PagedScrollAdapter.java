@@ -6,10 +6,10 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import sites.util.GalleryOverviewInterface;
+import sites.GalleryOverviewInterface;
 
 /**
- * Created by Ecchilon on 1/4/14.
+ * Created by Alex on 1/4/14.
  */
 public abstract class PagedScrollAdapter<T> extends BaseAdapter implements AbsListView.OnScrollListener, GalleryOverviewInterface.GalleryPageCreatedCallback<T> {
     boolean mLoading = false;

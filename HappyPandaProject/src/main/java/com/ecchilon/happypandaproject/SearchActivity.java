@@ -35,7 +35,7 @@ public class SearchActivity extends ActionBarActivity {
             Bundle args = new Bundle();
             args.putString(EXTRA_SEARCH, query);
 
-            PlaceholderFragment frag = new PlaceholderFragment();
+            GalleryOverviewFragment frag = new GalleryOverviewFragment();
             frag.setArguments(args);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, frag)

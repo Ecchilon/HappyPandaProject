@@ -2,25 +2,22 @@ package com.ecchilon.happypandaproject;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
-import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 
 public class GalleryOverview extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -35,6 +32,17 @@ public class GalleryOverview extends ActionBarActivity
      */
     private CharSequence mTitle;
 
+    private static RequestQueue mRequestQueue;
+
+    /**
+     * @return a Singleton of RequestQueue for all network requests
+     */
+    public static RequestQueue getRequestQueue() {
+        //no null checking, since it needs the Context, so it's set at the start of the app.
+        //should this ever be null, something went terribly wrong.
+        return mRequestQueue;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +53,9 @@ public class GalleryOverview extends ActionBarActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
+        //Set up the singleton.
+        mRequestQueue = Volley.newRequestQueue(this);
+
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
@@ -53,10 +64,15 @@ public class GalleryOverview extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
+        Bundle args = new Bundle();
+        args.putInt(GalleryOverviewFragment.SITE_KEY, position);
+        GalleryOverviewFragment frag = new GalleryOverviewFragment();
+        frag.setArguments(args);
+
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, frag)
                 .commit();
     }
 

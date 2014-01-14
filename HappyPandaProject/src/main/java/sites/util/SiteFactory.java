@@ -1,6 +1,7 @@
 package sites.util;
 
-import sites.DummyGalleryInterface;
+import sites.GalleryOverviewInterface;
+import sites.test.DummyGalleryInterface;
 
 /**
  * Created by Alex on 1/4/14.
@@ -20,7 +21,7 @@ public class SiteFactory {
         }
     }
 
-    public static GalleryOverviewInterface getSearchInterface(int index) {
+    public static GalleryOverviewInterface getSearchInterface(int index, String query) {
         switch (index)
         {
             case 0:
