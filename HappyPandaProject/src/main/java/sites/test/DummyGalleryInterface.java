@@ -13,17 +13,14 @@ import sites.GalleryOverviewInterface;
  */
 public class DummyGalleryInterface implements GalleryOverviewInterface {
 
-    int repetitions = 0;
-
     @Override
     public void getPage(int index, GalleryPageCreatedCallback listener) {
-        if(repetitions < 3) {
+        if(index < 3) {
             List<GalleryItem> items = new ArrayList<GalleryItem>();
             for(int i = 0; i < 10; i++)
                 items.add(new GalleryItem());
 
             listener.GalleryOverviewPageCreated(items);
-            repetitions++;
         }
         else
             listener.PageCreationFailed();

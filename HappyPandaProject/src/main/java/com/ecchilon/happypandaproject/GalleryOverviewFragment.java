@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -23,12 +24,13 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
 
     public static final String SEARCH_KEY = "SEARCH";
     public static final String SITE_KEY = "SITE";
+    View mEndView;
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.gallery_fragment_overview, container, false);
-
-        mList = (ListView)rootView.findViewById(R.id.list_overview);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         GalleryOverviewInterface listInterface = null;
 
@@ -46,35 +48,58 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
             throw new IllegalArgumentException("No appropriate argument was provided!");
         }
 
-        setHasOptionsMenu(true);
-
         mAdapter = new GalleryViewAdapter(listInterface);
         mAdapter.setPageCreationFailedListener(this);
+    }
 
-        mList.setAdapter(mAdapter);
-        mList.setOnScrollListener(mAdapter);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.loading_listview, container, false);
+        mList = (ListView)rootView.findViewById(R.id.listView);
+        mList.setEmptyView(rootView.findViewById(R.id.emptyView));
+
+       //mEndView = View.inflate(getActivity(), R.layout.end_of_overview_item, null);
+
+        //mEndView.setVisibility(View.GONE);
+        //mList.addFooterView(mEndView);
 
         return rootView;
     }
 
-    View mEndView;
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mList.setAdapter(mAdapter);
+        mList.setOnScrollListener(mAdapter);
+    }
 
     /**
      *
      */
     @Override
     public void PageCreationFailed() {
-        /*ListView overview = (ListView)getView().findViewById(R.id.list_overview);
-        if(mEndView == null)
-            mEndView = View.inflate(getActivity(), R.layout.end_of_overview_item, null);
-        overview.addFooterView(mEndView);*/
+        if(mEndView != null){
+            mEndView.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
+        inflater.inflate(R.menu.fragment_overview_menu, menu);
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_refresh:
+                refresh();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -82,12 +107,15 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
      */
     public void refresh()
     {
+        if(mEndView != null)
+            mEndView.setVisibility(View.GONE);
+
         if(mAdapter != null) {
             mAdapter.clear(true);
         }
+
         if(mList != null) {
-            if(mEndView != null)
-                mList.removeFooterView(mEndView);
+            mList.invalidate();
         }
     }
 }

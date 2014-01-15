@@ -72,6 +72,7 @@ public abstract class PagedScrollAdapter<T> extends BaseAdapter implements AbsLi
             mCurrentPage = 0;
             mPreviousTotal = 0;
             mLoading = false;
+
             if (notify)
                 notifyDataSetChanged();
         }
