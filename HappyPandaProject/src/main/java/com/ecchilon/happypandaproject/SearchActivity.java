@@ -1,43 +1,35 @@
 package com.ecchilon.happypandaproject;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
-import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-public class SearchActivity extends ActionBarActivity {
-
-    public static final String EXTRA_SEARCH = "PANDA_SEARCH";
+public class SearchActivity extends Activity implements TitleActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        getSupportActionBar().setIcon(R.drawable.actionbar_icon);
+        getActionBar().setIcon(R.drawable.actionbar_icon);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        String query = getIntent().getStringExtra(EXTRA_SEARCH);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        String query = getIntent().getStringExtra(GalleryOverviewFragment.SEARCH_KEY);
         if(query == null)
             finish();
-
-        getSupportActionBar().setTitle("\""+query+"\"");
 
         if (savedInstanceState == null) {
 
             Bundle args = new Bundle();
-            args.putString(EXTRA_SEARCH, query);
+            //get site index
+            args.putInt(GalleryOverviewFragment.SITE_KEY, getIntent().getIntExtra(GalleryOverviewFragment.SITE_KEY, -1));
+            args.putString(GalleryOverviewFragment.SEARCH_KEY, query);
 
             GalleryOverviewFragment frag = new GalleryOverviewFragment();
             frag.setArguments(args);
-            getSupportFragmentManager().beginTransaction()
+            getFragmentManager().beginTransaction()
                     .add(R.id.container, frag)
                     .commit();
         }
@@ -64,7 +56,7 @@ public class SearchActivity extends ActionBarActivity {
                 if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
                     // This activity is NOT part of this app's task, so create a new task
                     // when navigating up, with a synthesized back stack.
-                    TaskStackBuilder.create(this)
+                    android.support.v4.app.TaskStackBuilder.create(this)
                             // Add all of this activity's parents to the back stack
                             .addNextIntentWithParentStack(upIntent)
                                     // Navigate up to the closest parent
@@ -79,23 +71,13 @@ public class SearchActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_search, container, false);
-            String query = getArguments().getString(SearchActivity.EXTRA_SEARCH);
-            TextView textView = (TextView)rootView.findViewById(R.id.search_text);
-            textView.setText(query);
-            return rootView;
-        }
+    @Override
+    public void setTitle(String title) {
+        getActionBar().setTitle(title);
     }
 
+    @Override
+    public void setSubTitle(String subTitle) {
+        getActionBar().setSubtitle(subTitle);
+    }
 }

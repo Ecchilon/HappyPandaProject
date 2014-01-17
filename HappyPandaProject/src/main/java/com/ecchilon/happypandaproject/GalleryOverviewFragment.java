@@ -1,7 +1,7 @@
 package com.ecchilon.happypandaproject;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,19 +34,27 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
 
         GalleryOverviewInterface listInterface = null;
 
+        int index = -1;
+
         //use the factory to determine which site-interface gets loaded
         if(getArguments().containsKey(SITE_KEY)) {
-            int index = getArguments().getInt(SITE_KEY);
-            listInterface = SiteFactory.getOverviewInterface(index);
+            index = getArguments().getInt(SITE_KEY);
         }
-        else if(getArguments().containsKey(SEARCH_KEY)) {
-            int index = getArguments().getInt(SEARCH_KEY);
-            String query = getArguments().getString(SearchActivity.EXTRA_SEARCH);
+        else
+        {
+            throw new IllegalArgumentException("No appropriate argument was provided!");
+        }
+
+        if(getArguments().containsKey(SEARCH_KEY)) {
+            String query = getArguments().getString(SEARCH_KEY);
             listInterface = SiteFactory.getSearchInterface(index, query);
         }
         else {
-            throw new IllegalArgumentException("No appropriate argument was provided!");
+            listInterface = SiteFactory.getOverviewInterface(index);
         }
+
+        ((TitleActivity)getActivity()).setTitle(listInterface.getTitle());
+        ((TitleActivity)getActivity()).setSubTitle(listInterface.getSubTitle());
 
         mAdapter = new GalleryViewAdapter(listInterface);
         mAdapter.setPageCreationFailedListener(this);

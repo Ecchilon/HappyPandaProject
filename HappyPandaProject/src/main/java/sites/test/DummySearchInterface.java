@@ -5,13 +5,16 @@ import com.ecchilon.happypandaproject.GalleryItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import sites.GalleryOverviewInterface;
+import sites.SearchAbstract;
 
 /**
- * A simply dummy class to test the factory and the fragments
- * Created by Alex on 1/4/14.
+ * Created by Alex on 1/17/14.
  */
-public class DummyGalleryInterface implements GalleryOverviewInterface {
+public class DummySearchInterface extends SearchAbstract {
+
+    public DummySearchInterface(String query) {
+        super(query);
+    }
 
     @Override
     public void getPage(int index, GalleryPageCreatedCallback listener) {
@@ -27,12 +30,12 @@ public class DummyGalleryInterface implements GalleryOverviewInterface {
     }
 
     @Override
-    public String getTitle() {
-        return "Dummy";
+    public String getUrl(int index) {
+        return null;
     }
 
     @Override
     public String getSubTitle() {
-        return "test";
+        return "Test";
     }
 }

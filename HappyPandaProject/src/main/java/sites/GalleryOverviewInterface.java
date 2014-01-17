@@ -16,4 +16,14 @@ public interface GalleryOverviewInterface {
      * @param listener Listener to pass the constructed list of items to.
      */
     public void getPage(int index, GalleryPageCreatedCallback listener);
+
+    /**
+     * @return The title text to be displayed in the actionbar
+     */
+    public String getTitle();
+
+    /**
+     * @return The subtitle text to be displayed in the actionbar below the title
+     */
+    public String getSubTitle();
 }

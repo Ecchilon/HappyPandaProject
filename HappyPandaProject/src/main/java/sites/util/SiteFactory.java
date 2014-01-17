@@ -2,6 +2,7 @@ package sites.util;
 
 import sites.GalleryOverviewInterface;
 import sites.test.DummyGalleryInterface;
+import sites.test.DummySearchInterface;
 
 /**
  * Created by Alex on 1/4/14.
@@ -25,11 +26,11 @@ public class SiteFactory {
         switch (index)
         {
             case 0:
-                return new DummyGalleryInterface();
+                return new DummySearchInterface(query);
             case 1:
-                return new DummyGalleryInterface();
+                return new DummySearchInterface(query);
             case 2:
-                return new DummyGalleryInterface();
+                return new DummySearchInterface(query);
             default:
                 return null;
         }

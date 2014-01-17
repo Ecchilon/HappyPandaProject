@@ -14,4 +14,9 @@ public abstract class SearchAbstract extends StringContentAbstract {
     public String getQuery() {
         return  mQuery;
     }
+
+    @Override
+    public String getTitle() {
+        return "\"" + mQuery + "\"";
+    }
 }
