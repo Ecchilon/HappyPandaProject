@@ -1,19 +1,19 @@
 package com.ecchilon.happypandaproject;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class SearchActivity extends Activity implements TitleActivity {
+public class SearchActivity extends ActionBarActivity implements TitleActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        getActionBar().setIcon(R.drawable.actionbar_icon);
+        getSupportActionBar().setIcon(R.drawable.actionbar_icon);
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
         String query = getIntent().getStringExtra(GalleryOverviewFragment.SEARCH_KEY);
@@ -29,7 +29,7 @@ public class SearchActivity extends Activity implements TitleActivity {
 
             GalleryOverviewFragment frag = new GalleryOverviewFragment();
             frag.setArguments(args);
-            getFragmentManager().beginTransaction()
+            getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, frag)
                     .commit();
         }
@@ -73,11 +73,11 @@ public class SearchActivity extends Activity implements TitleActivity {
 
     @Override
     public void setTitle(String title) {
-        getActionBar().setTitle(title);
+        getSupportActionBar().setTitle(title);
     }
 
     @Override
     public void setSubTitle(String subTitle) {
-        getActionBar().setSubtitle(subTitle);
+        getSupportActionBar().setSubtitle(subTitle);
     }
 }

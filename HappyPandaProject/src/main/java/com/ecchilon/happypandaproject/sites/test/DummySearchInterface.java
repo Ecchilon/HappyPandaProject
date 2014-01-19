@@ -1,11 +1,13 @@
-package sites.test;
+package com.ecchilon.happypandaproject.sites.test;
+
+import android.view.View;
 
 import com.ecchilon.happypandaproject.GalleryItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import sites.SearchAbstract;
+import com.ecchilon.happypandaproject.sites.SearchAbstract;
 
 /**
  * Created by Alex on 1/17/14.
@@ -21,7 +23,7 @@ public class DummySearchInterface extends SearchAbstract {
         if(index < 3) {
             List<GalleryItem> items = new ArrayList<GalleryItem>();
             for(int i = 0; i < 10; i++)
-                items.add(new GalleryItem());
+                items.add(new GalleryItem("TitleTest " + (index*10 + i), null, null));
 
             listener.GalleryOverviewPageCreated(items);
         }
@@ -37,5 +39,15 @@ public class DummySearchInterface extends SearchAbstract {
     @Override
     public String getSubTitle() {
         return "Test";
+    }
+
+    @Override
+    public String getInnerLayoutName() {
+        return "";
+    }
+
+    @Override
+    public void setInnerContentView(GalleryItem item, View innerView) {
+
     }
 }

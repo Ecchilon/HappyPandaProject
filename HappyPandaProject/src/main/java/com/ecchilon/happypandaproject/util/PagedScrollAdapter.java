@@ -1,4 +1,4 @@
-package util;
+package com.ecchilon.happypandaproject.util;
 
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
@@ -6,7 +6,7 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import sites.GalleryOverviewInterface;
+import com.ecchilon.happypandaproject.sites.GalleryOverviewInterface;
 
 /**
  * Created by Alex on 1/4/14.

@@ -1,4 +1,4 @@
-package sites.util;
+package com.ecchilon.happypandaproject.sites.util;
 
 import android.os.AsyncTask;
 
@@ -9,7 +9,7 @@ import org.jsoup.nodes.Document;
 
 import java.util.List;
 
-import sites.GalleryOverviewInterface;
+import com.ecchilon.happypandaproject.sites.GalleryOverviewInterface;
 
 /**
  * Created by Alex on 1/14/14.

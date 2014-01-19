@@ -1,8 +1,8 @@
-package sites.util;
+package com.ecchilon.happypandaproject.sites.util;
 
-import sites.GalleryOverviewInterface;
-import sites.test.DummyGalleryInterface;
-import sites.test.DummySearchInterface;
+import com.ecchilon.happypandaproject.sites.GalleryOverviewInterface;
+import com.ecchilon.happypandaproject.sites.test.DummyGalleryInterface;
+import com.ecchilon.happypandaproject.sites.test.DummySearchInterface;
 
 /**
  * Created by Alex on 1/4/14.

@@ -1,19 +1,22 @@
 package com.ecchilon.happypandaproject;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.SearchView;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-public class GalleryOverview extends Activity
+public class GalleryOverview extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, TitleActivity {
 
     /**
@@ -27,26 +30,26 @@ public class GalleryOverview extends Activity
     private CharSequence mTitle, mSubTitle;
 
     private static RequestQueue mRequestQueue;
+    private static int mNavigationPositionIndex = -1;
 
-    /**
-     * @return a Singleton of RequestQueue for all network requests
-     */
-    public static RequestQueue getRequestQueue() {
-        //no null checking, since it needs the Context, so it's set at the start of the app.
-        //should this ever be null, something went terribly wrong.
-        return mRequestQueue;
+    public static void addRequest(Request request)
+    {
+        //sets tag to keep track of request while it's being handled, so it can be destroyed if
+        //the navigation switches.
+        request.setTag(mNavigationPositionIndex);
+        mRequestQueue.add(request);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview);
-        getActionBar().setIcon(R.drawable.actionbar_icon);
+        getSupportActionBar().setIcon(R.drawable.actionbar_icon);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getFragmentManager().findFragmentById(R.id.navigation_drawer);
+                getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
-        mSubTitle = getActionBar().getSubtitle();
+        mSubTitle = getSupportActionBar().getSubtitle();
 
         //Set up the singleton.
         mRequestQueue = Volley.newRequestQueue(this);
@@ -59,13 +62,18 @@ public class GalleryOverview extends Activity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
+        //stop all current requests from this part of the app. we don't need them anymore!
+        if(mRequestQueue != null)
+            mRequestQueue.cancelAll(mNavigationPositionIndex);
+        mNavigationPositionIndex = position;
+
         Bundle args = new Bundle();
         args.putInt(GalleryOverviewFragment.SITE_KEY, position);
         GalleryOverviewFragment frag = new GalleryOverviewFragment();
         frag.setArguments(args);
 
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, frag)
                 .commit();
@@ -86,7 +94,7 @@ public class GalleryOverview extends Activity
     }
 
     public void restoreActionBar() {
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
@@ -103,7 +111,7 @@ public class GalleryOverview extends Activity
             //Set up the search button
             final MenuItem searchItem = menu.findItem(R.id.action_search);
 
-            SearchView searchView = (SearchView) searchItem.getActionView();
+            SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
             if (searchView != null) {
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                     @Override
@@ -152,12 +160,12 @@ public class GalleryOverview extends Activity
     @Override
     public void setTitle(String title) {
         mTitle = title;
-        getActionBar().setTitle(mTitle);
+        getSupportActionBar().setTitle(mTitle);
     }
 
     @Override
     public void setSubTitle(String subTitle) {
         mSubTitle = subTitle;
-        getActionBar().setSubtitle(mSubTitle);
+        getSupportActionBar().setSubtitle(mSubTitle);
     }
 }

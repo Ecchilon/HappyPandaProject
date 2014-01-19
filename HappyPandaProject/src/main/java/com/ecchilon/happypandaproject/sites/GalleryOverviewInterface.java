@@ -1,4 +1,8 @@
-package sites;
+package com.ecchilon.happypandaproject.sites;
+import android.view.View;
+
+import com.ecchilon.happypandaproject.GalleryItem;
+
 import java.util.List;
 
 /**
@@ -26,4 +30,20 @@ public interface GalleryOverviewInterface {
      * @return The subtitle text to be displayed in the actionbar below the title
      */
     public String getSubTitle();
+
+    /**
+     *
+     * @return The resource ID of the inner view layout
+     */
+    public String getInnerLayoutName();
+
+    /**
+     * Implement this function to fill the inner view of a card. Title, thumbnail,
+     * and buttons are handled by application. Put all other information (tags, author, date, etc.)
+     * inside this view.
+     * @param item The {@link com.ecchilon.happypandaproject.GalleryItem} that is currently on display.
+     * @param innerView The inner view. Is structured as the layout defined in {@link #getInnerLayoutName()}.
+     * @return
+     */
+    public void setInnerContentView(GalleryItem item, View innerView);
 }

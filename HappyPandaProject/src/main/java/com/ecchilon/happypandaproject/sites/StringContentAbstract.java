@@ -1,4 +1,4 @@
-package sites;
+package com.ecchilon.happypandaproject.sites;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -8,8 +8,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.ecchilon.happypandaproject.GalleryOverview;
 import org.json.JSONObject;
 
-import sites.util.StringPageLoadTask;
-import sites.util.StringPageLoadTask.StringContentParser;
+import com.ecchilon.happypandaproject.sites.util.StringPageLoadTask;
+import com.ecchilon.happypandaproject.sites.util.StringPageLoadTask.StringContentParser;
 
 /**
  * Created by Alex on 1/4/14.
@@ -28,7 +28,8 @@ public abstract class StringContentAbstract implements GalleryOverviewInterface 
             return;
         }
 
-        sendGetStringRequest(getUrl(index), new Response.Listener<String>() {
+        //adds the string request to the queue.
+        GalleryOverview.addRequest(new StringRequest(getUrl(index), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 //since onResponse is handled on the UIThread, create a new task to prevent the UI from stalling
@@ -39,22 +40,8 @@ public abstract class StringContentAbstract implements GalleryOverviewInterface 
                     public void onErrorResponse(VolleyError volleyError) {
                         listener.PageCreationFailed();
                     }
-                });
+                }));
     }
 
     public abstract String getUrl(int index);
-
-    protected void sendGetStringRequest(String url, Response.Listener<String> listener, Response.ErrorListener errorListener)
-    {
-        StringRequest request = new StringRequest(url, listener, errorListener);
-        GalleryOverview.getRequestQueue().add(request);
-    }
-
-    protected void sendGetJSONRequest(String url, Response.Listener<JSONObject> listener, Response.ErrorListener errorListener)
-    {
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, listener, errorListener);
-        GalleryOverview.getRequestQueue().add(request);
-    }
-
-    //TODO provide site tools like a user agent for the site
 }

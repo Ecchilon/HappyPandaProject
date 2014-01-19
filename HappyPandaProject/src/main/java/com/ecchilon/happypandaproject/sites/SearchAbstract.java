@@ -1,4 +1,4 @@
-package sites;
+package com.ecchilon.happypandaproject.sites;
 
 /**
  * Created by Ecchilon on 1/4/14.
