@@ -16,7 +16,7 @@ import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 /**
  * Created by Alex on 1/4/14.
  */
-public class GalleryOverviewFragment extends Fragment implements GalleryViewAdapter.PageCreationFailedListener {
+public class GalleryOverviewFragment extends Fragment implements GalleryViewAdapter.PageCreationFailedListener, GalleryViewAdapter.GalleryItemClickListener {
     public GalleryOverviewFragment() {}
 
     public ListView mList;
@@ -56,7 +56,7 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
         ((TitleActivity)getActivity()).setTitle(listInterface.getTitle());
         ((TitleActivity)getActivity()).setSubTitle(listInterface.getSubTitle());
 
-        mAdapter = new GalleryViewAdapter(listInterface);
+        mAdapter = new GalleryViewAdapter(listInterface, this, getActivity());
         mAdapter.setPageCreationFailedListener(this);
     }
 
@@ -125,5 +125,20 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
         if(mList != null) {
             mList.invalidate();
         }
+    }
+
+    @Override
+    public void GalleryItemClicked(GalleryItem item) {
+        //TODO fire awesome intent for image viewer!
+    }
+
+    @Override
+    public void GalleryItemDownloadClicked(GalleryItem item) {
+        //TODO load service (Omg, we need a service oO) for downloading
+    }
+
+    @Override
+    public void GalleryItemFavoriteClicked(GalleryItem item) {
+        //TODO store GalleryItem in favorites.
     }
 }

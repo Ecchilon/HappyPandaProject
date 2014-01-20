@@ -32,8 +32,8 @@ public interface GalleryOverviewInterface {
     public String getSubTitle();
 
     /**
-     *
-     * @return The resource ID of the inner view layout
+     * Gets the resource filename of the inner view. Gets queried once during the setup of an adapter.
+     * @return The resource ID of the inner view layout.
      */
     public String getInnerLayoutName();
 

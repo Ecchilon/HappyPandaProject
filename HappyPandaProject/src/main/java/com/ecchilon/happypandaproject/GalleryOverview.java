@@ -1,8 +1,10 @@
 package com.ecchilon.happypandaproject;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.util.LruCache;
 import android.support.v4.view.MenuCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +16,7 @@ import android.view.MenuItem;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
 public class GalleryOverview extends ActionBarActivity
@@ -30,7 +33,12 @@ public class GalleryOverview extends ActionBarActivity
     private CharSequence mTitle, mSubTitle;
 
     private static RequestQueue mRequestQueue;
+    private static ImageLoader mImageLoader;
     private static int mNavigationPositionIndex = -1;
+
+    public static ImageLoader getImageLoader() {
+        return mImageLoader;
+    }
 
     public static void addRequest(Request request)
     {
@@ -53,6 +61,15 @@ public class GalleryOverview extends ActionBarActivity
 
         //Set up the singleton.
         mRequestQueue = Volley.newRequestQueue(this);
+        mImageLoader = new ImageLoader(mRequestQueue, new ImageLoader.ImageCache() {
+            private final LruCache<String, Bitmap> mCache = new LruCache<String, Bitmap>(10);
+            public void putBitmap(String url, Bitmap bitmap) {
+                mCache.put(url, bitmap);
+            }
+            public Bitmap getBitmap(String url) {
+                return mCache.get(url);
+            }
+        });
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(

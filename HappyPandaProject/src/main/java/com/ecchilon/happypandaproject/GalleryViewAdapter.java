@@ -4,8 +4,10 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.NetworkImageView;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewInterface;
 import com.ecchilon.happypandaproject.util.PagedScrollAdapter;
 
@@ -18,12 +20,23 @@ public class GalleryViewAdapter extends PagedScrollAdapter<GalleryItem> {
         public void PageCreationFailed();
     }
 
-    private PageCreationFailedListener mListener;
+    public interface GalleryItemClickListener {
+        public void GalleryItemClicked(GalleryItem item);
+        public void GalleryItemDownloadClicked(GalleryItem item);
+        public void GalleryItemFavoriteClicked(GalleryItem item);
+    }
 
+    private PageCreationFailedListener mListener;
+    private GalleryItemClickListener mGalleryItemClickListener;
     private GalleryOverviewInterface mGalleryInterface;
 
-    public GalleryViewAdapter(GalleryOverviewInterface galleryInterface) {
+    private int mInnerLayoutId;
+
+    public GalleryViewAdapter(GalleryOverviewInterface galleryInterface, GalleryItemClickListener itemClickListener, Context c) {
         mGalleryInterface = galleryInterface;
+        mGalleryItemClickListener = itemClickListener;
+
+        mInnerLayoutId = c.getResources().getIdentifier(mGalleryInterface.getInnerLayoutName(),"layout", c.getPackageName());
     }
 
     public void setPageCreationFailedListener(PageCreationFailedListener _listener){
@@ -46,14 +59,11 @@ public class GalleryViewAdapter extends PagedScrollAdapter<GalleryItem> {
         View innerView = null;
         Context c = viewGroup.getContext();
 
-        int layoutId = c.getResources().getIdentifier(mGalleryInterface.getInnerLayoutName(),"layout", c.getPackageName());
-
         if(view == null) {
             view = View.inflate(c, R.layout.gallery_item, null);
-
-            if(layoutId != 0){
+            if(mInnerLayoutId != 0){
                 FrameLayout container = ((FrameLayout)view.findViewById(R.id.inner_view));
-                innerView = View.inflate(c, layoutId, container);
+                innerView = View.inflate(c, mInnerLayoutId, container);
             }
         }
         else
@@ -61,10 +71,35 @@ public class GalleryViewAdapter extends PagedScrollAdapter<GalleryItem> {
             innerView = ((FrameLayout)view.findViewById(R.id.inner_view)).getChildAt(0);
         }
 
-        //TODO do stuff with gallery item
-        GalleryItem currentItem = getItem(i);
+        final GalleryItem currentItem = getItem(i);
 
-        ((TextView)view.findViewById(R.id.item_title)).setText(currentItem.getTitle());
+        ((TextView) view.findViewById(R.id.item_title)).setText(currentItem.getTitle());
+
+        //set all gallery item values
+        if(currentItem.getThumbUrl() != null) {
+            NetworkImageView networkImageView = (NetworkImageView)view.findViewById(R.id.item_thumb);
+            networkImageView.setImageUrl(currentItem.getThumbUrl(), GalleryOverview.getImageLoader());
+        }
+
+        //set up click calls
+        view.findViewById(R.id.item_download).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mGalleryItemClickListener.GalleryItemDownloadClicked(currentItem);
+            }
+        });
+        view.findViewById(R.id.item_favorite).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mGalleryItemClickListener.GalleryItemFavoriteClicked(currentItem);
+            }
+        });
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mGalleryItemClickListener.GalleryItemClicked(currentItem);
+            }
+        });
 
         //only call if it's been found. Could just as well be left empty
         if(innerView != null)
