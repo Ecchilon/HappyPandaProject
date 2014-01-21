@@ -45,5 +45,7 @@ public interface GalleryOverviewInterface {
      * @param innerView The inner view. Is structured as the layout defined in {@link #getInnerLayoutName()}.
      * @return
      */
-    public void setInnerContentView(GalleryItem item, View innerView);
+    public void setCardInnerContentView(GalleryItem item, View innerView);
+
+    //TODO ordering of overview
 }

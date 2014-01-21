@@ -44,7 +44,7 @@ public class DummyGalleryInterface implements GalleryOverviewInterface {
     }
 
     @Override
-    public void setInnerContentView(GalleryItem item, View innerView) {
+    public void setCardInnerContentView(GalleryItem item, View innerView) {
 
     }
 }

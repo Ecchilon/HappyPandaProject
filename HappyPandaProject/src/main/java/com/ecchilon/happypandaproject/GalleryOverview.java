@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.util.LruCache;
-import android.support.v4.view.MenuCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -22,6 +21,8 @@ import com.android.volley.toolbox.Volley;
 public class GalleryOverview extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, TitleActivity {
 
+    public final static String FRAG_TAG = "GALLERY";
+
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -35,6 +36,7 @@ public class GalleryOverview extends ActionBarActivity
     private static RequestQueue mRequestQueue;
     private static ImageLoader mImageLoader;
     private static int mNavigationPositionIndex = -1;
+
 
     public static ImageLoader getImageLoader() {
         return mImageLoader;
@@ -92,7 +94,7 @@ public class GalleryOverview extends ActionBarActivity
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container, frag)
+                .replace(R.id.container, frag,FRAG_TAG)
                 .commit();
     }
 
@@ -115,8 +117,8 @@ public class GalleryOverview extends ActionBarActivity
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
+        actionBar.setSubtitle(mSubTitle);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -142,7 +144,7 @@ public class GalleryOverview extends ActionBarActivity
                             if(searchIntent.resolveActivity(getPackageManager()) != null)
                             {
                                 GalleryOverview.this.startActivity(searchIntent);
-                                searchItem.collapseActionView();
+                                MenuItemCompat.collapseActionView(searchItem);
                             }
                         }
 

@@ -4,7 +4,7 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -17,7 +17,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.ecchilon.happypandaproject.GalleryOverview"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,10 +28,17 @@
         <activity
             android:name="com.ecchilon.happypandaproject.SearchActivity"
             android:label="@string/title_activity_search"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:parentActivityName="com.ecchilon.happypandaproject.GalleryOverview" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ecchilon.happypandaproject.GalleryOverview" />
+        </activity>
+        <activity
+            android:name="com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_image_viewer"
+            android:theme="@style/FullscreenTheme" >
         </activity>
     </application>
 

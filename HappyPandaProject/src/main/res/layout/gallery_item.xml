@@ -3,13 +3,13 @@
 <!-- layout for items where the inner view hasn't been set -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/card_height"
-    android:background="@drawable/big_card" >
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_selector" >
 
     <com.android.volley.toolbox.NetworkImageView
         android:id="@+id/item_thumb"
         android:layout_width="@dimen/card_thumb_width"
-        android:layout_height="match_parent"
+        android:layout_height="@dimen/card_thumb_height"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:adjustViewBounds="true"
@@ -22,8 +22,8 @@
         android:layout_width="wrap_content"
         android:layout_toRightOf="@+id/item_thumb"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="@dimen/item_margin"
-        android:layout_marginLeft="@dimen/item_margin"
+        android:layout_marginTop="@dimen/item_padding"
+        android:layout_marginLeft="@dimen/item_padding"
         android:textSize="@dimen/title_text_size"
         android:textStyle="bold"/>
     
@@ -35,7 +35,9 @@
         android:layout_alignParentBottom="true"
         android:src="@drawable/ic_action_download"
         android:scaleType="fitCenter"
-        android:layout_margin="@dimen/item_margin"/>
+        android:clickable="true"
+        android:background="@drawable/button_selector"
+        android:padding="@dimen/item_padding" />
 
     <ImageView
         android:id="@+id/item_favorite"
@@ -45,12 +47,14 @@
         android:layout_alignParentBottom="true"
         android:src="@drawable/ic_action_important"
         android:scaleType="fitCenter"
-        android:layout_margin="@dimen/item_margin"/>
+        android:clickable="true"
+        android:background="@drawable/button_selector"
+        android:padding="@dimen/item_padding" />
 
     <FrameLayout
         android:id="@+id/inner_view"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_below="@+id/item_title"
         android:layout_toRightOf="@+id/item_thumb"
         android:layout_toLeftOf="@id/item_favorite"/>

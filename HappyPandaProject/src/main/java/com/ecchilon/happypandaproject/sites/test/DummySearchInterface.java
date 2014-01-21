@@ -47,7 +47,7 @@ public class DummySearchInterface extends SearchAbstract {
     }
 
     @Override
-    public void setInnerContentView(GalleryItem item, View innerView) {
+    public void setCardInnerContentView(GalleryItem item, View innerView) {
 
     }
 }

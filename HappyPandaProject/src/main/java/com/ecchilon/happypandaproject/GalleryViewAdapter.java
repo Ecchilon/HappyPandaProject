@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
@@ -103,7 +102,7 @@ public class GalleryViewAdapter extends PagedScrollAdapter<GalleryItem> {
 
         //only call if it's been found. Could just as well be left empty
         if(innerView != null)
-            mGalleryInterface.setInnerContentView(currentItem, innerView);
+            mGalleryInterface.setCardInnerContentView(currentItem, innerView);
 
         return  view;
     }

@@ -15,7 +15,7 @@ public class SearchActivity extends ActionBarActivity implements TitleActivity {
         setContentView(R.layout.activity_search);
         getSupportActionBar().setIcon(R.drawable.actionbar_icon);
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         String query = getIntent().getStringExtra(GalleryOverviewFragment.SEARCH_KEY);
         if(query == null)
             finish();

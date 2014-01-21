@@ -1,5 +1,6 @@
 package com.ecchilon.happypandaproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewInterface;
 import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 
@@ -21,11 +23,13 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
 
     public ListView mList;
     public GalleryViewAdapter mAdapter;
-
-    public static final String SEARCH_KEY = "SEARCH";
-    public static final String SITE_KEY = "SITE";
     View mEndView;
 
+    private int mSiteIndex = -1;
+
+    public static final String STATE_POS = "LIST_POS";
+    public static final String SEARCH_KEY = "SEARCH";
+    public static final String SITE_KEY = "SITE";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,11 +38,9 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
 
         GalleryOverviewInterface listInterface = null;
 
-        int index = -1;
-
-        //use the factory to determine which site-interface gets loaded
+        //Index indicates the site module as set in the SiteFactory
         if(getArguments().containsKey(SITE_KEY)) {
-            index = getArguments().getInt(SITE_KEY);
+            mSiteIndex = getArguments().getInt(SITE_KEY);
         }
         else
         {
@@ -47,17 +49,31 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
 
         if(getArguments().containsKey(SEARCH_KEY)) {
             String query = getArguments().getString(SEARCH_KEY);
-            listInterface = SiteFactory.getSearchInterface(index, query);
+            listInterface = SiteFactory.getSearchInterface(mSiteIndex, query);
         }
         else {
-            listInterface = SiteFactory.getOverviewInterface(index);
+            listInterface = SiteFactory.getOverviewInterface(mSiteIndex);
         }
 
-        ((TitleActivity)getActivity()).setTitle(listInterface.getTitle());
-        ((TitleActivity)getActivity()).setSubTitle(listInterface.getSubTitle());
+        if(listInterface == null)
+            throw new IllegalArgumentException("Site module wasn't loaded properly!");
 
-        mAdapter = new GalleryViewAdapter(listInterface, this, getActivity());
-        mAdapter.setPageCreationFailedListener(this);
+        if(savedInstanceState == null)
+        {
+            ((TitleActivity)getActivity()).setTitle(listInterface.getTitle());
+            ((TitleActivity)getActivity()).setSubTitle(listInterface.getSubTitle());
+        }
+
+        //restore adapter if it was saved
+        final Object data = getActivity().getLastCustomNonConfigurationInstance();
+        if(data instanceof GalleryViewAdapter)
+            mAdapter = (GalleryViewAdapter)data;
+
+        if(mAdapter == null)
+        {
+            mAdapter = new GalleryViewAdapter(listInterface, this, getActivity());
+            mAdapter.setPageCreationFailedListener(this);
+        }
     }
 
     @Override
@@ -65,11 +81,6 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
         View rootView = inflater.inflate(R.layout.loading_listview, container, false);
         mList = (ListView)rootView.findViewById(R.id.listView);
         mList.setEmptyView(rootView.findViewById(R.id.emptyView));
-
-       //mEndView = View.inflate(getActivity(), R.layout.end_of_overview_item, null);
-
-        //mEndView.setVisibility(View.GONE);
-        //mList.addFooterView(mEndView);
 
         return rootView;
     }
@@ -129,7 +140,15 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
 
     @Override
     public void GalleryItemClicked(GalleryItem item) {
-        //TODO fire awesome intent for image viewer!
+        //starts the image viewer with the url and index for convenience
+        Intent imageViewerIntent = new Intent(getActivity(), ImageViewerActivity.class);
+        imageViewerIntent.putExtra(SITE_KEY, mSiteIndex);
+        imageViewerIntent.putExtra(ImageViewerActivity.URL_KEY, item.getGalleryUrl());
+
+        if(imageViewerIntent.resolveActivity(getActivity().getPackageManager()) != null)
+        {
+            startActivity(imageViewerIntent);
+        }
     }
 
     @Override
