@@ -18,7 +18,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
 
-public class GalleryOverview extends ActionBarActivity
+public class GalleryOverviewActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, TitleActivity {
 
     public final static String FRAG_TAG = "GALLERY";
@@ -54,7 +54,6 @@ public class GalleryOverview extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview);
-        getSupportActionBar().setIcon(R.drawable.actionbar_icon);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -137,13 +136,13 @@ public class GalleryOverview extends ActionBarActivity
                     public boolean onQueryTextSubmit(String s) {
                         if(s != null && s.trim().length() > 0)
                         {
-                            Intent searchIntent = new Intent(GalleryOverview.this, SearchActivity.class);
+                            Intent searchIntent = new Intent(GalleryOverviewActivity.this, SearchActivity.class);
                             searchIntent.putExtra(GalleryOverviewFragment.SITE_KEY, mNavigationDrawerFragment.getCurrentSelectedPosition());
                             searchIntent.putExtra(GalleryOverviewFragment.SEARCH_KEY, s);
 
                             if(searchIntent.resolveActivity(getPackageManager()) != null)
                             {
-                                GalleryOverview.this.startActivity(searchIntent);
+                                GalleryOverviewActivity.this.startActivity(searchIntent);
                                 MenuItemCompat.collapseActionView(searchItem);
                             }
                         }

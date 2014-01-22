@@ -77,7 +77,7 @@ public class GalleryViewAdapter extends PagedScrollAdapter<GalleryItem> {
         //set all gallery item values
         if(currentItem.getThumbUrl() != null) {
             NetworkImageView networkImageView = (NetworkImageView)view.findViewById(R.id.item_thumb);
-            networkImageView.setImageUrl(currentItem.getThumbUrl(), GalleryOverview.getImageLoader());
+            networkImageView.setImageUrl(currentItem.getThumbUrl(), GalleryOverviewActivity.getImageLoader());
         }
 
         //set up click calls

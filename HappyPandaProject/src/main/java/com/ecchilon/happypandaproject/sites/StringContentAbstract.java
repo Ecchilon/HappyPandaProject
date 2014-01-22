@@ -1,12 +1,9 @@
 package com.ecchilon.happypandaproject.sites;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.ecchilon.happypandaproject.GalleryOverview;
-import org.json.JSONObject;
+import com.ecchilon.happypandaproject.GalleryOverviewActivity;
 
 import com.ecchilon.happypandaproject.sites.util.StringPageLoadTask;
 import com.ecchilon.happypandaproject.sites.util.StringPageLoadTask.StringContentParser;
@@ -29,18 +26,19 @@ public abstract class StringContentAbstract implements GalleryOverviewInterface 
         }
 
         //adds the string request to the queue.
-        GalleryOverview.addRequest(new StringRequest(getUrl(index), new Response.Listener<String>() {
+        GalleryOverviewActivity.addRequest(new StringRequest(getUrl(index), new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
                 //since onResponse is handled on the UIThread, create a new task to prevent the UI from stalling
                 new StringPageLoadTask(mContentParser, listener).execute(s);
             }
         }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-                        listener.PageCreationFailed();
-                    }
-                }));
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                listener.PageCreationFailed();
+            }
+        }
+        ));
     }
 
     public abstract String getUrl(int index);
