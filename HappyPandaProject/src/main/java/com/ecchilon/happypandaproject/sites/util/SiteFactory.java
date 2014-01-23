@@ -1,36 +1,36 @@
 package com.ecchilon.happypandaproject.sites.util;
 
-import com.ecchilon.happypandaproject.sites.GalleryOverviewInterface;
-import com.ecchilon.happypandaproject.sites.test.DummyGalleryInterface;
-import com.ecchilon.happypandaproject.sites.test.DummySearchInterface;
+import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
+import com.ecchilon.happypandaproject.sites.test.DummyGalleryModuleInterface;
+import com.ecchilon.happypandaproject.sites.test.DummySearchModuleInterface;
 
 /**
  * Created by Alex on 1/4/14.
  */
 public class SiteFactory {
-    public static GalleryOverviewInterface getOverviewInterface(int index) {
+    public static GalleryOverviewModuleInterface getOverviewInterface(int index) {
         switch (index)
         {
             case 0:
-                return new DummyGalleryInterface();
+                return new DummyGalleryModuleInterface();
             case 1:
-                return new DummyGalleryInterface();
+                return new DummyGalleryModuleInterface();
             case 2:
-                return new DummyGalleryInterface();
+                return new DummyGalleryModuleInterface();
             default:
                 return null;
         }
     }
 
-    public static GalleryOverviewInterface getSearchInterface(int index, String query) {
+    public static GalleryOverviewModuleInterface getSearchInterface(int index, String query) {
         switch (index)
         {
             case 0:
-                return new DummySearchInterface(query);
+                return new DummySearchModuleInterface(query);
             case 1:
-                return new DummySearchInterface(query);
+                return new DummySearchModuleInterface(query);
             case 2:
-                return new DummySearchInterface(query);
+                return new DummySearchModuleInterface(query);
             default:
                 return null;
         }

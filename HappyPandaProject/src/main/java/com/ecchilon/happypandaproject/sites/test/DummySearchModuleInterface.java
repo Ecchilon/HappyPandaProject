@@ -12,9 +12,9 @@ import com.ecchilon.happypandaproject.sites.SearchAbstract;
 /**
  * Created by Alex on 1/17/14.
  */
-public class DummySearchInterface extends SearchAbstract {
+public class DummySearchModuleInterface extends SearchAbstract {
 
-    public DummySearchInterface(String query) {
+    public DummySearchModuleInterface(String query) {
         super(query);
     }
 

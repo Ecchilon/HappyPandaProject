@@ -1,10 +1,8 @@
 package com.ecchilon.happypandaproject;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.util.LruCache;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -13,10 +11,7 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
+import com.ecchilon.happypandaproject.util.VolleySingleton;
 
 public class GalleryOverviewActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, TitleActivity {
@@ -33,22 +28,7 @@ public class GalleryOverviewActivity extends ActionBarActivity
      */
     private CharSequence mTitle, mSubTitle;
 
-    private static RequestQueue mRequestQueue;
-    private static ImageLoader mImageLoader;
-    private static int mNavigationPositionIndex = -1;
-
-
-    public static ImageLoader getImageLoader() {
-        return mImageLoader;
-    }
-
-    public static void addRequest(Request request)
-    {
-        //sets tag to keep track of request while it's being handled, so it can be destroyed if
-        //the navigation switches.
-        request.setTag(mNavigationPositionIndex);
-        mRequestQueue.add(request);
-    }
+    private VolleySingleton mVolleySingleton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,18 +40,6 @@ public class GalleryOverviewActivity extends ActionBarActivity
         mTitle = getTitle();
         mSubTitle = getSupportActionBar().getSubtitle();
 
-        //Set up the singleton.
-        mRequestQueue = Volley.newRequestQueue(this);
-        mImageLoader = new ImageLoader(mRequestQueue, new ImageLoader.ImageCache() {
-            private final LruCache<String, Bitmap> mCache = new LruCache<String, Bitmap>(10);
-            public void putBitmap(String url, Bitmap bitmap) {
-                mCache.put(url, bitmap);
-            }
-            public Bitmap getBitmap(String url) {
-                return mCache.get(url);
-            }
-        });
-
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
@@ -81,9 +49,10 @@ public class GalleryOverviewActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         //stop all current requests from this part of the app. we don't need them anymore!
-        if(mRequestQueue != null)
-            mRequestQueue.cancelAll(mNavigationPositionIndex);
-        mNavigationPositionIndex = position;
+        if(mVolleySingleton != null) {
+            VolleySingleton.cancelRequests();
+            mVolleySingleton.setNavigationPositionIndex(position);
+        }
 
         Bundle args = new Bundle();
         args.putInt(GalleryOverviewFragment.SITE_KEY, position);

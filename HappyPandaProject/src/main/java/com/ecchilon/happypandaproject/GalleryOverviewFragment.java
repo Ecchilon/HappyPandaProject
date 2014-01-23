@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.ecchilon.happypandaproject.sites.GalleryOverviewInterface;
+import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 
 /**
@@ -34,7 +34,7 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        GalleryOverviewInterface listInterface = null;
+        GalleryOverviewModuleInterface listInterface = null;
 
         //Index indicates the site module as set in the SiteFactory
         if(getArguments().containsKey(SITE_KEY)) {

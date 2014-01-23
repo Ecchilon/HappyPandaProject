@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Alex on 1/4/14.
  */
-public interface GalleryOverviewInterface {
+public interface GalleryOverviewModuleInterface {
     public interface GalleryPageCreatedCallback<T> {
         public void GalleryOverviewPageCreated(List<T> pageItems);
         public void PageCreationFailed();

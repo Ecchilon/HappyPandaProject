@@ -7,13 +7,13 @@ import com.ecchilon.happypandaproject.GalleryItem;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ecchilon.happypandaproject.sites.GalleryOverviewInterface;
+import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 
 /**
  * A simply dummy class to test the factory and the fragments
  * Created by Alex on 1/4/14.
  */
-public class DummyGalleryInterface implements GalleryOverviewInterface {
+public class DummyGalleryModuleInterface implements GalleryOverviewModuleInterface {
 
     @Override
     public void getPage(int index, GalleryPageCreatedCallback listener) {

@@ -11,7 +11,7 @@ import com.ecchilon.happypandaproject.sites.util.StringPageLoadTask.StringConten
 /**
  * Created by Alex on 1/4/14.
  */
-public abstract class StringContentAbstract implements GalleryOverviewInterface {
+public abstract class StringContentAbstract implements GalleryOverviewModuleInterface {
 
     public StringContentParser mContentParser;
 

@@ -7,7 +7,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
-import com.ecchilon.happypandaproject.sites.GalleryOverviewInterface;
+import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.util.PagedScrollAdapter;
 
 /**
@@ -27,11 +27,11 @@ public class GalleryViewAdapter extends PagedScrollAdapter<GalleryItem> {
 
     private PageCreationFailedListener mListener;
     private GalleryItemClickListener mGalleryItemClickListener;
-    private GalleryOverviewInterface mGalleryInterface;
+    private GalleryOverviewModuleInterface mGalleryInterface;
 
     private int mInnerLayoutId;
 
-    public GalleryViewAdapter(GalleryOverviewInterface galleryInterface, GalleryItemClickListener itemClickListener, Context c) {
+    public GalleryViewAdapter(GalleryOverviewModuleInterface galleryInterface, GalleryItemClickListener itemClickListener, Context c) {
         mGalleryInterface = galleryInterface;
         mGalleryItemClickListener = itemClickListener;
 

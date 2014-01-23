@@ -6,12 +6,12 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ecchilon.happypandaproject.sites.GalleryOverviewInterface;
+import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 
 /**
  * Created by Alex on 1/4/14.
  */
-public abstract class PagedScrollAdapter<T> extends BaseAdapter implements AbsListView.OnScrollListener, GalleryOverviewInterface.GalleryPageCreatedCallback<T> {
+public abstract class PagedScrollAdapter<T> extends BaseAdapter implements AbsListView.OnScrollListener, GalleryOverviewModuleInterface.GalleryPageCreatedCallback<T> {
     boolean mLoading = false;
     int mPreviousTotal = 0;
     int mCurrentPage = 0;

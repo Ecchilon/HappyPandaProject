@@ -9,7 +9,7 @@ import org.jsoup.nodes.Document;
 
 import java.util.List;
 
-import com.ecchilon.happypandaproject.sites.GalleryOverviewInterface;
+import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 
 /**
  * Created by Alex on 1/14/14.
@@ -21,9 +21,9 @@ public class StringPageLoadTask extends AsyncTask<String, Void, List<GalleryItem
     }
 
     private StringContentParser mParser;
-    private GalleryOverviewInterface.GalleryPageCreatedCallback mInterface;
+    private GalleryOverviewModuleInterface.GalleryPageCreatedCallback mInterface;
 
-    public StringPageLoadTask(StringContentParser parser, GalleryOverviewInterface.GalleryPageCreatedCallback galleryInterface) {
+    public StringPageLoadTask(StringContentParser parser, GalleryOverviewModuleInterface.GalleryPageCreatedCallback galleryInterface) {
         mParser = parser;
         mInterface = galleryInterface;
     }
