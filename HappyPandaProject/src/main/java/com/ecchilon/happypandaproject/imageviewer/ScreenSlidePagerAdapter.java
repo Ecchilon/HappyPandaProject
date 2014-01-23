@@ -19,7 +19,7 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
     ImageViewerModuleInterface mModuleInterface;
 
-    public ScreenSlidePagerAdapter(ImageViewerModuleInterface imageInterface, FragmentManager fm) {
+    public ScreenSlidePagerAdapter(FragmentManager fm, ImageViewerModuleInterface imageInterface) {
         super(fm);
 
         mModuleInterface = imageInterface;
@@ -41,19 +41,32 @@ public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
         NetworkImageView mNetworkImageView;
 
+        String mImageUrl;
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-
-            //TODO add PhotoviewAttacher to View
             mNetworkImageView = new NetworkImageView(getActivity());
 
             return mNetworkImageView;
         }
 
         @Override
+        public void onViewCreated(View view, Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+
+            //TODO add PhotoviewAttacher to View
+
+            if(mImageUrl != null)
+               mNetworkImageView.setImageUrl(mImageUrl, VolleySingleton.getImageLoader());
+        }
+
+        @Override
         public void ImageURLCreated(String imageURL) {
-            mNetworkImageView.setImageUrl(imageURL, VolleySingleton.getImageLoader());
+            if(mNetworkImageView != null)
+                mNetworkImageView.setImageUrl(imageURL, VolleySingleton.getImageLoader());
+
+            mImageUrl = imageURL;
         }
 
         @Override

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.util.PagedScrollAdapter;
+import com.ecchilon.happypandaproject.util.VolleySingleton;
 
 /**
  * Created by Alex on 1/4/14.
@@ -77,7 +78,7 @@ public class GalleryViewAdapter extends PagedScrollAdapter<GalleryItem> {
         //set all gallery item values
         if(currentItem.getThumbUrl() != null) {
             NetworkImageView networkImageView = (NetworkImageView)view.findViewById(R.id.item_thumb);
-            networkImageView.setImageUrl(currentItem.getThumbUrl(), GalleryOverviewActivity.getImageLoader());
+            networkImageView.setImageUrl(currentItem.getThumbUrl(), VolleySingleton.getImageLoader());
         }
 
         //set up click calls

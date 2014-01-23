@@ -1,5 +1,6 @@
 package com.ecchilon.happypandaproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 
@@ -138,6 +140,10 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
 
     @Override
     public void GalleryItemClicked(GalleryItem item) {
+        Intent imageViewIntent = new Intent(getActivity(), ImageViewerActivity.class);
+        imageViewIntent.putExtra(SITE_KEY, mSiteIndex);
+        imageViewIntent.putExtra(ImageViewerActivity.GALLERY_URL_KEY, item.getGalleryUrl());
+        startActivity(imageViewIntent);
     }
 
     @Override

@@ -40,6 +40,8 @@ public class GalleryOverviewActivity extends ActionBarActivity
         mTitle = getTitle();
         mSubTitle = getSupportActionBar().getSubtitle();
 
+        mVolleySingleton = new VolleySingleton(this);
+
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,

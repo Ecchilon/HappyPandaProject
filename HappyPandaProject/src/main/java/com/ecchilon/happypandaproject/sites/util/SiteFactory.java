@@ -1,7 +1,9 @@
 package com.ecchilon.happypandaproject.sites.util;
 
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
+import com.ecchilon.happypandaproject.sites.ImageViewerModuleInterface;
 import com.ecchilon.happypandaproject.sites.test.DummyGalleryModuleInterface;
+import com.ecchilon.happypandaproject.sites.test.DummyImageModuleInterface;
 import com.ecchilon.happypandaproject.sites.test.DummySearchModuleInterface;
 
 /**
@@ -34,5 +36,9 @@ public class SiteFactory {
             default:
                 return null;
         }
+    }
+
+    public static ImageViewerModuleInterface getImageViewerInterface(int index, String pageUrl) {
+        return new DummyImageModuleInterface();
     }
 }
