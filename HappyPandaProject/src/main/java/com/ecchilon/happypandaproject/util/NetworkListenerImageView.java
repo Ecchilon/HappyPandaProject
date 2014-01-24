@@ -19,17 +19,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageLoader.ImageContainer;
 
+import uk.co.senab.photoview.PhotoView;
+
 /**
  * Handles fetching an image from a URL as well as the life-cycle of the
  * associated request. Added a listener for completion of requests
  */
-public class NetworkListenerImageView extends ImageView {
+public class NetworkListenerImageView extends PhotoView {
     public interface NetworkImageListener {
         public void ImageLoadFailed(NetworkListenerImageView view);
         public void ImageLoadSucceeded(NetworkListenerImageView view);

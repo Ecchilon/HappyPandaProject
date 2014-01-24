@@ -27,4 +27,5 @@ dependencies {
 	compile 'com.android.support:appcompat-v7:19.0.0'
     compile files('libraries/volley.jar')
     compile files('libraries/jsoup-1.7.3.jar')
+    compile files('libraries/PhotoView.jar')
 }

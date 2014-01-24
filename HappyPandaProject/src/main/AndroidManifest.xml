@@ -38,6 +38,7 @@
         <activity
             android:name="com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity"
             android:label="@string/title_activity_image_viewer"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:icon="@drawable/actionbar_icon"
             android:theme="@style/CustomActionBarTheme">
         </activity>
