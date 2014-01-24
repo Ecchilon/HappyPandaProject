@@ -14,7 +14,7 @@
         android:background="@color/background_card_color"/>
 
     <ProgressBar
-        android:id="@+id/emptyView"
+        android:id="@+id/loading_view"
         android:layout_width="@dimen/empty_view_size"
         android:layout_height="@dimen/empty_view_size"
         android:layout_centerInParent="true"

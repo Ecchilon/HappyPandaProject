@@ -29,10 +29,14 @@
         <!-- Support library compatibility -->
         <item name="windowActionBarOverlay">true</item>
         <item name="actionBarStyle">@style/ActionBar</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:background">@color/black_overlay</item>
+
     </style>
 
     <style name="ActionBar" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">#64000000</item>
+        <item name="android:background">@color/black_overlay</item>
     </style>
 
 </resources>

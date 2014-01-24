@@ -19,4 +19,5 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
+    <string name="image_loading_failed">The current image failed to load after several attempts.</string>
 </resources>

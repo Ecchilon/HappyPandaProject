@@ -80,7 +80,7 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.loading_listview, container, false);
         mList = (ListView)rootView.findViewById(R.id.listView);
-        mList.setEmptyView(rootView.findViewById(R.id.emptyView));
+        mList.setEmptyView(rootView.findViewById(R.id.loading_view));
 
         return rootView;
     }
