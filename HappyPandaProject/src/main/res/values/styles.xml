@@ -25,18 +25,10 @@
 
     <style name="CustomActionBarTheme" parent="AppTheme">
         <item name="android:windowActionBarOverlay" tools:ignore="NewApi">true</item>
-        <item name="android:actionBarStyle" tools:ignore="NewApi">@style/ActionBar</item>
         <!-- Support library compatibility -->
         <item name="windowActionBarOverlay">true</item>
-        <item name="actionBarStyle">@style/ActionBar</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/black_overlay</item>
         <item name="android:windowIsTranslucent">true</item>
-        <item name="android:background">@color/black_overlay</item>
-
-    </style>
-
-    <style name="ActionBar" parent="Widget.AppCompat.ActionBar">
-        <item name="android:background">@color/black_overlay</item>
     </style>
 
 </resources>

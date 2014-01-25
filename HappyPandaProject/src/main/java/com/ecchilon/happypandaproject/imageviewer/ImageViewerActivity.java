@@ -3,6 +3,7 @@ package com.ecchilon.happypandaproject.imageviewer;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.view.GestureDetector;
@@ -37,13 +38,7 @@ public class ImageViewerActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        //If system provides, use that. Otherwise, use a gesturedetector
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(new VisibilityListener());
-            ToggleInterface();
-        }
-
-
+        ToggleInterface(false);
 
         int siteIndex = getIntent().getIntExtra(GalleryOverviewFragment.SITE_KEY, -1);
         String galleryURL = getIntent().getStringExtra(GALLERY_URL_KEY);
@@ -55,21 +50,30 @@ public class ImageViewerActivity extends ActionBarActivity {
         mPager.setGestureDetector(new GestureDetector(this, new SingleTapListener()));
     }
 
+    Handler uiHandler = new Handler();
+    Runnable hideTask = new Runnable() {
+        @SuppressLint("NewApi")
+        @Override
+        public void run() {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+        }
+    };
     private boolean lowProfile = false;
-    private void ToggleInterface(){
-        int flag = -1;
-
+    private void ToggleInterface(boolean hideUIDelayed){
         if(!lowProfile){
             getSupportActionBar().hide();
-            flag = View.SYSTEM_UI_FLAG_LOW_PROFILE;
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                uiHandler.postDelayed(hideTask, hideUIDelayed? 1000 : 0);
+            }
         }
         else {
             getSupportActionBar().show();
-            flag = View.SYSTEM_UI_FLAG_VISIBLE;
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                //Remove callback in case this function was called before it could fire
+                uiHandler.removeCallbacks(hideTask);
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+            }
         }
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-            getWindow().getDecorView().setSystemUiVisibility(flag);
 
         lowProfile = !lowProfile;
     }
@@ -89,20 +93,8 @@ public class ImageViewerActivity extends ActionBarActivity {
     private class SingleTapListener extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
-            ToggleInterface();
+            ToggleInterface(true);
             return super.onSingleTapConfirmed(e);
-        }
-    }
-
-    /** wont be called unless at least honeycomb */
-    @SuppressLint("NewApi")
-    private class VisibilityListener implements View.OnSystemUiVisibilityChangeListener {
-        @Override
-        public void onSystemUiVisibilityChange(int i) {
-            /*if(i == View.SYSTEM_UI_FLAG_VISIBLE)
-                getSupportActionBar().show();
-            else
-                getSupportActionBar().hide();*/
         }
     }
 }

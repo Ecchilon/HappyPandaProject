@@ -27,8 +27,8 @@ import com.android.volley.toolbox.ImageLoader.ImageContainer;
 import uk.co.senab.photoview.PhotoView;
 
 /**
- * Handles fetching an image from a URL as well as the life-cycle of the
- * associated request. Added a listener for completion of requests
+ * An extension of PhotoView with Volley's {@link com.android.volley.toolbox.NetworkImageView} code,
+ * with extra listener features for request completion.
  */
 public class NetworkListenerImageView extends PhotoView {
     public interface NetworkImageListener {
@@ -181,6 +181,9 @@ public class NetworkListenerImageView extends PhotoView {
         invalidate();
     }
 
+    /** Returns an {@link com.android.volley.toolbox.ImageLoader.ImageListener} which sets the proper
+     * resources on the image, as well as calling the {@link com.ecchilon.happypandaproject.util.NetworkListenerImageView.NetworkImageListener}.
+     */
     private ImageLoader.ImageListener getImageListener(final NetworkListenerImageView view, final int defaultImageResId, final int errorImageResId) {
         return new ImageLoader.ImageListener() {
             @Override
