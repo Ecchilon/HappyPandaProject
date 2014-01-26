@@ -1,11 +1,11 @@
 package com.ecchilon.happypandaproject.sites.test;
 
-import com.ecchilon.happypandaproject.sites.ImageViewerModuleInterface;
+import com.ecchilon.happypandaproject.sites.AlbumPagesModuleInterface;
 
 /**
  * Created by Alex on 1/23/14.
  */
-public class DummyImageModuleInterface implements ImageViewerModuleInterface {
+public class DummyImageModuleInterface implements AlbumPagesModuleInterface {
 
     String[] urls = new String[] {
         "http://i.imgur.com/NIup5WR.jpg",
@@ -22,10 +22,10 @@ public class DummyImageModuleInterface implements ImageViewerModuleInterface {
     }
 
     @Override
-    public void getImageURL(int index, GalleryImageURLCreatedCallback listener) {
+    public void getImage(int index, GalleryImageCreatedCallback listener) {
         if(index < urls.length)
             listener.ImageURLCreated(urls[index]);
         else
-            listener.ImageURLCreationFailed();
+            listener.ImageCreationFailed();
     }
 }

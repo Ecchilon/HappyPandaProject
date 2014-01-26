@@ -3,17 +3,16 @@ package com.ecchilon.happypandaproject.sites.test;
 import android.view.View;
 
 import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.sites.AlbumOverviewModuleInterface;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 
 /**
  * A simply dummy class to test the factory and the fragments
  * Created by Alex on 1/4/14.
  */
-public class DummyGalleryModuleInterface implements GalleryOverviewModuleInterface {
+public class DummyAlbumModuleInterface implements AlbumOverviewModuleInterface {
 
     @Override
     public void getPage(int index, GalleryPageCreatedCallback listener) {

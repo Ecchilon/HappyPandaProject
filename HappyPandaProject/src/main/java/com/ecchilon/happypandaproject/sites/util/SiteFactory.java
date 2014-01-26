@@ -1,8 +1,9 @@
 package com.ecchilon.happypandaproject.sites.util;
 
-import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
-import com.ecchilon.happypandaproject.sites.ImageViewerModuleInterface;
-import com.ecchilon.happypandaproject.sites.test.DummyGalleryModuleInterface;
+import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.sites.AlbumOverviewModuleInterface;
+import com.ecchilon.happypandaproject.sites.AlbumPagesModuleInterface;
+import com.ecchilon.happypandaproject.sites.test.DummyAlbumModuleInterface;
 import com.ecchilon.happypandaproject.sites.test.DummyImageModuleInterface;
 import com.ecchilon.happypandaproject.sites.test.DummySearchModuleInterface;
 
@@ -10,21 +11,21 @@ import com.ecchilon.happypandaproject.sites.test.DummySearchModuleInterface;
  * Created by Alex on 1/4/14.
  */
 public class SiteFactory {
-    public static GalleryOverviewModuleInterface getOverviewInterface(int index) {
+    public static AlbumOverviewModuleInterface getOverviewInterface(int index) {
         switch (index)
         {
             case 0:
-                return new DummyGalleryModuleInterface();
+                return new DummyAlbumModuleInterface();
             case 1:
-                return new DummyGalleryModuleInterface();
+                return new DummyAlbumModuleInterface();
             case 2:
-                return new DummyGalleryModuleInterface();
+                return new DummyAlbumModuleInterface();
             default:
                 return null;
         }
     }
 
-    public static GalleryOverviewModuleInterface getSearchInterface(int index, String query) {
+    public static AlbumOverviewModuleInterface getSearchInterface(int index, String query) {
         switch (index)
         {
             case 0:
@@ -38,7 +39,7 @@ public class SiteFactory {
         }
     }
 
-    public static ImageViewerModuleInterface getImageViewerInterface(int index, String pageUrl) {
+    public static AlbumPagesModuleInterface getGalleryPagesInterface(GalleryItem item) {
         return new DummyImageModuleInterface();
     }
 }

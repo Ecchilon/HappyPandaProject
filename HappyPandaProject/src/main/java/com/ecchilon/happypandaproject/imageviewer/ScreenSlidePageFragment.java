@@ -1,5 +1,6 @@
 package com.ecchilon.happypandaproject.imageviewer;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,14 +10,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ecchilon.happypandaproject.R;
-import com.ecchilon.happypandaproject.sites.ImageViewerModuleInterface;
+import com.ecchilon.happypandaproject.sites.AlbumPagesModuleInterface;
 import com.ecchilon.happypandaproject.util.NetworkListenerImageView;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 
 /**
  * Created by Alex on 1/24/14.
  */
-public class ScreenSlidePageFragment extends Fragment implements ImageViewerModuleInterface.GalleryImageURLCreatedCallback, NetworkListenerImageView.NetworkImageListener {
+public class ScreenSlidePageFragment extends Fragment implements AlbumPagesModuleInterface.GalleryImageCreatedCallback, NetworkListenerImageView.NetworkImageListener {
 
     public static final int MAX_NUM_RETRIES = 2;
 
@@ -49,6 +50,12 @@ public class ScreenSlidePageFragment extends Fragment implements ImageViewerModu
             mNetworkImageView.setImageUrl(mImageUrl, VolleySingleton.getImageLoader());
     }
 
+
+    @Override
+    public void ImageBitmapCreated(Bitmap bitmap) {
+        mNetworkImageView.setImageBitmap(bitmap);
+    }
+
     @Override
     public void ImageURLCreated(String imageURL) {
         if(mNetworkImageView != null && imageURL != null)
@@ -58,7 +65,7 @@ public class ScreenSlidePageFragment extends Fragment implements ImageViewerModu
     }
 
     @Override
-    public void ImageURLCreationFailed() {
+    public void ImageCreationFailed() {
         //TODO so what happens now?...
     }
 

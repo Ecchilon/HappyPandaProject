@@ -11,6 +11,7 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.ecchilon.happypandaproject.favorites.FavoritesDatabaseHelper;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 
 public class GalleryOverviewActivity extends ActionBarActivity
@@ -29,11 +30,14 @@ public class GalleryOverviewActivity extends ActionBarActivity
     private CharSequence mTitle, mSubTitle;
 
     private VolleySingleton mVolleySingleton;
+    private FavoritesDatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview);
+
+        databaseHelper = new FavoritesDatabaseHelper(this);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);

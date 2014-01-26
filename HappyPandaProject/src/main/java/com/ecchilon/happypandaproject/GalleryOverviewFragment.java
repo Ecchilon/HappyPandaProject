@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity;
-import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
+import com.ecchilon.happypandaproject.sites.AlbumOverviewModuleInterface;
 import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 
 /**
@@ -36,7 +36,7 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        GalleryOverviewModuleInterface listInterface = null;
+        AlbumOverviewModuleInterface listInterface = null;
 
         //Index indicates the site module as set in the SiteFactory
         if(getArguments().containsKey(SITE_KEY)) {
@@ -141,8 +141,7 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
     @Override
     public void GalleryItemClicked(GalleryItem item) {
         Intent imageViewIntent = new Intent(getActivity(), ImageViewerActivity.class);
-        imageViewIntent.putExtra(SITE_KEY, mSiteIndex);
-        imageViewIntent.putExtra(ImageViewerActivity.GALLERY_URL_KEY, item.getGalleryUrl());
+        imageViewIntent.putExtra(ImageViewerActivity.GALLERY_ITEM_KEY, item);
         startActivity(imageViewIntent);
     }
 

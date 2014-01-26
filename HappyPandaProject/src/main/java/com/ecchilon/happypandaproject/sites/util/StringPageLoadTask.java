@@ -3,13 +3,12 @@ package com.ecchilon.happypandaproject.sites.util;
 import android.os.AsyncTask;
 
 import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.sites.AlbumOverviewModuleInterface;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.util.List;
-
-import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 
 /**
  * Created by Alex on 1/14/14.
@@ -21,9 +20,9 @@ public class StringPageLoadTask extends AsyncTask<String, Void, List<GalleryItem
     }
 
     private StringContentParser mParser;
-    private GalleryOverviewModuleInterface.GalleryPageCreatedCallback mInterface;
+    private AlbumOverviewModuleInterface.GalleryPageCreatedCallback mInterface;
 
-    public StringPageLoadTask(StringContentParser parser, GalleryOverviewModuleInterface.GalleryPageCreatedCallback galleryInterface) {
+    public StringPageLoadTask(StringContentParser parser, AlbumOverviewModuleInterface.GalleryPageCreatedCallback galleryInterface) {
         mParser = parser;
         mInterface = galleryInterface;
     }
@@ -36,8 +35,9 @@ public class StringPageLoadTask extends AsyncTask<String, Void, List<GalleryItem
         Document doc = Jsoup.parse(strings[0].substring(startIndex, endIndex + 7));
 
         //TODO consider try-catching the parser, since this is the actual 'external' part of the application
-        if(mParser != null)
+        if(mParser != null){
             return mParser.parseContent(doc);
+        }
         else
             return null;
     }

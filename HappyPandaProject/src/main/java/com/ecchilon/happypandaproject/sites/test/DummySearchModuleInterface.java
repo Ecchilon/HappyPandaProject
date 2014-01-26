@@ -3,11 +3,10 @@ package com.ecchilon.happypandaproject.sites.test;
 import android.view.View;
 
 import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.sites.SearchAbstract;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import com.ecchilon.happypandaproject.sites.SearchAbstract;
 
 /**
  * Created by Alex on 1/17/14.

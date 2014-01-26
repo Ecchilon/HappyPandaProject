@@ -10,7 +10,7 @@ import com.ecchilon.happypandaproject.util.VolleySingleton;
 /**
  * Created by Alex on 1/4/14.
  */
-public abstract class StringContentAbstract implements GalleryOverviewModuleInterface {
+public abstract class StringContentAbstract implements AlbumOverviewModuleInterface {
 
     public StringContentParser mContentParser;
 

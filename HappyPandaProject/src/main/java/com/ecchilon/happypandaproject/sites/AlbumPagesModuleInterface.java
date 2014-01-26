@@ -1,12 +1,15 @@
 package com.ecchilon.happypandaproject.sites;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Alex on 1/23/14.
  */
-public interface ImageViewerModuleInterface {
-    public interface GalleryImageURLCreatedCallback {
+public interface AlbumPagesModuleInterface {
+    public interface GalleryImageCreatedCallback {
+        public void ImageBitmapCreated(Bitmap bitmap);
         public void ImageURLCreated(String imageURL);
-        public void ImageURLCreationFailed();
+        public void ImageCreationFailed();
     }
 
     /**
@@ -20,5 +23,5 @@ public interface ImageViewerModuleInterface {
      * @param index The 0-based index of the requested image page in the currently viewed gallery.
      * @param listener the listener with the callbacks for the url request.
      */
-    public void getImageURL(int index, GalleryImageURLCreatedCallback listener);
+    public void getImage(int index, GalleryImageCreatedCallback listener);
 }
