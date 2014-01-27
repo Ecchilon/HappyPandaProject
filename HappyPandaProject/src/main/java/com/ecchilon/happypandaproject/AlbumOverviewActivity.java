@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import com.ecchilon.happypandaproject.favorites.FavoritesDatabaseHelper;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 
-public class GalleryOverviewActivity extends ActionBarActivity
+public class AlbumOverviewActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, TitleActivity {
 
     public final static String FRAG_TAG = "GALLERY";
@@ -61,8 +61,8 @@ public class GalleryOverviewActivity extends ActionBarActivity
         }
 
         Bundle args = new Bundle();
-        args.putInt(GalleryOverviewFragment.SITE_KEY, position);
-        GalleryOverviewFragment frag = new GalleryOverviewFragment();
+        args.putInt(AlbumOverviewFragment.SITE_KEY, position);
+        AlbumOverviewFragment frag = new AlbumOverviewFragment();
         frag.setArguments(args);
 
         // update the main content by replacing fragments
@@ -111,13 +111,13 @@ public class GalleryOverviewActivity extends ActionBarActivity
                     public boolean onQueryTextSubmit(String s) {
                         if(s != null && s.trim().length() > 0)
                         {
-                            Intent searchIntent = new Intent(GalleryOverviewActivity.this, SearchActivity.class);
-                            searchIntent.putExtra(GalleryOverviewFragment.SITE_KEY, mNavigationDrawerFragment.getCurrentSelectedPosition());
-                            searchIntent.putExtra(GalleryOverviewFragment.SEARCH_KEY, s);
+                            Intent searchIntent = new Intent(AlbumOverviewActivity.this, SearchActivity.class);
+                            searchIntent.putExtra(AlbumOverviewFragment.SITE_KEY, mNavigationDrawerFragment.getCurrentSelectedPosition());
+                            searchIntent.putExtra(AlbumOverviewFragment.SEARCH_KEY, s);
 
                             if(searchIntent.resolveActivity(getPackageManager()) != null)
                             {
-                                GalleryOverviewActivity.this.startActivity(searchIntent);
+                                AlbumOverviewActivity.this.startActivity(searchIntent);
                                 MenuItemCompat.collapseActionView(searchItem);
                             }
                         }

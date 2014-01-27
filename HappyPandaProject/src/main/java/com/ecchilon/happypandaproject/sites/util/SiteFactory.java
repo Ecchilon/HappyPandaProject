@@ -1,6 +1,6 @@
 package com.ecchilon.happypandaproject.sites.util;
 
-import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.AlbumItem;
 import com.ecchilon.happypandaproject.sites.AlbumOverviewModuleInterface;
 import com.ecchilon.happypandaproject.sites.AlbumPagesModuleInterface;
 import com.ecchilon.happypandaproject.sites.test.DummyAlbumModuleInterface;
@@ -39,7 +39,7 @@ public class SiteFactory {
         }
     }
 
-    public static AlbumPagesModuleInterface getGalleryPagesInterface(GalleryItem item) {
+    public static AlbumPagesModuleInterface getGalleryPagesInterface(AlbumItem item) {
         return new DummyImageModuleInterface();
     }
 }

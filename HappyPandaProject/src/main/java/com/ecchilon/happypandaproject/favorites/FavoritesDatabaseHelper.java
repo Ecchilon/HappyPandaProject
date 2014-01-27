@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.AlbumItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +53,7 @@ public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void addFavorite(GalleryItem item) {
+    public void addFavorite(AlbumItem item) {
         //if it's already there, no need to
         if(getFavorite(item.getGalleryUrl()) != null) return;
 
@@ -68,19 +68,19 @@ public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public GalleryItem getFavorite(String url) {
+    public AlbumItem getFavorite(String url) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_FAVORITES, new String[]{KEY_URL}, KEY_URL + "=?", new String[]{url}, null, null, null, null);
         if(cursor == null)
             return null;
         else {
             cursor.moveToFirst();
-            return new GalleryItem(cursor.getString(1), cursor.getString(2), cursor.getString(3));
+            return new AlbumItem(cursor.getString(1), cursor.getString(2), cursor.getString(3));
         }
     }
 
-    public List<GalleryItem> getAllFavorites() {
-        List<GalleryItem> favoriteList = new ArrayList<GalleryItem>();
+    public List<AlbumItem> getAllFavorites() {
+        List<AlbumItem> favoriteList = new ArrayList<AlbumItem>();
 
         String selectQuery = "SELECT * FROM " + TABLE_FAVORITES;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -89,7 +89,7 @@ public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
         if(cursor.moveToFirst())
         {
             do {
-                GalleryItem item = new GalleryItem(cursor.getString(1), cursor.getString(2), cursor.getString(3));
+                AlbumItem item = new AlbumItem(cursor.getString(1), cursor.getString(2), cursor.getString(3));
                 favoriteList.add(item);
             }while(cursor.moveToNext());
         }
@@ -103,7 +103,7 @@ public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
         return cursor.getLong(0);
     }
 
-    public void deleteFavorite(GalleryItem item) {
+    public void deleteFavorite(AlbumItem item) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_FAVORITES, KEY_URL + "=?", new String[] {item.getGalleryUrl()});
         db.close();

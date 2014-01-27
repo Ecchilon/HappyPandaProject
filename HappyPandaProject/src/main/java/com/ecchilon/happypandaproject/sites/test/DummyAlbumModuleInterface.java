@@ -2,7 +2,7 @@ package com.ecchilon.happypandaproject.sites.test;
 
 import android.view.View;
 
-import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.AlbumItem;
 import com.ecchilon.happypandaproject.sites.AlbumOverviewModuleInterface;
 
 import java.util.ArrayList;
@@ -15,13 +15,13 @@ import java.util.List;
 public class DummyAlbumModuleInterface implements AlbumOverviewModuleInterface {
 
     @Override
-    public void getPage(int index, GalleryPageCreatedCallback listener) {
+    public void getPage(int index, AlbumPageCreatedCallback listener) {
         if(index < 3) {
-            List<GalleryItem> items = new ArrayList<GalleryItem>();
+            List<AlbumItem> items = new ArrayList<AlbumItem>();
             for(int i = 0; i < 10; i++)
-                items.add(new GalleryItem("TitleTest " + (index*10 + i), null, null));
+                items.add(new AlbumItem("TitleTest " + (index*10 + i), null, null));
 
-            listener.GalleryOverviewPageCreated(items);
+            listener.AlbumOverviewPageCreated(items);
         }
         else
             listener.PageCreationFailed();
@@ -43,7 +43,7 @@ public class DummyAlbumModuleInterface implements AlbumOverviewModuleInterface {
     }
 
     @Override
-    public void setCardInnerContentView(GalleryItem item, View innerView) {
+    public void setCardInnerContentView(AlbumItem item, View innerView) {
 
     }
 }

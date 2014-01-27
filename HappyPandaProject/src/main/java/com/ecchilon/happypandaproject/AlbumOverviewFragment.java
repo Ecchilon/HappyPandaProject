@@ -18,16 +18,15 @@ import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 /**
  * Created by Alex on 1/4/14.
  */
-public class GalleryOverviewFragment extends Fragment implements GalleryViewAdapter.PageCreationFailedListener, GalleryViewAdapter.GalleryItemClickListener {
-    public GalleryOverviewFragment() {}
+public class AlbumOverviewFragment extends Fragment implements AlbumOverviewAdapter.PageCreationFailedListener, AlbumOverviewAdapter.AlbumItemClickListener {
+    public AlbumOverviewFragment() {}
 
     public ListView mList;
-    public GalleryViewAdapter mAdapter;
+    public AlbumOverviewAdapter mAdapter;
     View mEndView;
 
     private int mSiteIndex = -1;
 
-    public static final String STATE_POS = "LIST_POS";
     public static final String SEARCH_KEY = "SEARCH";
     public static final String SITE_KEY = "SITE";
 
@@ -66,12 +65,12 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
 
         //restore adapter if it was saved
         final Object data = getActivity().getLastCustomNonConfigurationInstance();
-        if(data instanceof GalleryViewAdapter)
-            mAdapter = (GalleryViewAdapter)data;
+        if(data instanceof AlbumOverviewAdapter)
+            mAdapter = (AlbumOverviewAdapter)data;
 
         if(mAdapter == null)
         {
-            mAdapter = new GalleryViewAdapter(listInterface, this, getActivity());
+            mAdapter = new AlbumOverviewAdapter(listInterface, this, getActivity());
             mAdapter.setPageCreationFailedListener(this);
         }
     }
@@ -139,19 +138,19 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
     }
 
     @Override
-    public void GalleryItemClicked(GalleryItem item) {
+    public void AlbumItemClicked(AlbumItem item) {
         Intent imageViewIntent = new Intent(getActivity(), ImageViewerActivity.class);
         imageViewIntent.putExtra(ImageViewerActivity.GALLERY_ITEM_KEY, item);
         startActivity(imageViewIntent);
     }
 
     @Override
-    public void GalleryItemDownloadClicked(GalleryItem item) {
+    public void AlbumItemDownloadClicked(AlbumItem item) {
         //TODO load service (Omg, we need a service oO) for downloading
     }
 
     @Override
-    public void GalleryItemFavoriteClicked(GalleryItem item) {
-        //TODO store GalleryItem in favorites.
+    public void AlbumItemFavoriteClicked(AlbumItem item) {
+        //TODO store in favorites.
     }
 }

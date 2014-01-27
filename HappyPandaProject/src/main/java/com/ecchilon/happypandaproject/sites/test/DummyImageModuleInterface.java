@@ -22,7 +22,7 @@ public class DummyImageModuleInterface implements AlbumPagesModuleInterface {
     }
 
     @Override
-    public void getImage(int index, GalleryImageCreatedCallback listener) {
+    public void getImage(int index, AlbumImageCreatedCallback listener) {
         if(index < urls.length)
             listener.ImageURLCreated(urls[index]);
         else

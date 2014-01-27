@@ -11,7 +11,7 @@ import com.ecchilon.happypandaproject.sites.AlbumOverviewModuleInterface;
 /**
  * Created by Alex on 1/4/14.
  */
-public abstract class PagedScrollAdapter<T> extends BaseAdapter implements AbsListView.OnScrollListener, AlbumOverviewModuleInterface.GalleryPageCreatedCallback<T> {
+public abstract class PagedScrollAdapter<T> extends BaseAdapter implements AbsListView.OnScrollListener, AlbumOverviewModuleInterface.AlbumPageCreatedCallback<T> {
     boolean mLoading = false;
     int mPreviousTotal = 0;
     int mCurrentPage = 0;
@@ -89,7 +89,7 @@ public abstract class PagedScrollAdapter<T> extends BaseAdapter implements AbsLi
      * called.
      */
     @Override
-    public final void GalleryOverviewPageCreated(List<T> pageItems) {
+    public final void AlbumOverviewPageCreated(List<T> pageItems) {
         mData.addAll(pageItems);
         notifyDataSetChanged();
         mCurrentPage++;

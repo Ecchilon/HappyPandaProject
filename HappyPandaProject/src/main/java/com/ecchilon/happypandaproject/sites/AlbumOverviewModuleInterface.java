@@ -1,7 +1,7 @@
 package com.ecchilon.happypandaproject.sites;
 import android.view.View;
 
-import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.AlbumItem;
 
 import java.util.List;
 
@@ -9,8 +9,8 @@ import java.util.List;
  * Created by Alex on 1/4/14.
  */
 public interface AlbumOverviewModuleInterface {
-    public interface GalleryPageCreatedCallback<T> {
-        public void GalleryOverviewPageCreated(List<T> pageItems);
+    public interface AlbumPageCreatedCallback<T> {
+        public void AlbumOverviewPageCreated(List<T> pageItems);
         public void PageCreationFailed();
     }
 
@@ -19,7 +19,7 @@ public interface AlbumOverviewModuleInterface {
      * @param index Index of the application's current page. First request will start at 0.
      * @param listener Listener to pass the constructed list of items to.
      */
-    public void getPage(int index, GalleryPageCreatedCallback listener);
+    public void getPage(int index, AlbumPageCreatedCallback listener);
 
     /**
      * @return The title text to be displayed in the actionbar
@@ -41,11 +41,11 @@ public interface AlbumOverviewModuleInterface {
      * Implement this function to fill the inner view of a card. Title, thumbnail,
      * and buttons are handled by application. Put all other information (tags, author, date, etc.)
      * inside this view.
-     * @param item The {@link com.ecchilon.happypandaproject.GalleryItem} that is currently on display.
+     * @param item The {@link com.ecchilon.happypandaproject.AlbumItem} that is currently on display.
      * @param innerView The inner view. Is structured as the layout defined in {@link #getInnerLayoutName()}.
      * @return
      */
-    public void setCardInnerContentView(GalleryItem item, View innerView);
+    public void setCardInnerContentView(AlbumItem item, View innerView);
 
     //TODO ordering of overview
 }

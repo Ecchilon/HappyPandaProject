@@ -17,7 +17,7 @@ import com.ecchilon.happypandaproject.util.VolleySingleton;
 /**
  * Created by Alex on 1/24/14.
  */
-public class ScreenSlidePageFragment extends Fragment implements AlbumPagesModuleInterface.GalleryImageCreatedCallback, NetworkListenerImageView.NetworkImageListener {
+public class ScreenSlidePageFragment extends Fragment implements AlbumPagesModuleInterface.AlbumImageCreatedCallback, NetworkListenerImageView.NetworkImageListener {
 
     public static final int MAX_NUM_RETRIES = 2;
 

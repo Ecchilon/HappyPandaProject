@@ -9,7 +9,7 @@ import com.ecchilon.happypandaproject.storage.StorageController;
 /**
  * Created by Alex on 1/4/14.
  */
-public class GalleryItem implements Parcelable{
+public class AlbumItem implements Parcelable{
 
     protected String mTitle;
     protected String mThumbUrl;
@@ -34,7 +34,7 @@ public class GalleryItem implements Parcelable{
         return mTitle;
     }
 
-    public GalleryItem(String mTitle, String mThumbUrl, String mGalleryUrl) {
+    public AlbumItem(String mTitle, String mThumbUrl, String mGalleryUrl) {
         this.mTitle = mTitle;
         this.mThumbUrl = mThumbUrl;
         this.mGalleryUrl = mGalleryUrl;
@@ -43,19 +43,19 @@ public class GalleryItem implements Parcelable{
         mIsStored = StorageController.isStored(this);
     }
 
-    public static final Creator<GalleryItem> CREATOR = new  Creator<GalleryItem>() {
+    public static final Creator<AlbumItem> CREATOR = new  Creator<AlbumItem>() {
         @Override
-        public GalleryItem createFromParcel(Parcel parcel) {
-            return new GalleryItem(parcel);
+        public AlbumItem createFromParcel(Parcel parcel) {
+            return new AlbumItem(parcel);
         }
 
         @Override
-        public GalleryItem[] newArray(int size) {
-            return new GalleryItem[size];
+        public AlbumItem[] newArray(int size) {
+            return new AlbumItem[size];
         }
     };
 
-    public GalleryItem(Parcel parcel) {
+    public AlbumItem(Parcel parcel) {
         mTitle = parcel.readString();
         mThumbUrl = parcel.readString();
         mGalleryUrl = parcel.readString();

@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
  * Created by Alex on 1/23/14.
  */
 public interface AlbumPagesModuleInterface {
-    public interface GalleryImageCreatedCallback {
+    public interface AlbumImageCreatedCallback {
         public void ImageBitmapCreated(Bitmap bitmap);
         public void ImageURLCreated(String imageURL);
         public void ImageCreationFailed();
@@ -23,5 +23,5 @@ public interface AlbumPagesModuleInterface {
      * @param index The 0-based index of the requested image page in the currently viewed gallery.
      * @param listener the listener with the callbacks for the url request.
      */
-    public void getImage(int index, GalleryImageCreatedCallback listener);
+    public void getImage(int index, AlbumImageCreatedCallback listener);
 }

@@ -17,7 +17,7 @@ public abstract class StringContentAbstract implements AlbumOverviewModuleInterf
     public void setStringContentParser(StringContentParser parser) { mContentParser = parser; }
 
     @Override
-    public void getPage(int index, final GalleryPageCreatedCallback listener) {
+    public void getPage(int index, final AlbumPageCreatedCallback listener) {
         // StringContentParser should always be set
         if(mContentParser == null){
             listener.PageCreationFailed();

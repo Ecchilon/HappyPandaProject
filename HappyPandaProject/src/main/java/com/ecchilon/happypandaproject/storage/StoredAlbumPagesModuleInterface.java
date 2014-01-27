@@ -9,11 +9,11 @@ import com.ecchilon.happypandaproject.sites.AlbumPagesModuleInterface;
 /**
  * Created by Alex on 1/26/14.
  */
-public class StoredGalleryPagesModuleInterface implements AlbumPagesModuleInterface {
+public class StoredAlbumPagesModuleInterface implements AlbumPagesModuleInterface {
 
     private String[] mImageFiles;
 
-    public StoredGalleryPagesModuleInterface(String[] imageFiles) {
+    public StoredAlbumPagesModuleInterface(String[] imageFiles) {
         mImageFiles = imageFiles;
     }
 
@@ -23,7 +23,7 @@ public class StoredGalleryPagesModuleInterface implements AlbumPagesModuleInterf
     }
 
     @Override
-    public void getImage(int index, final GalleryImageCreatedCallback listener) {
+    public void getImage(int index, final AlbumImageCreatedCallback listener) {
         if(index > (mImageFiles.length-1))
         {
             listener.ImageCreationFailed();

@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.AlbumItem;
 import com.ecchilon.happypandaproject.sites.AlbumPagesModuleInterface;
 
 /**
@@ -30,7 +30,7 @@ public class StorageService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        GalleryItem item = intent.getParcelableExtra(GALLERY_ITEM);
+        AlbumItem item = intent.getParcelableExtra(GALLERY_ITEM);
 
         if(!isExternalStorageWritable()) {
             Intent failIntent = new Intent(BROADCAST_ACTION);
@@ -61,7 +61,7 @@ public class StorageService extends IntentService {
         return false;
     }
 
-    public static AlbumPagesModuleInterface getGallery(GalleryItem item) {
+    public static AlbumPagesModuleInterface getGallery(AlbumItem item) {
 
         return new AlbumPagesModuleInterface() {
             @Override
@@ -70,7 +70,7 @@ public class StorageService extends IntentService {
             }
 
             @Override
-            public void getImage(int index, GalleryImageCreatedCallback listener) {
+            public void getImage(int index, AlbumImageCreatedCallback listener) {
 
             }
         };

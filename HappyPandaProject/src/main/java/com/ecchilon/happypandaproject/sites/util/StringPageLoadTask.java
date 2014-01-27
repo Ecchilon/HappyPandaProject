@@ -2,7 +2,7 @@ package com.ecchilon.happypandaproject.sites.util;
 
 import android.os.AsyncTask;
 
-import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.AlbumItem;
 import com.ecchilon.happypandaproject.sites.AlbumOverviewModuleInterface;
 
 import org.jsoup.Jsoup;
@@ -13,22 +13,22 @@ import java.util.List;
 /**
  * Created by Alex on 1/14/14.
  */
-public class StringPageLoadTask extends AsyncTask<String, Void, List<GalleryItem>> {
+public class StringPageLoadTask extends AsyncTask<String, Void, List<AlbumItem>> {
 
     public interface StringContentParser{
-        public List<GalleryItem> parseContent(Document content);
+        public List<AlbumItem> parseContent(Document content);
     }
 
     private StringContentParser mParser;
-    private AlbumOverviewModuleInterface.GalleryPageCreatedCallback mInterface;
+    private AlbumOverviewModuleInterface.AlbumPageCreatedCallback mInterface;
 
-    public StringPageLoadTask(StringContentParser parser, AlbumOverviewModuleInterface.GalleryPageCreatedCallback galleryInterface) {
+    public StringPageLoadTask(StringContentParser parser, AlbumOverviewModuleInterface.AlbumPageCreatedCallback galleryInterface) {
         mParser = parser;
         mInterface = galleryInterface;
     }
 
     @Override
-    protected List<GalleryItem> doInBackground(String... strings) {
+    protected List<AlbumItem> doInBackground(String... strings) {
         int startIndex = strings[0].indexOf("<body");
         int endIndex = strings[0].lastIndexOf("</body>");
 
@@ -43,11 +43,11 @@ public class StringPageLoadTask extends AsyncTask<String, Void, List<GalleryItem
     }
 
     @Override
-    protected void onPostExecute(List<GalleryItem> galleryItems) {
+    protected void onPostExecute(List<AlbumItem> albumItems) {
         if(mInterface != null)
         {
-            if(galleryItems != null)
-                mInterface.GalleryOverviewPageCreated(galleryItems);
+            if(albumItems != null)
+                mInterface.AlbumOverviewPageCreated(albumItems);
             else
                 mInterface.PageCreationFailed();
         }
