@@ -22,7 +22,7 @@ public class DummySearchModuleInterface extends SearchAbstract {
         if(index < 3) {
             List<AlbumItem> items = new ArrayList<AlbumItem>();
             for(int i = 0; i < 10; i++)
-                items.add(new AlbumItem("TitleTest " + (index*10 + i), null, null));
+                items.add(new AlbumItem("TitleTest " + (index*10 + i), null, null, false, false));
 
             listener.AlbumOverviewPageCreated(items);
         }

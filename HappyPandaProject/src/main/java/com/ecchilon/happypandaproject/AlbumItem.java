@@ -1,29 +1,35 @@
 package com.ecchilon.happypandaproject;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import com.ecchilon.happypandaproject.favorites.FavoritesDatabaseHelper;
-import com.ecchilon.happypandaproject.storage.StorageController;
+import com.google.gson.Gson;
 
 /**
  * Created by Alex on 1/4/14.
  */
-public class AlbumItem implements Parcelable{
+public class AlbumItem{
 
     protected String mTitle;
     protected String mThumbUrl;
-    protected String mGalleryUrl;
+    protected String mAlbumUrl;
 
     protected boolean mIsStored;
     protected boolean mIsFavorite;
 
+    public AlbumItem(String mTitle, String mThumbUrl, String mAlbumUrl, boolean mIsStored, boolean mIsFavorite) {
+        this.mTitle = mTitle;
+        this.mThumbUrl = mThumbUrl;
+        this.mAlbumUrl = mAlbumUrl;
+        this.mIsStored = mIsStored;
+        this.mIsFavorite = mIsFavorite;
+    }
+
     public boolean getIsStored() { return mIsStored; }
+    public void setIsStored(boolean isStored) { mIsStored = isStored; }
 
     public boolean getIsFavorite() { return mIsFavorite; }
+    public void setIsFavorite(boolean isFavorite) { mIsFavorite = isFavorite; }
 
-    public String getGalleryUrl() {
-        return mGalleryUrl;
+    public String getAlbumUrl() {
+        return mAlbumUrl;
     }
 
     public String getThumbUrl() {
@@ -34,46 +40,13 @@ public class AlbumItem implements Parcelable{
         return mTitle;
     }
 
-    public AlbumItem(String mTitle, String mThumbUrl, String mGalleryUrl) {
-        this.mTitle = mTitle;
-        this.mThumbUrl = mThumbUrl;
-        this.mGalleryUrl = mGalleryUrl;
-
-        mIsFavorite = FavoritesDatabaseHelper.getInstance().getFavorite(mGalleryUrl) != null;
-        mIsStored = StorageController.isStored(this);
+    public String toJSONString() {
+        Gson gson = new Gson();
+        return gson.toJson(this, AlbumItem.class);
     }
 
-    public static final Creator<AlbumItem> CREATOR = new  Creator<AlbumItem>() {
-        @Override
-        public AlbumItem createFromParcel(Parcel parcel) {
-            return new AlbumItem(parcel);
-        }
-
-        @Override
-        public AlbumItem[] newArray(int size) {
-            return new AlbumItem[size];
-        }
-    };
-
-    public AlbumItem(Parcel parcel) {
-        mTitle = parcel.readString();
-        mThumbUrl = parcel.readString();
-        mGalleryUrl = parcel.readString();
-        mIsStored = parcel.readByte() != 0;
-        mIsFavorite = parcel.readByte() != 0;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(mTitle);
-        parcel.writeString(mThumbUrl);
-        parcel.writeString(mGalleryUrl);
-        parcel.writeByte((byte)(mIsStored? 1 : 0));
-        parcel.writeByte((byte)(mIsFavorite? 1 : 0));
+    public static AlbumItem fromJSONString(String jsonString) {
+        Gson gson = new Gson();
+        return gson.fromJson(jsonString, AlbumItem.class);
     }
 }

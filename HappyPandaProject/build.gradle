@@ -28,4 +28,5 @@ dependencies {
     compile files('libraries/volley.jar')
     compile files('libraries/jsoup-1.7.3.jar')
     compile files('libraries/PhotoView.jar')
+    compile files('libraries/gson-2.2.4.jar')
 }

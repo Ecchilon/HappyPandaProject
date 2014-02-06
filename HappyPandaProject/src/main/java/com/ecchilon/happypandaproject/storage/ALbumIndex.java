@@ -1,23 +1,20 @@
 package com.ecchilon.happypandaproject.storage;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Environment;
 
 import com.ecchilon.happypandaproject.AlbumItem;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import com.ecchilon.happypandaproject.favorites.FavoritesDatabaseHelper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 /**
  * Class used to interface with the storage index. Index manages removal and addition of albums.
@@ -26,89 +23,98 @@ import javax.xml.parsers.ParserConfigurationException;
 public class AlbumIndex {
     private static AlbumIndex mInstance;
 
-    public static AlbumIndex getInstance() {
-        if(mInstance == null)
+    public synchronized static AlbumIndex getInstance() {
+        if(mInstance == null) {
             mInstance = new AlbumIndex();
+
+        }
 
         return mInstance;
     }
 
     private static final String LIBRARY_DIR = File.separator + "HappyPanda"+ File.separator + "Library";
-    private static final String INDEX_FILE_NAME = "index.xml";
-
-    Document albumIndex;
+    private static final String INDEX_FILE_NAME = "index.json";
 
     List<NodeAlbumItem> albums;
 
+    Gson gson;
+
     private AlbumIndex() {
+        gson = new Gson();
         albums = new ArrayList<NodeAlbumItem>();
 
         if(!StorageService.isExternalStorageWritable())
             throw new IllegalStateException("Can't access external storage");
-        File newFile = new File(Environment.getExternalStorageDirectory(), LIBRARY_DIR + File.separator + INDEX_FILE_NAME);
-        if(!newFile.exists()) {
+        File indexFile = getIndexFile();
+        if(!indexFile.exists()) {
             try {
-                newFile.createNewFile();
+                //construct folder if needed.
+                indexFile.getParentFile().mkdirs();
+                //create index file
+                indexFile.createNewFile();
             } catch (IOException e) {
-                return;
+                e.printStackTrace();
             }
         }
 
-        if(!parseIndex(newFile))
-            throw new IllegalArgumentException("Who messed with my XML?!");
+        new AsyncTask<File, Void, Void>() {
+            FileNotFoundException exception;
+
+            @Override
+            protected Void doInBackground(File... files) {
+                if(!parseIndex(files[0]))
+                    cancel(true);
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid)  {
+                super.onPostExecute(aVoid);
+                if(isCancelled())
+                    throw new IllegalArgumentException("Who messed with my XML?!");
+            }
+        }.execute(indexFile);
     }
 
-    public boolean parseIndex(File index) {
+    private File getIndexFile(){
+        return new File(Environment.getExternalStorageDirectory(), LIBRARY_DIR + File.separator + INDEX_FILE_NAME);
+    }
 
-        try {
-            albumIndex = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(index);
-            albumIndex.getDocumentElement().normalize();
 
-            //read all the album nodes in the in the file
-            NodeList albumNodes = albumIndex.getElementsByTagName("Album");
+    private boolean parseIndex(File index) {
+        synchronized (albums) {
+            FileReader reader = null;
+            try {
+                reader = new FileReader(index);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                return false;
+            }
+            List<LocalAlbumItem> items = gson.fromJson(reader, new TypeToken<List<LocalAlbumItem>>(){}.getType());
 
             boolean docChanged =false;
-            for(int i = 0; i < albumNodes.getLength(); i++) {
-                if(albumNodes.item(i).getNodeType() == Node.ELEMENT_NODE){
-                    NodeAlbumItem item = parseAlbum((Element)albumNodes.item(i));
-                    if(item != null)
-                        albums.add(item);
-                    else
-                    //if it's null, the album directory couldn't be found, and was removed
-                    //automatically, so the changes need to be recorded to the index
-                        docChanged = true;
-                }
+            for(int i = 0; i < albums.size(); i++) {
+                NodeAlbumItem item = parseAlbum(items.get(i));
+                if(item != null)
+                    albums.add(item);
+                else
+                    //if it's null, the albums were changed, so at the end, we write new index
+                    docChanged = true;
             }
 
             if(docChanged)
-                writeChanges();
-
-            return true;
-        } catch (SAXException e) {
-            e.printStackTrace();
-            return false;
-        } catch (ParserConfigurationException e) {
-            e.printStackTrace();
-            return false;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+                writeChangesToIndex();
         }
+
+        return true;
     }
 
-    private NodeAlbumItem parseAlbum(Element albumNode) {
-        //get simple attributes
-        NodeList attr = albumNode.getChildNodes();
-        String albumDirName = attr.item(0).getTextContent();
-        String albumName = attr.item(1).getTextContent();
-        String albumURL = attr.item(2).getTextContent();
-        String thumbURL = attr.item(3).getTextContent();
-
+    private NodeAlbumItem parseAlbum(LocalAlbumItem item) {
         //albumDirName is just the name, so add LIBRARY_DIR and external directory.
-        File albumDir = new File(Environment.getExternalStorageDirectory(), LIBRARY_DIR + File.separator + albumDirName);
+        File albumDir = new File(Environment.getExternalStorageDirectory(), LIBRARY_DIR + File.separator + item.getAlbumDirectoryName());
         //remove album node from index if the file doesn't exist any more
         if(!albumDir.exists() || !albumDir.isDirectory()) {
-            albumIndex.removeChild(albumNode);
             return null;
         }
         else {
@@ -118,56 +124,77 @@ public class AlbumIndex {
             for(int i = 0; i < images.length; i++)
                 imagePaths[i] = images[i].getPath();
 
-            LocalAlbumItem albumItem = new LocalAlbumItem(albumName, thumbURL, albumURL, imagePaths);
+            boolean isFavorite =FavoritesDatabaseHelper.getInstance().getFavorite(item.getAlbumUrl()) != null;
+            item.setIsFavorite(isFavorite);
 
-            return new NodeAlbumItem(albumItem, albumNode, albumDir);
+            return new NodeAlbumItem(item, albumDir);
         }
     }
 
-    public List<LocalAlbumItem> getStoredAlbums() {
+    public interface AlbumsCreatedCallback {
+        public void albumsCreated(List<LocalAlbumItem> albumItemList);
+        public void albumCreationFailed();
+    }
+
+    public synchronized void getStoredAlbums(final AlbumsCreatedCallback callback) {
         List<LocalAlbumItem> localAlbums = new ArrayList<LocalAlbumItem>();
 
         for(NodeAlbumItem album : albums) {
             localAlbums.add(album.getGalleryItem());
         }
 
-        return  localAlbums;
+        callback.albumsCreated(localAlbums);
     }
 
-    public boolean removeItemFromStorage(LocalAlbumItem item){
-        boolean foundAndRemoved = false;
-        for(NodeAlbumItem albumItem : albums){
-            if(albumItem.getGalleryItem() == item){
-                foundAndRemoved = deleteDirectory(albumItem.getFolder());
-                break;
+    public interface AlbumRemovedCallback {
+        public void AlbumRemoved(boolean success);
+    }
+
+    public synchronized void removeItemFromStorage(final LocalAlbumItem item,final AlbumRemovedCallback callback){
+        new AsyncTask<Void, Void, Void>(){
+            boolean foundAndRemoved = false;
+            @Override
+            protected Void doInBackground(Void... voids) {
+                boolean foundAndRemoved = false;
+                for(NodeAlbumItem albumItem : albums){
+                    if(albumItem.getGalleryItem() == item){
+                        foundAndRemoved = deleteDirectory(albumItem.getFolder());
+                        break;
+                    }
+                }
+
+                if(foundAndRemoved)
+                    writeChangesToIndex();
+                return null;
             }
-        }
 
-        if(foundAndRemoved)
-            writeChanges();
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                callback.AlbumRemoved(foundAndRemoved);
 
-        return foundAndRemoved;
+            }
+        }.execute();
     }
 
-    public void addItemToStorage(AlbumItem item, Context context){
+    public interface AlbumStoredCallback {
+        public void albumStored(boolean success);
+        public void storageProgress(float storage);
+    }
+
+    public synchronized void addItemToStorage(AlbumItem item, Context context, AlbumStoredCallback callback){
+
 
 
         //TODO call storage first, execute index after storage
-        Element album = albumIndex.createElement("Album");
-
-        Element url = albumIndex.createElement("GalleryURL");
-        url.setTextContent(item.getGalleryUrl());
-
-        album.appendChild(url);
-
-        writeChanges();
+        writeChangesToIndex();
     }
 
-    private void writeChanges(){
-
+    private synchronized boolean writeChangesToIndex() {
+        return false;
     }
 
-    private static boolean deleteDirectory(File directory) {
+    private synchronized static boolean deleteDirectory(File directory) {
         if(directory.exists()){
             File[] files = directory.listFiles();
             if(null!=files){
@@ -184,32 +211,44 @@ public class AlbumIndex {
         return(directory.delete());
     }
 
-    public class LocalAlbumItem extends AlbumItem {
+    public static class LocalAlbumItem extends AlbumItem {
 
+
+        String mAlbumDirectoryName;
         String[] mImagePaths;
 
+        public String getAlbumDirectoryName() {
+            return mAlbumDirectoryName;
+        }
         public String[] getImagePaths() { return mImagePaths; }
 
-        public LocalAlbumItem(String mTitle, String mThumbUrl, String mAlbumUrl, String[] imagePaths) {
-            super(mTitle, mThumbUrl, mAlbumUrl);
+        public LocalAlbumItem(String mTitle, String mThumbUrl, String mGalleryUrl, boolean mIsStored, boolean mIsFavorite, String[] mImagePaths) {
+            super(mTitle, mThumbUrl, mGalleryUrl, mIsStored, mIsFavorite);
+            this.mImagePaths = mImagePaths;
+        }
 
-            mImagePaths = imagePaths;
+        @Override
+        public String toJSONString() {
+            Gson gson = new Gson();
+            return gson.toJson(this, LocalAlbumItem.class);
+        }
+
+        public static LocalAlbumItem fromJSONString(String jsonString){
+            Gson gson = new Gson();
+            return gson.fromJson(jsonString, LocalAlbumItem.class);
         }
     }
 
     class NodeAlbumItem {
 
         LocalAlbumItem mItem;
-        Node mIndexNode;
         File mFolder;
 
         public LocalAlbumItem getGalleryItem() { return mItem; }
-        public Node getNode() { return  mIndexNode; }
         public File getFolder() { return mFolder; }
 
-        public NodeAlbumItem(LocalAlbumItem item, Node node, File folder){
+        public NodeAlbumItem(LocalAlbumItem item, File folder){
             mItem = item;
-            mIndexNode = node;
             mFolder = folder;
         }
     }
