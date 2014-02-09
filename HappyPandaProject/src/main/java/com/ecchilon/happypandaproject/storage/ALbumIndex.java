@@ -43,8 +43,6 @@ public class AlbumIndex {
         gson = new Gson();
         albums = new ArrayList<NodeAlbumItem>();
 
-        if(!StorageService.isExternalStorageWritable())
-            throw new IllegalStateException("Can't access external storage");
         File indexFile = getIndexFile();
         if(!indexFile.exists()) {
             try {
@@ -58,8 +56,6 @@ public class AlbumIndex {
         }
 
         new AsyncTask<File, Void, Void>() {
-            FileNotFoundException exception;
-
             @Override
             protected Void doInBackground(File... files) {
                 if(!parseIndex(files[0]))

@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.ecchilon.happypandaproject.AlbumItem;
-import com.ecchilon.happypandaproject.storage.StorageController;
 
 import java.util.ArrayList;
 import java.util.List;
