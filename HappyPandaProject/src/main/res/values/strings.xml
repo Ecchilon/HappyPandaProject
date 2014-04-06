@@ -20,4 +20,6 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
     <string name="image_loading_failed">The current image failed to load after several attempts.</string>
+	<string name="section_sites">Sites</string>
+	<string name="section_bookmarks">Bookmarks</string>
 </resources>

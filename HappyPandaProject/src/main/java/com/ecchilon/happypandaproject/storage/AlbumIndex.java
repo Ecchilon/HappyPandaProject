@@ -34,9 +34,9 @@ public class AlbumIndex {
     private static final String ALBUM_DIR = File.separator + "HappyPanda"+ File.separator + "Library";
     private static final String INDEX_FILE_NAME = "index.xml";
 
-    Document albumIndex;
+    private Document albumIndex;
 
-    public AlbumIndex() {
+    private AlbumIndex() {
         if(!StorageService.isExternalStorageWritable())
             throw new IllegalStateException("Can't access external storage");
         File newFile = new File(Environment.getExternalStorageDirectory(), ALBUM_DIR + File.separator + INDEX_FILE_NAME);

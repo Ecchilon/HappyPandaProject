@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
 
-    static FavoritesDatabaseHelper instance;
+	private static FavoritesDatabaseHelper instance;
 
     public static FavoritesDatabaseHelper getInstance() {
         if(instance == null) throw new IllegalStateException("FavoritesDatabase should be instantiated!");

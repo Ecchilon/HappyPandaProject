@@ -12,7 +12,7 @@ import com.ecchilon.happypandaproject.util.VolleySingleton;
  */
 public abstract class StringContentAbstract implements AlbumOverviewModuleInterface {
 
-    public StringContentParser mContentParser;
+   private StringContentParser mContentParser;
 
     public void setStringContentParser(StringContentParser parser) { mContentParser = parser; }
 

@@ -1,4 +1,7 @@
-package com.ecchilon.happypandaproject;
+package com.ecchilon.happypandaproject.navigation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -20,8 +23,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-;
+import com.ecchilon.happypandaproject.R;
+import com.ecchilon.happypandaproject.navigation.navitems.SectionNavItem;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -94,18 +97,22 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                }));
+
+	    mDrawerListView.setAdapter(buildAdapter());
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
+
+	private NavigationDrawerAdapter buildAdapter(){
+		List<NavigationDrawerAdapter.INavItem> iNavItems = new ArrayList<NavigationDrawerAdapter.INavItem>();
+
+		iNavItems.add(new SectionNavItem(getString(R.string.section_sites)));
+		//TODO load sites
+		iNavItems.add(new SectionNavItem(getString(R.string.section_bookmarks)));
+		//TODO load bookmarks
+
+		return new NavigationDrawerAdapter(iNavItems);
+	}
 
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);

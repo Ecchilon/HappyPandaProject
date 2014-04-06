@@ -11,7 +11,7 @@ import com.ecchilon.happypandaproject.sites.AlbumPagesModuleInterface;
  */
 public class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
 
-    AlbumPagesModuleInterface mModuleInterface;
+    private AlbumPagesModuleInterface mModuleInterface;
 
     public ScreenSlidePagerAdapter(FragmentManager fm, AlbumPagesModuleInterface imageInterface) {
         super(fm);

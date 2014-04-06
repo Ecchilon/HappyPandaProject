@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ecchilon.happypandaproject.favorites.FavoritesDatabaseHelper;
+import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 
 public class GalleryOverviewActivity extends ActionBarActivity

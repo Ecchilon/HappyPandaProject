@@ -21,11 +21,11 @@ public class ScreenSlidePageFragment extends Fragment implements AlbumPagesModul
 
     public static final int MAX_NUM_RETRIES = 2;
 
-    NetworkListenerImageView mNetworkImageView;
-    ProgressBar loadingBar;
-    TextView failureText;
+    private NetworkListenerImageView mNetworkImageView;
+	private ProgressBar loadingBar;
+	private TextView failureText;
 
-    String mImageUrl;
+	private String mImageUrl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,7 +69,7 @@ public class ScreenSlidePageFragment extends Fragment implements AlbumPagesModul
         //TODO so what happens now?...
     }
 
-    int retries = 0;
+	private int retries = 0;
 
     @Override
     public void ImageLoadFailed(NetworkListenerImageView view) {

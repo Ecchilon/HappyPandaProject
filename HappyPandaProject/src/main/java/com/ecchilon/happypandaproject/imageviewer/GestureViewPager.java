@@ -10,7 +10,7 @@ import android.view.MotionEvent;
  * Created by Alex on 1/24/14.
  */
 public class GestureViewPager extends ViewPager {
-    GestureDetector mDetector;
+	private GestureDetector mDetector;
 
     public void setGestureDetector(GestureDetector detector) { mDetector = detector; }
 

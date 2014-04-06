@@ -21,13 +21,12 @@ import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 public class GalleryOverviewFragment extends Fragment implements GalleryViewAdapter.PageCreationFailedListener, GalleryViewAdapter.GalleryItemClickListener {
     public GalleryOverviewFragment() {}
 
-    public ListView mList;
-    public GalleryViewAdapter mAdapter;
-    View mEndView;
+	private ListView mList;
+	private GalleryViewAdapter mAdapter;
+	private View mEndView;
 
     private int mSiteIndex = -1;
 
-    public static final String STATE_POS = "LIST_POS";
     public static final String SEARCH_KEY = "SEARCH";
     public static final String SITE_KEY = "SITE";
 
@@ -42,8 +41,7 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
         if(getArguments().containsKey(SITE_KEY)) {
             mSiteIndex = getArguments().getInt(SITE_KEY);
         }
-        else
-        {
+        else {
             throw new IllegalArgumentException("No appropriate argument was provided!");
         }
 
@@ -66,8 +64,9 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
 
         //restore adapter if it was saved
         final Object data = getActivity().getLastCustomNonConfigurationInstance();
-        if(data instanceof GalleryViewAdapter)
-            mAdapter = (GalleryViewAdapter)data;
+        if(data instanceof GalleryViewAdapter) {
+	        mAdapter = (GalleryViewAdapter) data;
+        }
 
         if(mAdapter == null)
         {
@@ -126,8 +125,9 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
      */
     public void refresh()
     {
-        if(mEndView != null)
-            mEndView.setVisibility(View.GONE);
+        if(mEndView != null) {
+	        mEndView.setVisibility(View.GONE);
+        }
 
         if(mAdapter != null) {
             mAdapter.clear(true);

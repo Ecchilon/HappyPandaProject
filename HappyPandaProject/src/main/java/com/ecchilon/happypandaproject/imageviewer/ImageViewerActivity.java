@@ -51,8 +51,8 @@ public class ImageViewerActivity extends ActionBarActivity {
         mPager.setGestureDetector(new GestureDetector(this, new SingleTapListener()));
     }
 
-    Handler uiHandler = new Handler();
-    Runnable hideTask = new Runnable() {
+	private Handler uiHandler = new Handler();
+	private Runnable hideTask = new Runnable() {
         @SuppressLint("NewApi")
         @Override
         public void run() {
