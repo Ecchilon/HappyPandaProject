@@ -6,11 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.navigation.navitems.BookmarkedNavItem;
+import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.navigation.navitems.OverviewNavItem;
-import com.ecchilon.happypandaproject.navigation.navitems.SectionNavItem;
+import com.ecchilon.happypandaproject.navigation.navitems.SectionItem;
 
 /**
  * Created by Alex on 6-4-2014.
@@ -18,14 +20,9 @@ import com.ecchilon.happypandaproject.navigation.navitems.SectionNavItem;
 public class NavigationDrawerAdapter extends BaseAdapter {
 
 	public interface INavVisitor<T> {
-		T execute(SectionNavItem sectionNavItem);
+		T execute(SectionItem sectionNavItem);
 		T execute(BookmarkedNavItem simpleNavItem);
 		T execute(OverviewNavItem overviewNavItem);
-	}
-
-	public interface INavItem {
-		<T> T visit(INavVisitor<T> visitor);
-		int getViewType();
 	}
 
 	private List<INavItem> mNavItems;
@@ -100,10 +97,19 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 		}
 
 		@Override
-		public View execute(SectionNavItem sectionNavItem) {
+		public View execute(SectionItem sectionNavItem) {
 			mConvertView = inflateView(R.layout.section_nav_item, mConvertView, mViewGroup);
 
 			((TextView)mConvertView.findViewById(R.id.section_title)).setText(sectionNavItem.getTitle());
+
+			ImageView icon = ((ImageView) mConvertView.findViewById(R.id.section_icon));
+			if(sectionNavItem.getSectionIconResID() != 0) {
+				icon.setVisibility(View.VISIBLE);
+				icon.setImageResource(sectionNavItem.getSectionIconResID());
+			}
+			else {
+				icon.setVisibility(View.GONE);
+			}
 
 			return mConvertView;
 		}

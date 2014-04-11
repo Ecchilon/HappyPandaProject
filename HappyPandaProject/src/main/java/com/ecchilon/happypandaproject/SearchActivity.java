@@ -24,7 +24,7 @@ public class SearchActivity extends ActionBarActivity implements TitleActivity {
 
             Bundle args = new Bundle();
             //get site index
-            args.putInt(GalleryOverviewFragment.SITE_KEY, getIntent().getIntExtra(GalleryOverviewFragment.SITE_KEY, -1));
+            args.putInt(GalleryOverviewFragment.NAV_KEY, getIntent().getIntExtra(GalleryOverviewFragment.NAV_KEY, -1));
             args.putString(GalleryOverviewFragment.SEARCH_KEY, query);
 
             GalleryOverviewFragment frag = new GalleryOverviewFragment();

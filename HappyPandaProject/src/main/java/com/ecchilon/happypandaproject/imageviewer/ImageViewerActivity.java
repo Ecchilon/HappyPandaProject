@@ -41,7 +41,7 @@ public class ImageViewerActivity extends ActionBarActivity {
 
         ToggleInterface(false);
 
-        int siteIndex = getIntent().getIntExtra(GalleryOverviewFragment.SITE_KEY, -1);
+        int siteIndex = getIntent().getIntExtra(GalleryOverviewFragment.NAV_KEY, -1);
         GalleryItem galleryItem = getIntent().getParcelableExtra(GALLERY_ITEM_KEY);
 
         // Instantiate a ViewPager and a PagerAdapter.

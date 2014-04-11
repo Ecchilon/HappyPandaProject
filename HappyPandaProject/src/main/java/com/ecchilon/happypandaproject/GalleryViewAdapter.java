@@ -22,7 +22,6 @@ public class GalleryViewAdapter extends PagedScrollAdapter<GalleryItem> {
 
     public interface GalleryItemClickListener {
         public void GalleryItemClicked(GalleryItem item);
-        public void GalleryItemDownloadClicked(GalleryItem item);
         public void GalleryItemFavoriteClicked(GalleryItem item);
     }
 
@@ -82,12 +81,6 @@ public class GalleryViewAdapter extends PagedScrollAdapter<GalleryItem> {
         }
 
         //set up click calls
-        view.findViewById(R.id.item_download).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mGalleryItemClickListener.GalleryItemDownloadClicked(currentItem);
-            }
-        });
         view.findViewById(R.id.item_favorite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

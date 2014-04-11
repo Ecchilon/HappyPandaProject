@@ -2,6 +2,7 @@ package com.ecchilon.happypandaproject;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity;
+import com.ecchilon.happypandaproject.navigation.navitems.BookmarkedNavItem;
+import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
+import com.ecchilon.happypandaproject.navigation.navitems.OverviewNavItem;
 import com.ecchilon.happypandaproject.sites.AlbumOverviewModuleInterface;
 import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 
@@ -25,10 +29,10 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
 	private GalleryViewAdapter mAdapter;
 	private View mEndView;
 
-    private int mSiteIndex = -1;
+    private INavItem mSiteIndex;
 
     public static final String SEARCH_KEY = "SEARCH";
-    public static final String SITE_KEY = "SITE";
+    public static final String NAV_KEY = "SITE";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,8 +42,12 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
         AlbumOverviewModuleInterface listInterface = null;
 
         //Index indicates the site module as set in the SiteFactory
-        if(getArguments().containsKey(SITE_KEY)) {
-            mSiteIndex = getArguments().getInt(SITE_KEY);
+        if(getArguments().containsKey(NAV_KEY)) {
+            Parcelable p = getArguments().getParcelable(NAV_KEY);
+	        if(p instanceof BookmarkedNavItem)
+		        mSiteIndex = (BookmarkedNavItem)p;
+	        else if(p instanceof OverviewNavItem)
+		        mSiteIndex = (OverviewNavItem)p;
         }
         else {
             throw new IllegalArgumentException("No appropriate argument was provided!");
@@ -53,6 +61,7 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
             listInterface = SiteFactory.getOverviewInterface(mSiteIndex);
         }
 
+	    //FIXME should be far more user friendly! Error message
         if(listInterface == null)
             throw new IllegalArgumentException("Site module wasn't loaded properly!");
 
@@ -143,11 +152,6 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
         Intent imageViewIntent = new Intent(getActivity(), ImageViewerActivity.class);
         imageViewIntent.putExtra(ImageViewerActivity.GALLERY_ITEM_KEY, item);
         startActivity(imageViewIntent);
-    }
-
-    @Override
-    public void GalleryItemDownloadClicked(GalleryItem item) {
-        //TODO load service (Omg, we need a service oO) for downloading
     }
 
     @Override
