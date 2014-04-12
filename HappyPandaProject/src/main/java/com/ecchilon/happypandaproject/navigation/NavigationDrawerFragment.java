@@ -1,8 +1,5 @@
 package com.ecchilon.happypandaproject.navigation;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -25,7 +22,6 @@ import android.widget.ListView;
 import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.navigation.navitems.OverviewNavItem;
-import com.ecchilon.happypandaproject.navigation.navitems.SectionItem;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -198,7 +194,8 @@ public class NavigationDrawerFragment extends Fragment {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
         if (mCallbacks != null) {
-            mCallbacks.onNavigationDrawerItemSelected(mNavigationAdapter.getItem(mCurrentSelectedPosition), mCurrentSelectedPosition);
+	        INavItem navItem = getSelectedNavItem();
+            mCallbacks.onNavigationDrawerItemSelected(navItem, mCurrentSelectedPosition);
         }
     }
 
@@ -268,8 +265,12 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
     public INavItem getCurrentSelectedItem() {
-        return mNavigationAdapter.getItem(mCurrentSelectedPosition);
+        return getSelectedNavItem();
     }
+
+	private INavItem getSelectedNavItem(){
+		return ((NavDrawerItem)mNavigationAdapter.getItem(mCurrentSelectedPosition)).getNavItem();
+	}
 
     /**
      * Callbacks interface that all activities using this fragment must implement.

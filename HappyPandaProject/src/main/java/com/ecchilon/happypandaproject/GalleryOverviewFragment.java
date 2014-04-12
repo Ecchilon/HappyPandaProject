@@ -43,11 +43,7 @@ public class GalleryOverviewFragment extends Fragment implements GalleryViewAdap
 
         //Index indicates the site module as set in the SiteFactory
         if(getArguments().containsKey(NAV_KEY)) {
-            Parcelable p = getArguments().getParcelable(NAV_KEY);
-	        if(p instanceof BookmarkedNavItem)
-		        mSiteIndex = (BookmarkedNavItem)p;
-	        else if(p instanceof OverviewNavItem)
-		        mSiteIndex = (OverviewNavItem)p;
+            mSiteIndex = getArguments().getParcelable(NAV_KEY);
         }
         else {
             throw new IllegalArgumentException("No appropriate argument was provided!");

@@ -2,12 +2,13 @@ package com.ecchilon.happypandaproject.navigation.navitems;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.ecchilon.happypandaproject.navigation.INavVisitor;
 import com.ecchilon.happypandaproject.navigation.NavigationDrawerAdapter;
 
 /**
  * Created by Alex on 6-4-2014.
  */
-public class BookmarkedNavItem implements INavItem, Parcelable {
+public class BookmarkedNavItem implements INavItem {
 
 	private String mTitle;
 	private String mUrl;
@@ -26,13 +27,8 @@ public class BookmarkedNavItem implements INavItem, Parcelable {
 	}
 
 	@Override
-	public <T> T visit(NavigationDrawerAdapter.INavVisitor<T> visitor) {
+	public <T> T visit(INavVisitor<T> visitor) {
 		return visitor.execute(this);
-	}
-
-	@Override
-	public int getViewType() {
-		return 1;
 	}
 
 	@Override

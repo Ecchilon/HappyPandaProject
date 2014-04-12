@@ -2,6 +2,7 @@ package com.ecchilon.happypandaproject.navigation.navitems;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.ecchilon.happypandaproject.navigation.INavVisitor;
 import com.ecchilon.happypandaproject.navigation.NavigationDrawerAdapter;
 
 /**
@@ -26,13 +27,8 @@ public class OverviewNavItem implements INavItem, Parcelable {
 	}
 
 	@Override
-	public <T> T visit(NavigationDrawerAdapter.INavVisitor<T> visitor) {
+	public <T> T visit(INavVisitor<T> visitor) {
 		return visitor.execute(this);
-	}
-
-	@Override
-	public int getViewType() {
-		return 2;
 	}
 
 	@Override

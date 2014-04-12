@@ -53,6 +53,7 @@ public class GalleryViewAdapter extends PagedScrollAdapter<GalleryItem> {
             mListener.PageCreationFailed();
     }
 
+	//FIXME should be done through a simple visitor for views
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         View innerView = null;

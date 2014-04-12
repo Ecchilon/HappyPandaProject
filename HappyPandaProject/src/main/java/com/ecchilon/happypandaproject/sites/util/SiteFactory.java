@@ -1,11 +1,10 @@
 package com.ecchilon.happypandaproject.sites.util;
 
 import com.ecchilon.happypandaproject.GalleryItem;
-import com.ecchilon.happypandaproject.navigation.NavigationDrawerAdapter;
+import com.ecchilon.happypandaproject.navigation.INavVisitor;
 import com.ecchilon.happypandaproject.navigation.navitems.BookmarkedNavItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.navigation.navitems.OverviewNavItem;
-import com.ecchilon.happypandaproject.navigation.navitems.SectionItem;
 import com.ecchilon.happypandaproject.sites.AlbumOverviewModuleInterface;
 import com.ecchilon.happypandaproject.sites.AlbumPagesModuleInterface;
 import com.ecchilon.happypandaproject.sites.test.DummyAlbumModuleInterface;
@@ -44,12 +43,7 @@ public class SiteFactory {
         return new DummyImageModuleInterface();
     }
 
-	private static class SiteNavVisitor implements NavigationDrawerAdapter.INavVisitor<AlbumOverviewModuleInterface>{
-
-		@Override
-		public AlbumOverviewModuleInterface execute(SectionItem sectionNavItem) {
-			return null;
-		}
+	private static class SiteNavVisitor implements INavVisitor<AlbumOverviewModuleInterface> {
 
 		@Override
 		public AlbumOverviewModuleInterface execute(BookmarkedNavItem simpleNavItem) {
@@ -62,17 +56,12 @@ public class SiteFactory {
 		}
 	}
 
-	private static class SearchNavVisitor implements NavigationDrawerAdapter.INavVisitor<AlbumOverviewModuleInterface>{
+	private static class SearchNavVisitor implements INavVisitor<AlbumOverviewModuleInterface>{
 
 		private String mQuery;
 
 		public void setQuery(String query){
 			mQuery = query;
-		}
-
-		@Override
-		public AlbumOverviewModuleInterface execute(SectionItem sectionNavItem) {
-			return null;
 		}
 
 		@Override

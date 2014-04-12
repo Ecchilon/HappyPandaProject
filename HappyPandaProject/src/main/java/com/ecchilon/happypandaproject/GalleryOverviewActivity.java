@@ -13,12 +13,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ecchilon.happypandaproject.favorites.FavoritesDatabaseHelper;
+import com.ecchilon.happypandaproject.navigation.INavVisitor;
 import com.ecchilon.happypandaproject.navigation.NavigationDrawerAdapter;
 import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
 import com.ecchilon.happypandaproject.navigation.navitems.BookmarkedNavItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.navigation.navitems.OverviewNavItem;
-import com.ecchilon.happypandaproject.navigation.navitems.SectionItem;
 import com.ecchilon.happypandaproject.util.BookmarkActivity;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 
@@ -114,7 +114,7 @@ public class GalleryOverviewActivity extends ActionBarActivity
                         if(s != null && s.trim().length() > 0)
                         {
                             Intent searchIntent = new Intent(GalleryOverviewActivity.this, SearchActivity.class);
-                            searchIntent.putExtra(GalleryOverviewFragment.NAV_KEY, (Parcelable)mNavigationDrawerFragment.getCurrentSelectedItem());
+                            searchIntent.putExtra(GalleryOverviewFragment.NAV_KEY, mNavigationDrawerFragment.getCurrentSelectedItem());
                             searchIntent.putExtra(GalleryOverviewFragment.SEARCH_KEY, s);
 
                             if(searchIntent.resolveActivity(getPackageManager()) != null)
@@ -168,19 +168,7 @@ public class GalleryOverviewActivity extends ActionBarActivity
 	/**
 	 * Helper visitor for the INavItems
 	 */
-	private class ItemVisitor implements NavigationDrawerAdapter.INavVisitor<Void> {
-
-		/**
-		 * Shouldn't be called for now, since Sections can't be clicked at the moment
-		 * @param sectionNavItem
-		 * @return
-		 */
-		@Override
-		public Void execute(SectionItem sectionNavItem) {
-			//TODO show settings?
-			throw new IllegalStateException("How did a section get clicked?!");
-		}
-
+	private class ItemVisitor implements INavVisitor<Void> {
 		/**
 		 * Launches a separate activity for the bookmarked item.
 		 * @param simpleNavItem The bookmarked item that was selected
@@ -201,7 +189,6 @@ public class GalleryOverviewActivity extends ActionBarActivity
 		 */
 		@Override
 		public Void execute(OverviewNavItem overviewNavItem) {
-
 			Bundle args = new Bundle();
 			args.putParcelable(GalleryOverviewFragment.NAV_KEY, overviewNavItem);
 			GalleryOverviewFragment frag = new GalleryOverviewFragment();
