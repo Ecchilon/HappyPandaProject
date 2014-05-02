@@ -38,7 +38,10 @@ public class GalleryOverviewActivity extends ActionBarActivity
     private VolleySingleton mVolleySingleton;
     private FavoritesDatabaseHelper databaseHelper;
 
-	private ItemVisitor mVisitor;
+	/**
+	 * Instantiate directly since @GalleryOverviewActivity#onNavigationDrawerItemSelected is called before onCreate
+	 */
+	private ItemVisitor mVisitor = new ItemVisitor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,20 +73,6 @@ public class GalleryOverviewActivity extends ActionBarActivity
         }
 
 	    item.visit(mVisitor);
-    }
-
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-        }
     }
 
     public void restoreActionBar() {

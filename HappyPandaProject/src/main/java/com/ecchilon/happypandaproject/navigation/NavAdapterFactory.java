@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import com.ecchilon.happypandaproject.R;
+import com.ecchilon.happypandaproject.navigation.navitems.OverviewNavItem;
 
 /**
  * Created by Alex on 11-4-2014.
@@ -26,7 +27,7 @@ public class NavAdapterFactory {
 
 	//TODO fill frontpages
 	private static void loadFrontPages(List<IDrawerItem> itemList, Context context){
-
+		itemList.add(new NavDrawerItem(context.getString(R.string.page_dummy), new OverviewNavItem(null, null)));
 	}
 
 	//TODO fill bookmarks if available

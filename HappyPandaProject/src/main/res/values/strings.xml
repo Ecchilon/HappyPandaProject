@@ -23,5 +23,6 @@
     <string name="section_bookmarks">Bookmarks</string>
     <string name="title_activity_bookmark">BookmarkActivity</string>
 	<string name="menu_bookmark">Bookmark</string>
+	<string name="page_dummy">dummy</string>
 
 </resources>
