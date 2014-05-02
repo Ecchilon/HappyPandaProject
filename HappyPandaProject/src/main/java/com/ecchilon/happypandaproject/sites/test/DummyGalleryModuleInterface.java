@@ -3,19 +3,16 @@ package com.ecchilon.happypandaproject.sites.test;
 import android.view.View;
 
 import com.ecchilon.happypandaproject.GalleryItem;
-import com.ecchilon.happypandaproject.sites.SearchAbstract;
+import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Alex on 1/17/14.
+ * A simply dummy class to test the factory and the fragments
+ * Created by Alex on 1/4/14.
  */
-public class DummySearchModuleInterface extends SearchAbstract {
-
-    public DummySearchModuleInterface(String query) {
-        super(query);
-    }
+public class DummyGalleryModuleInterface implements GalleryOverviewModuleInterface {
 
     @Override
     public void getPage(int index, GalleryPageCreatedCallback listener) {
@@ -31,13 +28,13 @@ public class DummySearchModuleInterface extends SearchAbstract {
     }
 
     @Override
-    public String getUrl(int index) {
-        return null;
+    public String getTitle() {
+        return "Dummy";
     }
 
     @Override
     public String getSubTitle() {
-        return "Test";
+        return "test";
     }
 
     @Override

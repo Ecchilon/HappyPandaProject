@@ -5,7 +5,7 @@ package com.ecchilon.happypandaproject.sites;
  */
 public abstract class SearchAbstract extends StringContentAbstract {
 
-    String mQuery;
+    private String mQuery;
 
     public SearchAbstract(String query){
         mQuery = query;

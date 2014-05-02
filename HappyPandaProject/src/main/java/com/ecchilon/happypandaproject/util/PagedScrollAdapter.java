@@ -6,15 +6,15 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ecchilon.happypandaproject.sites.AlbumOverviewModuleInterface;
+import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 
 /**
  * Created by Alex on 1/4/14.
  */
-public abstract class PagedScrollAdapter<T> extends BaseAdapter implements AbsListView.OnScrollListener, AlbumOverviewModuleInterface.AlbumPageCreatedCallback<T> {
-    boolean mLoading = false;
-    int mPreviousTotal = 0;
-    int mCurrentPage = 0;
+public abstract class PagedScrollAdapter<T> extends BaseAdapter implements AbsListView.OnScrollListener, GalleryOverviewModuleInterface.GalleryPageCreatedCallback<T> {
+	private boolean mLoading = false;
+	private int mPreviousTotal = 0;
+	private int mCurrentPage = 0;
 
     private List<T> mData;
 
@@ -23,7 +23,7 @@ public abstract class PagedScrollAdapter<T> extends BaseAdapter implements AbsLi
         return position;
     }
 
-    public PagedScrollAdapter() {
+    protected PagedScrollAdapter() {
         mData = new ArrayList<T>();
     }
 
@@ -89,7 +89,7 @@ public abstract class PagedScrollAdapter<T> extends BaseAdapter implements AbsLi
      * called.
      */
     @Override
-    public final void AlbumOverviewPageCreated(List<T> pageItems) {
+    public final void GalleryOverviewPageCreated(List<T> pageItems) {
         mData.addAll(pageItems);
         notifyDataSetChanged();
         mCurrentPage++;

@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.ecchilon.happypandaproject.AlbumItem;
+import com.ecchilon.happypandaproject.GalleryItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
 
-    static FavoritesDatabaseHelper instance;
+	private static FavoritesDatabaseHelper instance;
 
     public static FavoritesDatabaseHelper getInstance() {
         if(instance == null) throw new IllegalStateException("FavoritesDatabase should be instantiated!");
@@ -53,22 +53,22 @@ public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void addFavorite(AlbumItem item) {
+    public void addFavorite(GalleryItem item) {
         //if it's already there, no need to
-        if(getFavorite(item.getAlbumUrl()) != null) return;
+        if(getFavorite(item.getGalleryUrl()) != null) return;
 
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(KEY_TITLE, item.getTitle());
         values.put(KEY_THUMB, item.getThumbUrl());
-        values.put(KEY_URL, item.getAlbumUrl());
+        values.put(KEY_URL, item.getGalleryUrl());
 
         db.insert(TABLE_FAVORITES, null, values);
         db.close();
     }
 
-    public AlbumItem getFavorite(String url) {
+    public GalleryItem getFavorite(String url) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_FAVORITES, new String[]{KEY_URL}, KEY_URL + "=?", new String[]{url}, null, null, null, null);
         if(cursor == null)
@@ -76,14 +76,14 @@ public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
         else {
             cursor.moveToFirst();
             String albumUrl =cursor.getString(3);
-            AlbumItem item = new AlbumItem(cursor.getString(1), cursor.getString(2), albumUrl, true, StorageController.isStored(albumUrl));
+            GalleryItem item = new GalleryItem(cursor.getString(1), cursor.getString(2), albumUrl);
 
             return item;
         }
     }
 
-    public List<AlbumItem> getAllFavorites() {
-        List<AlbumItem> favoriteList = new ArrayList<AlbumItem>();
+    public List<GalleryItem> getAllFavorites() {
+        List<GalleryItem> favoriteList = new ArrayList<GalleryItem>();
 
         String selectQuery = "SELECT * FROM " + TABLE_FAVORITES;
         SQLiteDatabase db = this.getReadableDatabase();
@@ -93,7 +93,7 @@ public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
         {
             do {
                 String albumUrl =cursor.getString(3);
-                AlbumItem item = new AlbumItem(cursor.getString(1), cursor.getString(2), albumUrl, true, StorageController.isStored(albumUrl));
+                GalleryItem item = new GalleryItem(cursor.getString(1), cursor.getString(2), albumUrl);
 
                 favoriteList.add(item);
             }while(cursor.moveToNext());
@@ -108,9 +108,9 @@ public class FavoritesDatabaseHelper extends SQLiteOpenHelper {
         return cursor.getLong(0);
     }
 
-    public void deleteFavorite(AlbumItem item) {
+    public void deleteFavorite(GalleryItem item) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_FAVORITES, KEY_URL + "=?", new String[] {item.getAlbumUrl()});
+        db.delete(TABLE_FAVORITES, KEY_URL + "=?", new String[] {item.getGalleryUrl()});
         db.close();
     }
 }

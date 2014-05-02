@@ -1,13 +1,13 @@
 package com.ecchilon.happypandaproject.sites.test;
 
-import com.ecchilon.happypandaproject.sites.AlbumPagesModuleInterface;
+import com.ecchilon.happypandaproject.sites.GalleryPagesModuleInterface;
 
 /**
  * Created by Alex on 1/23/14.
  */
-public class DummyImageModuleInterface implements AlbumPagesModuleInterface {
+public class DummyImageModuleInterface implements GalleryPagesModuleInterface {
 
-    String[] urls = new String[] {
+	private String[] urls = new String[] {
         "http://i.imgur.com/NIup5WR.jpg",
         "http://cdn1.spiegel.de/images/image-587844-galleryV9-ctub.jpg",
         "http://i.imgur.com/7gwSBUD.jpg",
@@ -22,7 +22,7 @@ public class DummyImageModuleInterface implements AlbumPagesModuleInterface {
     }
 
     @Override
-    public void getImage(int index, AlbumImageCreatedCallback listener) {
+    public void getImage(int index, GalleryImageCreatedCallback listener) {
         if(index < urls.length)
             listener.ImageURLCreated(urls[index]);
         else

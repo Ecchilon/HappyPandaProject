@@ -10,14 +10,14 @@ import com.ecchilon.happypandaproject.util.VolleySingleton;
 /**
  * Created by Alex on 1/4/14.
  */
-public abstract class StringContentAbstract implements AlbumOverviewModuleInterface {
+public abstract class StringContentAbstract implements GalleryOverviewModuleInterface {
 
-    public StringContentParser mContentParser;
+   private StringContentParser mContentParser;
 
     public void setStringContentParser(StringContentParser parser) { mContentParser = parser; }
 
     @Override
-    public void getPage(int index, final AlbumPageCreatedCallback listener) {
+    public void getPage(int index, final GalleryPageCreatedCallback listener) {
         // StringContentParser should always be set
         if(mContentParser == null){
             listener.PageCreationFailed();

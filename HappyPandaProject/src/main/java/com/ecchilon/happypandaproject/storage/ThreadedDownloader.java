@@ -1,9 +1,6 @@
 package com.ecchilon.happypandaproject.storage;
 
-import android.os.Message;
-import android.os.Messenger;
-
-import com.ecchilon.happypandaproject.AlbumItem;
+import com.ecchilon.happypandaproject.GalleryItem;
 
 /**
  * Created by Alex on 2/9/14.
@@ -16,12 +13,12 @@ public class ThreadedDownloader implements DownloadService.DownloadTaskHandler {
     }
 
     @Override
-    public void startTask(AlbumItem task) {
+    public void startTask(GalleryItem task) {
 
     }
 
     @Override
-    public void stopTask(AlbumItem task) {
+    public void stopTask(GalleryItem task) {
 
     }
 }

@@ -3,35 +3,35 @@ package com.ecchilon.happypandaproject.favorites;
 import android.os.AsyncTask;
 import android.view.View;
 
-import com.ecchilon.happypandaproject.AlbumItem;
-import com.ecchilon.happypandaproject.sites.AlbumOverviewModuleInterface;
+import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 
 import java.util.List;
 
 /**
  * Created by Alex on 1/25/14.
  */
-public class FavoritesInterface implements AlbumOverviewModuleInterface {
+public class FavoritesInterface implements GalleryOverviewModuleInterface {
 
     public FavoritesInterface(){
 
     }
 
     @Override
-    public void getPage(int index, final AlbumPageCreatedCallback listener) {
+    public void getPage(int index, final GalleryPageCreatedCallback listener) {
         if(index > 0)
             listener.PageCreationFailed();
 
-        new AsyncTask<Void,Void, List<AlbumItem>>(){
+        new AsyncTask<Void,Void, List<GalleryItem>>(){
             @Override
-            protected List<AlbumItem> doInBackground(Void... objects) {
+            protected List<GalleryItem> doInBackground(Void... objects) {
                 return FavoritesDatabaseHelper.getInstance().getAllFavorites();
             }
 
             @Override
-            protected void onPostExecute(List<AlbumItem> items) {
+            protected void onPostExecute(List<GalleryItem> items) {
                 super.onPostExecute(items);
-                listener.AlbumOverviewPageCreated(items);
+                listener.GalleryOverviewPageCreated(items);
             }
         }.execute();
     }
@@ -52,7 +52,7 @@ public class FavoritesInterface implements AlbumOverviewModuleInterface {
     }
 
     @Override
-    public void setCardInnerContentView(AlbumItem item, View innerView) {
+    public void setCardInnerContentView(GalleryItem item, View innerView) {
 
     }
 }

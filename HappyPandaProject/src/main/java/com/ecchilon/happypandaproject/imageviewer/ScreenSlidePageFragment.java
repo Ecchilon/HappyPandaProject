@@ -10,22 +10,22 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ecchilon.happypandaproject.R;
-import com.ecchilon.happypandaproject.sites.AlbumPagesModuleInterface;
+import com.ecchilon.happypandaproject.sites.GalleryPagesModuleInterface;
 import com.ecchilon.happypandaproject.util.NetworkListenerImageView;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 
 /**
  * Created by Alex on 1/24/14.
  */
-public class ScreenSlidePageFragment extends Fragment implements AlbumPagesModuleInterface.AlbumImageCreatedCallback, NetworkListenerImageView.NetworkImageListener {
+public class ScreenSlidePageFragment extends Fragment implements GalleryPagesModuleInterface.GalleryImageCreatedCallback, NetworkListenerImageView.NetworkImageListener {
 
     public static final int MAX_NUM_RETRIES = 2;
 
-    NetworkListenerImageView mNetworkImageView;
-    ProgressBar loadingBar;
-    TextView failureText;
+    private NetworkListenerImageView mNetworkImageView;
+	private ProgressBar loadingBar;
+	private TextView failureText;
 
-    String mImageUrl;
+	private String mImageUrl;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,7 +69,7 @@ public class ScreenSlidePageFragment extends Fragment implements AlbumPagesModul
         //TODO so what happens now?...
     }
 
-    int retries = 0;
+	private int retries = 0;
 
     @Override
     public void ImageLoadFailed(NetworkListenerImageView view) {

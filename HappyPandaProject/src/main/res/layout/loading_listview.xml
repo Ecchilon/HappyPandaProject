@@ -20,4 +20,12 @@
         android:layout_centerInParent="true"
         android:padding="16dp" />
 
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerInParent="true"
+			android:textAppearance="@android:style/TextAppearance.Large"
+			android:id="@+id/error_message"
+			android:visibility="gone"/>
+
 </RelativeLayout>
