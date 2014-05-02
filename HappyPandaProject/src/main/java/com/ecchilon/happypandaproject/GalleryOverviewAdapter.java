@@ -7,36 +7,36 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
-import com.ecchilon.happypandaproject.sites.AlbumOverviewModuleInterface;
+import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.util.PagedScrollAdapter;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 
 /**
  * Created by Alex on 1/4/14.
  */
-public class AlbumOverviewAdapter extends PagedScrollAdapter<AlbumItem> {
+public class GalleryOverviewAdapter extends PagedScrollAdapter<GalleryItem> {
 
     public interface PageCreationFailedListener {
         public void PageCreationFailed();
     }
 
-    public interface AlbumItemClickListener {
-        public void AlbumItemClicked(AlbumItem item);
-        public void AlbumItemDownloadClicked(AlbumItem item);
-        public void AlbumItemFavoriteClicked(AlbumItem item);
+    public interface GalleryItemClickListener {
+        public void GalleryItemClicked(GalleryItem item);
+        public void GalleryItemFavoriteClicked(GalleryItem item);
     }
 
     private PageCreationFailedListener mListener;
-    private AlbumItemClickListener mAlbumItemClickListener;
-    private AlbumOverviewModuleInterface mAlbumInterface;
+    private GalleryItemClickListener mGalleryItemClickListener;
+    private GalleryOverviewModuleInterface mGalleryInterface;
 
     private int mInnerLayoutId;
 
-    public AlbumOverviewAdapter(AlbumOverviewModuleInterface galleryInterface, AlbumItemClickListener itemClickListener, Context c) {
-        mAlbumInterface = galleryInterface;
-        mAlbumItemClickListener = itemClickListener;
+    public GalleryOverviewAdapter(GalleryOverviewModuleInterface galleryInterface,
+		    GalleryItemClickListener itemClickListener, Context c) {
+        mGalleryInterface = galleryInterface;
+        mGalleryItemClickListener = itemClickListener;
 
-        mInnerLayoutId = c.getResources().getIdentifier(mAlbumInterface.getInnerLayoutName(),"layout", c.getPackageName());
+        mInnerLayoutId = c.getResources().getIdentifier(mGalleryInterface.getInnerLayoutName(),"layout", c.getPackageName());
     }
 
     public void setPageCreationFailedListener(PageCreationFailedListener _listener){
@@ -45,7 +45,7 @@ public class AlbumOverviewAdapter extends PagedScrollAdapter<AlbumItem> {
 
     @Override
     public void loadNewDataSet() {
-        mAlbumInterface.getPage(getCurrentPage(), this);
+        mGalleryInterface.getPage(getCurrentPage(), this);
     }
 
     @Override
@@ -54,13 +54,14 @@ public class AlbumOverviewAdapter extends PagedScrollAdapter<AlbumItem> {
             mListener.PageCreationFailed();
     }
 
+	//FIXME should be done through a simple visitor for views
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         View innerView = null;
         Context c = viewGroup.getContext();
 
         if(view == null) {
-            view = View.inflate(c, R.layout.album_item, null);
+            view = View.inflate(c, R.layout.gallery_item, null);
             if(mInnerLayoutId != 0){
                 FrameLayout container = ((FrameLayout)view.findViewById(R.id.inner_view));
                 innerView = View.inflate(c, mInnerLayoutId, container);
@@ -71,7 +72,7 @@ public class AlbumOverviewAdapter extends PagedScrollAdapter<AlbumItem> {
             innerView = ((FrameLayout)view.findViewById(R.id.inner_view)).getChildAt(0);
         }
 
-        final AlbumItem currentItem = getItem(i);
+        final GalleryItem currentItem = getItem(i);
 
         ((TextView) view.findViewById(R.id.item_title)).setText(currentItem.getTitle());
 
@@ -82,28 +83,22 @@ public class AlbumOverviewAdapter extends PagedScrollAdapter<AlbumItem> {
         }
 
         //set up click calls
-        view.findViewById(R.id.item_download).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAlbumItemClickListener.AlbumItemDownloadClicked(currentItem);
-            }
-        });
         view.findViewById(R.id.item_favorite).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAlbumItemClickListener.AlbumItemFavoriteClicked(currentItem);
+                mGalleryItemClickListener.GalleryItemFavoriteClicked(currentItem);
             }
         });
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAlbumItemClickListener.AlbumItemClicked(currentItem);
+                mGalleryItemClickListener.GalleryItemClicked(currentItem);
             }
         });
 
         //only call if it's been found. Could just as well be left empty
         if(innerView != null)
-            mAlbumInterface.setCardInnerContentView(currentItem, innerView);
+            mGalleryInterface.setCardInnerContentView(currentItem, innerView);
 
         return  view;
     }

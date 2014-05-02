@@ -3,12 +3,14 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="WRAPPED" />
-        <option name="externalProjectPath" value="$USER_HOME$" />
-      </GradleProjectSettings>
-      <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="C:\Users\Alex" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="modules">
+          <set>
+            <option value="C:\Users\Alex\Development\Projects\Android\HappyPandaProject" />
+            <option value="C:\Users\Alex\Development\Projects\Android\HappyPandaProject\HappyPandaProject" />
+          </set>
+        </option>
       </GradleProjectSettings>
     </option>
   </component>

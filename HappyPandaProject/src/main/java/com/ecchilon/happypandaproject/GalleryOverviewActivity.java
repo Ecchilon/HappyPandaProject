@@ -12,9 +12,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ecchilon.happypandaproject.favorites.FavoritesDatabaseHelper;
+import com.ecchilon.happypandaproject.navigation.INavVisitor;
+import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
+import com.ecchilon.happypandaproject.navigation.navitems.BookmarkedNavItem;
+import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
+import com.ecchilon.happypandaproject.navigation.navitems.OverviewNavItem;
+import com.ecchilon.happypandaproject.util.BookmarkActivity;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 
-public class AlbumOverviewActivity extends ActionBarActivity
+public class GalleryOverviewActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, TitleActivity {
 
     public final static String FRAG_TAG = "GALLERY";
@@ -32,6 +38,8 @@ public class AlbumOverviewActivity extends ActionBarActivity
     private VolleySingleton mVolleySingleton;
     private FavoritesDatabaseHelper databaseHelper;
 
+	private ItemVisitor mVisitor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +53,7 @@ public class AlbumOverviewActivity extends ActionBarActivity
         mSubTitle = getSupportActionBar().getSubtitle();
 
         mVolleySingleton = new VolleySingleton(this);
+		mVisitor = new ItemVisitor();
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -53,23 +62,14 @@ public class AlbumOverviewActivity extends ActionBarActivity
     }
 
     @Override
-    public void onNavigationDrawerItemSelected(int position) {
+    public void onNavigationDrawerItemSelected(INavItem item, int position) {
         //stop all current requests from this part of the app. we don't need them anymore!
         if(mVolleySingleton != null) {
             VolleySingleton.cancelRequests();
             mVolleySingleton.setNavigationPositionIndex(position);
         }
 
-        Bundle args = new Bundle();
-        args.putInt(AlbumOverviewFragment.SITE_KEY, position);
-        AlbumOverviewFragment frag = new AlbumOverviewFragment();
-        frag.setArguments(args);
-
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, frag,FRAG_TAG)
-                .commit();
+	    item.visit(mVisitor);
     }
 
     public void onSectionAttached(int number) {
@@ -111,13 +111,13 @@ public class AlbumOverviewActivity extends ActionBarActivity
                     public boolean onQueryTextSubmit(String s) {
                         if(s != null && s.trim().length() > 0)
                         {
-                            Intent searchIntent = new Intent(AlbumOverviewActivity.this, SearchActivity.class);
-                            searchIntent.putExtra(AlbumOverviewFragment.SITE_KEY, mNavigationDrawerFragment.getCurrentSelectedPosition());
-                            searchIntent.putExtra(AlbumOverviewFragment.SEARCH_KEY, s);
+                            Intent searchIntent = new Intent(GalleryOverviewActivity.this, SearchActivity.class);
+                            searchIntent.putExtra(GalleryOverviewFragment.NAV_KEY, mNavigationDrawerFragment.getCurrentSelectedItem());
+                            searchIntent.putExtra(GalleryOverviewFragment.SEARCH_KEY, s);
 
                             if(searchIntent.resolveActivity(getPackageManager()) != null)
                             {
-                                AlbumOverviewActivity.this.startActivity(searchIntent);
+                                GalleryOverviewActivity.this.startActivity(searchIntent);
                                 MenuItemCompat.collapseActionView(searchItem);
                             }
                         }
@@ -145,6 +145,7 @@ public class AlbumOverviewActivity extends ActionBarActivity
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_settings:
+	            //TODO show setting activity
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -161,4 +162,42 @@ public class AlbumOverviewActivity extends ActionBarActivity
         mSubTitle = subTitle;
         getSupportActionBar().setSubtitle(mSubTitle);
     }
+
+	/**
+	 * Helper visitor for the INavItems
+	 */
+	private class ItemVisitor implements INavVisitor<Void> {
+		/**
+		 * Launches a separate activity for the bookmarked item.
+		 * @param simpleNavItem The bookmarked item that was selected
+		 * @return
+		 */
+		@Override
+		public Void execute(BookmarkedNavItem simpleNavItem) {
+			Intent bookmarkIntent = new Intent(GalleryOverviewActivity.this, BookmarkActivity.class);
+			bookmarkIntent.putExtra(GalleryOverviewFragment.NAV_KEY, simpleNavItem);
+			startActivity(bookmarkIntent);
+			return null;
+		}
+
+		/**
+		 * Replaces the current framgent of this activity with the new one based on the OverviewNavItem
+		 * @param overviewNavItem
+		 * @return
+		 */
+		@Override
+		public Void execute(OverviewNavItem overviewNavItem) {
+			Bundle args = new Bundle();
+			args.putParcelable(GalleryOverviewFragment.NAV_KEY, overviewNavItem);
+			GalleryOverviewFragment frag = new GalleryOverviewFragment();
+			frag.setArguments(args);
+
+			// update the main content by replacing fragments
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			fragmentManager.beginTransaction()
+					.replace(R.id.container, frag, FRAG_TAG)
+					.commit();
+			return null;
+		}
+	}
 }

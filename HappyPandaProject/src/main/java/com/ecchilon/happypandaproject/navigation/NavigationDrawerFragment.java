@@ -1,4 +1,4 @@
-package com.ecchilon.happypandaproject;
+package com.ecchilon.happypandaproject.navigation;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -18,10 +18,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-;
+import com.ecchilon.happypandaproject.R;
+import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
+import com.ecchilon.happypandaproject.navigation.navitems.OverviewNavItem;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -54,8 +54,9 @@ public class NavigationDrawerFragment extends Fragment {
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerListView;
     private View mFragmentContainerView;
+	private NavigationDrawerAdapter mNavigationAdapter;
 
-    private int mCurrentSelectedPosition = 0;
+    private int mCurrentSelectedPosition = 1;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
@@ -76,7 +77,9 @@ public class NavigationDrawerFragment extends Fragment {
             mFromSavedInstanceState = true;
         }
 
-        // Select either the default item (0) or the last selected item.
+	    mNavigationAdapter = NavAdapterFactory.createAdapter(getActivity());
+
+        // Select either the default item (1) or the last selected item.
         selectItem(mCurrentSelectedPosition);
 
         // Indicate that this fragment would like to influence the set of actions in the action bar.
@@ -94,15 +97,8 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                }));
+
+	    mDrawerListView.setAdapter(mNavigationAdapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
@@ -185,16 +181,21 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
     }
 
+	/**
+	 * Selects the clicked item, marking it as checked if it's an OverviewNavItem, and notifying any listeners of the click
+	 * @param position
+	 */
     private void selectItem(int position) {
         mCurrentSelectedPosition = position;
-        if (mDrawerListView != null) {
+        if (mDrawerListView != null && mNavigationAdapter.getItem(position) instanceof OverviewNavItem) {
             mDrawerListView.setItemChecked(position, true);
         }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
         if (mCallbacks != null) {
-            mCallbacks.onNavigationDrawerItemSelected(position);
+	        INavItem navItem = getSelectedNavItem();
+            mCallbacks.onNavigationDrawerItemSelected(navItem, mCurrentSelectedPosition);
         }
     }
 
@@ -244,12 +245,6 @@ public class NavigationDrawerFragment extends Fragment {
             return true;
         }
 
-        /*switch (item.getItemId()) {
-            case R.id.action_example:
-                Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
-                return true;
-        }*/
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -269,9 +264,13 @@ public class NavigationDrawerFragment extends Fragment {
         return ((ActionBarActivity)getActivity()).getSupportActionBar();
     }
 
-    public int getCurrentSelectedPosition() {
-        return mCurrentSelectedPosition;
+    public INavItem getCurrentSelectedItem() {
+        return getSelectedNavItem();
     }
+
+	private INavItem getSelectedNavItem(){
+		return ((NavDrawerItem)mNavigationAdapter.getItem(mCurrentSelectedPosition)).getNavItem();
+	}
 
     /**
      * Callbacks interface that all activities using this fragment must implement.
@@ -280,6 +279,6 @@ public class NavigationDrawerFragment extends Fragment {
         /**
          * Called when an item in the navigation drawer is selected.
          */
-        void onNavigationDrawerItemSelected(int position);
+        void onNavigationDrawerItemSelected(INavItem item, int position);
     }
 }

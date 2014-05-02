@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.7.+'
+        classpath 'com.android.tools.build:gradle:0.9.+'
     }
 }
 apply plugin: 'android'
@@ -23,8 +23,8 @@ android {
 }
 
 dependencies {
-	compile 'com.android.support:support-v4:19.0.0'
-	compile 'com.android.support:appcompat-v7:19.0.0'
+    compile 'com.android.support:support-v4:19.0.0'
+    compile 'com.android.support:appcompat-v7:19.0.0'
     compile files('libraries/volley.jar')
     compile files('libraries/jsoup-1.7.3.jar')
     compile files('libraries/PhotoView.jar')

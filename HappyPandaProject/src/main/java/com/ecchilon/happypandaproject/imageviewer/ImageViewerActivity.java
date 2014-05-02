@@ -11,8 +11,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.ecchilon.happypandaproject.AlbumItem;
-import com.ecchilon.happypandaproject.AlbumOverviewFragment;
+import com.ecchilon.happypandaproject.GalleryOverviewFragment;
+import com.ecchilon.happypandaproject.GalleryItem;
 import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 
@@ -41,18 +41,17 @@ public class ImageViewerActivity extends ActionBarActivity {
 
         ToggleInterface(false);
 
-        int siteIndex = getIntent().getIntExtra(AlbumOverviewFragment.SITE_KEY, -1);
-        AlbumItem albumItem = getIntent().getParcelableExtra(GALLERY_ITEM_KEY);
+        GalleryItem galleryItem = GalleryItem.fromJSONString(getIntent().getStringExtra(GALLERY_ITEM_KEY));
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (GestureViewPager)findViewById(R.id.pager);
-        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), SiteFactory.getGalleryPagesInterface(albumItem));
+        mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), SiteFactory.getGalleryPagesInterface(galleryItem));
         mPager.setAdapter(mPagerAdapter);
         mPager.setGestureDetector(new GestureDetector(this, new SingleTapListener()));
     }
 
-    Handler uiHandler = new Handler();
-    Runnable hideTask = new Runnable() {
+	private Handler uiHandler = new Handler();
+	private Runnable hideTask = new Runnable() {
         @SuppressLint("NewApi")
         @Override
         public void run() {

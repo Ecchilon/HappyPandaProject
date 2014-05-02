@@ -16,7 +16,7 @@ public class SearchActivity extends ActionBarActivity implements TitleActivity {
         getSupportActionBar().setIcon(R.drawable.actionbar_icon);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        String query = getIntent().getStringExtra(AlbumOverviewFragment.SEARCH_KEY);
+        String query = getIntent().getStringExtra(GalleryOverviewFragment.SEARCH_KEY);
         if(query == null)
             finish();
 
@@ -24,10 +24,10 @@ public class SearchActivity extends ActionBarActivity implements TitleActivity {
 
             Bundle args = new Bundle();
             //get site index
-            args.putInt(AlbumOverviewFragment.SITE_KEY, getIntent().getIntExtra(AlbumOverviewFragment.SITE_KEY, -1));
-            args.putString(AlbumOverviewFragment.SEARCH_KEY, query);
+            args.putInt(GalleryOverviewFragment.NAV_KEY, getIntent().getIntExtra(GalleryOverviewFragment.NAV_KEY, -1));
+            args.putString(GalleryOverviewFragment.SEARCH_KEY, query);
 
-            AlbumOverviewFragment frag = new AlbumOverviewFragment();
+            GalleryOverviewFragment frag = new GalleryOverviewFragment();
             frag.setArguments(args);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, frag)

@@ -2,7 +2,7 @@ package com.ecchilon.happypandaproject.sites.test;
 
 import android.view.View;
 
-import com.ecchilon.happypandaproject.AlbumItem;
+import com.ecchilon.happypandaproject.GalleryItem;
 import com.ecchilon.happypandaproject.sites.SearchAbstract;
 
 import java.util.ArrayList;
@@ -18,13 +18,13 @@ public class DummySearchModuleInterface extends SearchAbstract {
     }
 
     @Override
-    public void getPage(int index, AlbumPageCreatedCallback listener) {
+    public void getPage(int index, GalleryPageCreatedCallback listener) {
         if(index < 3) {
-            List<AlbumItem> items = new ArrayList<AlbumItem>();
+            List<GalleryItem> items = new ArrayList<GalleryItem>();
             for(int i = 0; i < 10; i++)
-                items.add(new AlbumItem("TitleTest " + (index*10 + i), null, null, false, false));
+                items.add(new GalleryItem("TitleTest " + (index*10 + i), null, null));
 
-            listener.AlbumOverviewPageCreated(items);
+            listener.GalleryOverviewPageCreated(items);
         }
         else
             listener.PageCreationFailed();
@@ -46,7 +46,7 @@ public class DummySearchModuleInterface extends SearchAbstract {
     }
 
     @Override
-    public void setCardInnerContentView(AlbumItem item, View innerView) {
+    public void setCardInnerContentView(GalleryItem item, View innerView) {
 
     }
 }

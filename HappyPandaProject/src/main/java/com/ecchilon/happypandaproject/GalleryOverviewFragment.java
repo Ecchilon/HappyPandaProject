@@ -12,37 +12,37 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity;
-import com.ecchilon.happypandaproject.sites.AlbumOverviewModuleInterface;
+import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
+import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 
 /**
  * Created by Alex on 1/4/14.
  */
-public class AlbumOverviewFragment extends Fragment implements AlbumOverviewAdapter.PageCreationFailedListener, AlbumOverviewAdapter.AlbumItemClickListener {
-    public AlbumOverviewFragment() {}
+public class GalleryOverviewFragment extends Fragment implements GalleryOverviewAdapter.PageCreationFailedListener, GalleryOverviewAdapter.GalleryItemClickListener {
+    public GalleryOverviewFragment() {}
 
-    public ListView mList;
-    public AlbumOverviewAdapter mAdapter;
-    View mEndView;
+	private ListView mList;
+	private GalleryOverviewAdapter mAdapter;
+	private View mEndView;
 
-    private int mSiteIndex = -1;
+    private INavItem mSiteIndex;
 
     public static final String SEARCH_KEY = "SEARCH";
-    public static final String SITE_KEY = "SITE";
+    public static final String NAV_KEY = "SITE";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        AlbumOverviewModuleInterface listInterface = null;
+        GalleryOverviewModuleInterface listInterface = null;
 
         //Index indicates the site module as set in the SiteFactory
-        if(getArguments().containsKey(SITE_KEY)) {
-            mSiteIndex = getArguments().getInt(SITE_KEY);
+        if(getArguments().containsKey(NAV_KEY)) {
+            mSiteIndex = getArguments().getParcelable(NAV_KEY);
         }
-        else
-        {
+        else {
             throw new IllegalArgumentException("No appropriate argument was provided!");
         }
 
@@ -54,6 +54,7 @@ public class AlbumOverviewFragment extends Fragment implements AlbumOverviewAdap
             listInterface = SiteFactory.getOverviewInterface(mSiteIndex);
         }
 
+	    //FIXME should be far more user friendly! Error message
         if(listInterface == null)
             throw new IllegalArgumentException("Site module wasn't loaded properly!");
 
@@ -65,12 +66,13 @@ public class AlbumOverviewFragment extends Fragment implements AlbumOverviewAdap
 
         //restore adapter if it was saved
         final Object data = getActivity().getLastCustomNonConfigurationInstance();
-        if(data instanceof AlbumOverviewAdapter)
-            mAdapter = (AlbumOverviewAdapter)data;
+        if(data instanceof GalleryOverviewAdapter) {
+	        mAdapter = (GalleryOverviewAdapter) data;
+        }
 
         if(mAdapter == null)
         {
-            mAdapter = new AlbumOverviewAdapter(listInterface, this, getActivity());
+            mAdapter = new GalleryOverviewAdapter(listInterface, this, getActivity());
             mAdapter.setPageCreationFailedListener(this);
         }
     }
@@ -125,8 +127,9 @@ public class AlbumOverviewFragment extends Fragment implements AlbumOverviewAdap
      */
     public void refresh()
     {
-        if(mEndView != null)
-            mEndView.setVisibility(View.GONE);
+        if(mEndView != null) {
+	        mEndView.setVisibility(View.GONE);
+        }
 
         if(mAdapter != null) {
             mAdapter.clear(true);
@@ -138,19 +141,14 @@ public class AlbumOverviewFragment extends Fragment implements AlbumOverviewAdap
     }
 
     @Override
-    public void AlbumItemClicked(AlbumItem item) {
+    public void GalleryItemClicked(GalleryItem item) {
         Intent imageViewIntent = new Intent(getActivity(), ImageViewerActivity.class);
-        imageViewIntent.putExtra(ImageViewerActivity.GALLERY_ITEM_KEY, item);
+        imageViewIntent.putExtra(ImageViewerActivity.GALLERY_ITEM_KEY, item.toJSONString());
         startActivity(imageViewIntent);
     }
 
     @Override
-    public void AlbumItemDownloadClicked(AlbumItem item) {
-        //TODO load service (Omg, we need a service oO) for downloading
-    }
-
-    @Override
-    public void AlbumItemFavoriteClicked(AlbumItem item) {
-        //TODO store in favorites.
+    public void GalleryItemFavoriteClicked(GalleryItem item) {
+        //TODO store GalleryItem in favorites.
     }
 }

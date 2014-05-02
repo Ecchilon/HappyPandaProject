@@ -26,24 +26,12 @@
         android:layout_marginLeft="@dimen/item_padding"
         android:textSize="@dimen/title_text_size"
         android:textStyle="bold"/>
-    
-    <ImageView
-        android:id="@+id/item_download"
-        android:layout_width="@dimen/card_button_size"
-        android:layout_height="@dimen/card_button_size"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:src="@drawable/ic_action_download"
-        android:scaleType="fitCenter"
-        android:clickable="true"
-        android:background="@drawable/button_selector"
-        android:padding="@dimen/item_padding" />
 
     <ImageView
         android:id="@+id/item_favorite"
         android:layout_width="@dimen/card_button_size"
         android:layout_height="@dimen/card_button_size"
-        android:layout_toLeftOf="@+id/item_download"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:src="@drawable/ic_action_important"
         android:scaleType="fitCenter"

@@ -2,8 +2,8 @@ package com.ecchilon.happypandaproject.sites.test;
 
 import android.view.View;
 
-import com.ecchilon.happypandaproject.AlbumItem;
-import com.ecchilon.happypandaproject.sites.AlbumOverviewModuleInterface;
+import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,16 +12,16 @@ import java.util.List;
  * A simply dummy class to test the factory and the fragments
  * Created by Alex on 1/4/14.
  */
-public class DummyAlbumModuleInterface implements AlbumOverviewModuleInterface {
+public class DummyGalleryModuleInterface implements GalleryOverviewModuleInterface {
 
     @Override
-    public void getPage(int index, AlbumPageCreatedCallback listener) {
+    public void getPage(int index, GalleryPageCreatedCallback listener) {
         if(index < 3) {
-            List<AlbumItem> items = new ArrayList<AlbumItem>();
+            List<GalleryItem> items = new ArrayList<GalleryItem>();
             for(int i = 0; i < 10; i++)
-                items.add(new AlbumItem("TitleTest " + (index*10 + i), null, null, false, false));
+                items.add(new GalleryItem("TitleTest " + (index*10 + i), null, null));
 
-            listener.AlbumOverviewPageCreated(items);
+            listener.GalleryOverviewPageCreated(items);
         }
         else
             listener.PageCreationFailed();
@@ -43,7 +43,7 @@ public class DummyAlbumModuleInterface implements AlbumOverviewModuleInterface {
     }
 
     @Override
-    public void setCardInnerContentView(AlbumItem item, View innerView) {
+    public void setCardInnerContentView(GalleryItem item, View innerView) {
 
     }
 }

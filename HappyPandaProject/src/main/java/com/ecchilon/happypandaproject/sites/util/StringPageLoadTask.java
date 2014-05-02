@@ -2,8 +2,8 @@ package com.ecchilon.happypandaproject.sites.util;
 
 import android.os.AsyncTask;
 
-import com.ecchilon.happypandaproject.AlbumItem;
-import com.ecchilon.happypandaproject.sites.AlbumOverviewModuleInterface;
+import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,22 +13,22 @@ import java.util.List;
 /**
  * Created by Alex on 1/14/14.
  */
-public class StringPageLoadTask extends AsyncTask<String, Void, List<AlbumItem>> {
+public class StringPageLoadTask extends AsyncTask<String, Void, List<GalleryItem>> {
 
     public interface StringContentParser{
-        public List<AlbumItem> parseContent(Document content);
+        public List<GalleryItem> parseContent(Document content);
     }
 
     private StringContentParser mParser;
-    private AlbumOverviewModuleInterface.AlbumPageCreatedCallback mInterface;
+    private GalleryOverviewModuleInterface.GalleryPageCreatedCallback mInterface;
 
-    public StringPageLoadTask(StringContentParser parser, AlbumOverviewModuleInterface.AlbumPageCreatedCallback galleryInterface) {
+    public StringPageLoadTask(StringContentParser parser, GalleryOverviewModuleInterface.GalleryPageCreatedCallback galleryInterface) {
         mParser = parser;
         mInterface = galleryInterface;
     }
 
     @Override
-    protected List<AlbumItem> doInBackground(String... strings) {
+    protected List<GalleryItem> doInBackground(String... strings) {
         int startIndex = strings[0].indexOf("<body");
         int endIndex = strings[0].lastIndexOf("</body>");
 
@@ -43,11 +43,11 @@ public class StringPageLoadTask extends AsyncTask<String, Void, List<AlbumItem>>
     }
 
     @Override
-    protected void onPostExecute(List<AlbumItem> albumItems) {
+    protected void onPostExecute(List<GalleryItem> galleryItems) {
         if(mInterface != null)
         {
-            if(albumItems != null)
-                mInterface.AlbumOverviewPageCreated(albumItems);
+            if(galleryItems != null)
+                mInterface.GalleryOverviewPageCreated(galleryItems);
             else
                 mInterface.PageCreationFailed();
         }

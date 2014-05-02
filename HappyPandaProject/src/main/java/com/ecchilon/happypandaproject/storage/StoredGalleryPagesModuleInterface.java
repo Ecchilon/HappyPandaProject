@@ -4,16 +4,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
-import com.ecchilon.happypandaproject.sites.AlbumPagesModuleInterface;
+import com.ecchilon.happypandaproject.sites.GalleryPagesModuleInterface;
 
 /**
  * Created by Alex on 1/26/14.
  */
-public class StoredAlbumPagesModuleInterface implements AlbumPagesModuleInterface {
+public class StoredGalleryPagesModuleInterface implements GalleryPagesModuleInterface {
 
     private String[] mImageFiles;
 
-    public StoredAlbumPagesModuleInterface(String[] imageFiles) {
+    public StoredGalleryPagesModuleInterface(String[] imageFiles) {
         mImageFiles = imageFiles;
     }
 
@@ -23,7 +23,7 @@ public class StoredAlbumPagesModuleInterface implements AlbumPagesModuleInterfac
     }
 
     @Override
-    public void getImage(int index, final AlbumImageCreatedCallback listener) {
+    public void getImage(int index, final GalleryImageCreatedCallback listener) {
         if(index > (mImageFiles.length-1))
         {
             listener.ImageCreationFailed();
