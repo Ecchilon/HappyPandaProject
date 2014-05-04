@@ -1,5 +1,8 @@
 package com.ecchilon.happypandaproject.sites.test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +11,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.ecchilon.happypandaproject.GalleryAdapter;
 import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
+import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 
@@ -16,14 +20,21 @@ import com.ecchilon.happypandaproject.util.VolleySingleton;
  */
 public class DummyAdapter extends GalleryAdapter {
 
+	Map<String, INavItem> dummyNavItems;
+
 	public DummyAdapter(GalleryOverviewModuleInterface galleryInterface,
 			GalleryItemClickListener itemClickListener) {
 		super(galleryInterface, itemClickListener);
+
+		dummyNavItems = new HashMap<String, INavItem>();
+		dummyNavItems.put("Dummy 1", new DummyNavItem());
+		dummyNavItems.put("Dummy 2", new DummyNavItem());
+		dummyNavItems.put("Dummy 3", new DummyNavItem());
+		dummyNavItems.put("Dummy 4", new DummyNavItem());
 	}
 
 	@Override
 	public View getView(int i, View view, ViewGroup viewGroup) {
-		View innerView = null;
 		Context c = viewGroup.getContext();
 
 		if(view == null) {
@@ -51,6 +62,13 @@ public class DummyAdapter extends GalleryAdapter {
 			@Override
 			public void onClick(View view) {
 				getGalleryItemClickListener().GalleryItemClicked(currentItem);
+			}
+		});
+
+		view.findViewById(R.id.item_overflow).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				showOverflowView(view, dummyNavItems);
 			}
 		});
 

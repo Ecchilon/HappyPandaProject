@@ -152,6 +152,16 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.PageCrea
 	}
 
 	/**
+	 * closes the the overflow view if it's open
+	 */
+	@Override
+	public void onPause() {
+		super.onPause();
+
+		mAdapter.closeCurrentOverflowMenu();
+	}
+
+	/**
 	 * Checks for refresh pressing
 	 *
 	 * @param item
