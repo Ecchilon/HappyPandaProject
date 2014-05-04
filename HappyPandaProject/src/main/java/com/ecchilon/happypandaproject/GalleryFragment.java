@@ -3,6 +3,7 @@ package com.ecchilon.happypandaproject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,10 +14,11 @@ import android.widget.ListView;
 
 import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
 import com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity;
+import com.ecchilon.happypandaproject.gson.GsonNavItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
+import com.ecchilon.happypandaproject.sites.test.DummyAdapter;
 import com.ecchilon.happypandaproject.sites.util.SiteFactory;
-import com.google.gson.Gson;
 
 /**
  * Created by Alex on 1/4/14.
@@ -56,7 +58,9 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.PageCrea
 					"This fragment should always be provided with an appropriate NAV_KEY argument!");
 		}
 
-		mGalleryItem = new Gson().fromJson(getArguments().getString(NAV_KEY), INavItem.class);
+		String galleryString = getArguments().getString(NAV_KEY);
+
+		mGalleryItem = GsonNavItem.getItem(galleryString);
 
 		GalleryOverviewModuleInterface listInterface;
 
@@ -74,8 +78,13 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.PageCrea
 		}
 
 		if (savedInstanceState == null) {
-			((TitleActivity) getActivity()).setTitle(listInterface.getTitle());
-			((TitleActivity) getActivity()).setSubTitle(listInterface.getSubTitle());
+			if (!(getActivity() instanceof ActionBarActivity)) {
+				throw new IllegalArgumentException("Activity using this fragment must extends ActionBarActivity!");
+			}
+
+			ActionBarActivity activity = (ActionBarActivity) getActivity();
+			activity.getSupportActionBar().setTitle(mGalleryItem.getTitle());
+			activity.getSupportActionBar().setSubtitle(listInterface.getSubTitle());
 		}
 
 		//restore adapter if it was saved
@@ -85,13 +94,14 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.PageCrea
 		}
 
 		if (mAdapter == null) {
-			mAdapter = new GalleryAdapter(listInterface, this, getActivity());
+			mAdapter = SiteFactory.getGalleryAdapter(mGalleryItem, listInterface, this);
 			mAdapter.setPageCreationFailedListener(this);
 		}
 	}
 
 	/**
-	 * Constructs the new listview with an empty (loading) view as well
+	 * Constructs the new ListView with an empty (loading) view as well
+	 *
 	 * @param inflater
 	 * @param container
 	 * @param savedInstanceState
@@ -108,6 +118,7 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.PageCrea
 
 	/**
 	 * Attaches the adapter to the list view
+	 *
 	 * @param view
 	 * @param savedInstanceState
 	 */
@@ -129,6 +140,7 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.PageCrea
 
 	/**
 	 * Constructs a new menu from @R.menu_gallery_fragment
+	 *
 	 * @param menu
 	 * @param inflater
 	 */
@@ -141,6 +153,7 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.PageCrea
 
 	/**
 	 * Checks for refresh pressing
+	 *
 	 * @param item
 	 * @return
 	 */
@@ -170,6 +183,7 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.PageCrea
 
 	/**
 	 * Opens an @ImageViewerActivity activity with
+	 *
 	 * @param item
 	 */
 	@Override
@@ -177,6 +191,13 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.PageCrea
 		Intent imageViewIntent = new Intent(getActivity(), ImageViewerActivity.class);
 		imageViewIntent.putExtra(ImageViewerActivity.GALLERY_ITEM_KEY, item.toJSONString());
 		startActivity(imageViewIntent);
+	}
+
+	@Override
+	public void GalleryNavItemClicked(INavItem item) {
+		Intent galleryIntent = new Intent(getActivity(), GalleryActivity.class);
+		galleryIntent.putExtra(NAV_KEY, GsonNavItem.getJson(mGalleryItem));
+		startActivity(galleryIntent);
 	}
 
 	@Override

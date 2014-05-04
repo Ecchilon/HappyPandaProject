@@ -1,4 +1,4 @@
-package com.ecchilon.happypandaproject.util;
+package com.ecchilon.happypandaproject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,31 +10,25 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.ecchilon.happypandaproject.GalleryFragment;
-import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
+import com.ecchilon.happypandaproject.gson.GsonNavItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public class GalleryActivity extends ActionBarActivity {
 
 	public final static String FRAG_TAG = "GALLERY";
 
 	INavItem mGalleryItem;
-	Gson mGson = new Gson();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_gallery);
 
-		mGson = new Gson();
-
-		mGalleryItem = mGson.fromJson(getIntent().getStringExtra(FRAG_TAG), INavItem.class);
+		mGalleryItem = GsonNavItem.getItem(getIntent().getStringExtra(GalleryFragment.NAV_KEY));
 
 		Bundle args = new Bundle();
-		args.putString(GalleryFragment.NAV_KEY, mGson.toJson(mGalleryItem));
+		args.putString(GalleryFragment.NAV_KEY, GsonNavItem.getJson(mGalleryItem));
 		GalleryFragment frag = new GalleryFragment();
 		frag.setArguments(args);
 
@@ -47,15 +41,26 @@ public class GalleryActivity extends ActionBarActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.menu_gallery, menu);
 
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	/**
+	 * Disables the bookmark if it's already in the bookmarks
+	 *
+	 * @param menu
+	 * @return
+	 */
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
 		MenuItem item = menu.findItem(R.id.action_bookmark);
-		if(isBookmarked()) {
-			//TODO disable item icon
+		if (isBookmarked()) {
+			item.setEnabled(false);
+			//TODO set greyed icon
 		}
 
-		return true;
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
@@ -81,16 +86,16 @@ public class GalleryActivity extends ActionBarActivity {
 		List<INavItem> bookmarks = loadBookmarks();
 
 		bookmarks.add(mGalleryItem);
+
 		SharedPreferences.Editor editor = preferences.edit();
-		editor.putString(NavigationDrawerFragment.BOOKMARKS,
-				mGson.toJson(bookmarks, new TypeToken<List<INavItem>>() {
-				}.getType())
-		);
+
+		editor.putString(NavigationDrawerFragment.BOOKMARKS, GsonNavItem.getJson(bookmarks));
 		editor.apply();
 	}
 
 	/**
 	 * Checks if the current page is not in the bookmarks already
+	 *
 	 * @return
 	 */
 	private boolean isBookmarked() {
@@ -98,13 +103,15 @@ public class GalleryActivity extends ActionBarActivity {
 		return bookmarks.contains(mGalleryItem);
 	}
 
+	/**
+	 * Loads the bookmarks from the SharedPreferences
+	 *
+	 * @return a list of bookmarks, or an empty one if no bookmarks have been added yet
+	 */
 	private List<INavItem> loadBookmarks() {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		if (preferences.contains(NavigationDrawerFragment.BOOKMARKS)) {
-			return mGson.fromJson(preferences.getString(NavigationDrawerFragment.BOOKMARKS, null),
-					new TypeToken<List<INavItem>>() {
-					}.getType()
-			);
+			return GsonNavItem.getItems(preferences.getString(NavigationDrawerFragment.BOOKMARKS, null));
 		}
 		else {
 			return new ArrayList<INavItem>();

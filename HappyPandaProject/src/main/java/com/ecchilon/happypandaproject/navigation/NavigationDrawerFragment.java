@@ -188,8 +188,8 @@ public class NavigationDrawerFragment extends Fragment {
 	 */
     private void selectItem(int position) {
         mCurrentSelectedPosition = position;
-	    boolean isBookmark = mNavigationAdapter.getItem(position).isFragmentDisplay();
-        if (mDrawerListView != null && isBookmark) {
+	    boolean isFragment = mNavigationAdapter.getItem(position).isFragmentDisplay();
+        if (mDrawerListView != null && isFragment) {
             mDrawerListView.setItemChecked(position, true);
         }
         if (mDrawerLayout != null) {
@@ -197,7 +197,7 @@ public class NavigationDrawerFragment extends Fragment {
         }
         if (mCallbacks != null) {
 	        INavItem navItem = getSelectedNavItem();
-            mCallbacks.onNavigationDrawerItemSelected(navItem, mCurrentSelectedPosition, isBookmark);
+            mCallbacks.onNavigationDrawerItemSelected(navItem, mCurrentSelectedPosition, isFragment);
         }
     }
 
@@ -281,6 +281,6 @@ public class NavigationDrawerFragment extends Fragment {
         /**
          * Called when an item in the navigation drawer is selected.
          */
-        void onNavigationDrawerItemSelected(INavItem item, int position, boolean isBookMark);
+        void onNavigationDrawerItemSelected(INavItem item, int position, boolean isFragment);
     }
 }

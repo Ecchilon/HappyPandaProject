@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
+import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.util.PagedScrollAdapter;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
@@ -15,92 +16,54 @@ import com.ecchilon.happypandaproject.util.VolleySingleton;
 /**
  * Created by Alex on 1/4/14.
  */
-public class GalleryAdapter extends PagedScrollAdapter<ImageViewerItem> {
+public abstract class GalleryAdapter extends PagedScrollAdapter<ImageViewerItem> {
 
-    public interface PageCreationFailedListener {
-        public void PageCreationFailed();
-    }
+	public interface PageCreationFailedListener {
+		public void PageCreationFailed();
+	}
 
-    public interface GalleryItemClickListener {
-        public void GalleryItemClicked(ImageViewerItem item);
-        public void GalleryItemFavoriteClicked(ImageViewerItem item);
-    }
+	public interface GalleryItemClickListener {
+		public void GalleryItemClicked(ImageViewerItem item);
 
-    private PageCreationFailedListener mListener;
-    private GalleryItemClickListener mGalleryItemClickListener;
-    private GalleryOverviewModuleInterface mGalleryInterface;
+		public void GalleryNavItemClicked(INavItem item);
 
-    private int mInnerLayoutId;
+		public void GalleryItemFavoriteClicked(ImageViewerItem item);
+	}
 
-    public GalleryAdapter(GalleryOverviewModuleInterface galleryInterface,
-		    GalleryItemClickListener itemClickListener, Context c) {
-        mGalleryInterface = galleryInterface;
-        mGalleryItemClickListener = itemClickListener;
+	private PageCreationFailedListener mListener;
+	private GalleryItemClickListener mGalleryItemClickListener;
+	private GalleryOverviewModuleInterface mGalleryInterface;
 
-        mInnerLayoutId = c.getResources().getIdentifier(mGalleryInterface.getInnerLayoutName(),"layout", c.getPackageName());
-    }
+	protected GalleryOverviewModuleInterface getInterface() {
+		return mGalleryInterface;
+	}
 
-    public void setPageCreationFailedListener(PageCreationFailedListener _listener){
-        mListener = _listener;
-    }
+	protected GalleryItemClickListener getGalleryItemClickListener() {
+		return mGalleryItemClickListener;
+	}
 
-    @Override
-    public void loadNewDataSet() {
-        mGalleryInterface.getPage(getCurrentPage(), this);
-    }
+	public GalleryAdapter(GalleryOverviewModuleInterface galleryInterface,
+			GalleryItemClickListener itemClickListener) {
+		mGalleryInterface = galleryInterface;
+		mGalleryItemClickListener = itemClickListener;
+	}
 
-    @Override
-    public void PageCreationFailed() {
-        if(mListener != null)
-            mListener.PageCreationFailed();
-    }
+	public void setPageCreationFailedListener(PageCreationFailedListener _listener) {
+		mListener = _listener;
+	}
 
-	//FIXME should be done through a simple visitor for views
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        View innerView = null;
-        Context c = viewGroup.getContext();
+	@Override
+	public void loadNewDataSet() {
+		mGalleryInterface.getPage(getCurrentPage(), this);
+	}
 
-        if(view == null) {
-            view = View.inflate(c, R.layout.gallery_item, null);
-            if(mInnerLayoutId != 0){
-                FrameLayout container = ((FrameLayout)view.findViewById(R.id.inner_view));
-                innerView = View.inflate(c, mInnerLayoutId, container);
-            }
-        }
-        else
-        {
-            innerView = ((FrameLayout)view.findViewById(R.id.inner_view)).getChildAt(0);
-        }
+	@Override
+	public void PageCreationFailed() {
+		if (mListener != null) {
+			mListener.PageCreationFailed();
+		}
+	}
 
-        final ImageViewerItem currentItem = getItem(i);
-
-        ((TextView) view.findViewById(R.id.item_title)).setText(currentItem.getTitle());
-
-        //set all gallery item values
-        if(currentItem.getThumbUrl() != null) {
-            NetworkImageView networkImageView = (NetworkImageView)view.findViewById(R.id.item_thumb);
-            networkImageView.setImageUrl(currentItem.getThumbUrl(), VolleySingleton.getImageLoader());
-        }
-
-        //set up click calls
-        view.findViewById(R.id.item_favorite).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mGalleryItemClickListener.GalleryItemFavoriteClicked(currentItem);
-            }
-        });
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mGalleryItemClickListener.GalleryItemClicked(currentItem);
-            }
-        });
-
-        //only call if it's been found. Could just as well be left empty
-        if(innerView != null)
-            mGalleryInterface.setCardInnerContentView(currentItem, innerView);
-
-        return  view;
-    }
+	@Override
+	public abstract View getView(int i, View view, ViewGroup viewGroup);
 }

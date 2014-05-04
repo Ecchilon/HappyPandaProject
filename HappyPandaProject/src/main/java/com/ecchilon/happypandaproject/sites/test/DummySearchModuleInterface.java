@@ -39,14 +39,4 @@ public class DummySearchModuleInterface extends SearchAbstract {
     public String getSubTitle() {
         return "Test";
     }
-
-    @Override
-    public String getInnerLayoutName() {
-        return "";
-    }
-
-    @Override
-    public void setCardInnerContentView(ImageViewerItem item, View innerView) {
-
-    }
 }

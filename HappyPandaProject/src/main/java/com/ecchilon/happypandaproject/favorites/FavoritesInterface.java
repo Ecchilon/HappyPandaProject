@@ -37,22 +37,7 @@ public class FavoritesInterface implements GalleryOverviewModuleInterface {
     }
 
     @Override
-    public String getTitle() {
-        return "Favorites";
-    }
-
-    @Override
     public String getSubTitle() {
         return "All";
-    }
-
-    @Override
-    public String getInnerLayoutName() {
-        return null;
-    }
-
-    @Override
-    public void setCardInnerContentView(ImageViewerItem item, View innerView) {
-
     }
 }

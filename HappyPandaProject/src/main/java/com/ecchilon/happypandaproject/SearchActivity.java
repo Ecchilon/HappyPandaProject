@@ -7,7 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class SearchActivity extends ActionBarActivity implements TitleActivity {
+public class SearchActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,15 +69,5 @@ public class SearchActivity extends ActionBarActivity implements TitleActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void setTitle(String title) {
-        getSupportActionBar().setTitle(title);
-    }
-
-    @Override
-    public void setSubTitle(String subTitle) {
-        getSupportActionBar().setSubtitle(subTitle);
     }
 }

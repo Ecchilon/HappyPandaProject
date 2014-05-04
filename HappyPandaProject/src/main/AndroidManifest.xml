@@ -45,7 +45,7 @@
             android:exported="false" />
 
         <activity
-            android:name=".util.GalleryActivity"
+            android:name=".GalleryActivity"
             android:label="@string/title_activity_bookmark" >
         </activity>
     </application>

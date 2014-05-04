@@ -1,6 +1,6 @@
 package com.ecchilon.happypandaproject.navigation;
 
-import com.ecchilon.happypandaproject.navigation.navitems.DummyNavItem;
+import com.ecchilon.happypandaproject.sites.test.DummyNavItem;
 
 /**
  * Created by Alex on 12-4-2014.

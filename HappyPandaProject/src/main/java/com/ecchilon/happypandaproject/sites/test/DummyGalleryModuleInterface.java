@@ -28,22 +28,7 @@ public class DummyGalleryModuleInterface implements GalleryOverviewModuleInterfa
     }
 
     @Override
-    public String getTitle() {
-        return "Dummy";
-    }
-
-    @Override
     public String getSubTitle() {
         return "test";
-    }
-
-    @Override
-    public String getInnerLayoutName() {
-        return "";
-    }
-
-    @Override
-    public void setCardInnerContentView(ImageViewerItem item, View innerView) {
-
     }
 }
