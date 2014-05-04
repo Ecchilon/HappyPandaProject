@@ -22,75 +22,92 @@ public class GalleryActivity extends ActionBarActivity {
 	public final static String FRAG_TAG = "GALLERY";
 
 	INavItem mGalleryItem;
+	Gson mGson = new Gson();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gallery);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_gallery);
 
-	    Gson gson = new Gson();
+		mGson = new Gson();
 
-	    mGalleryItem =  gson.fromJson(getIntent().getStringExtra(FRAG_TAG), INavItem.class);
+		mGalleryItem = mGson.fromJson(getIntent().getStringExtra(FRAG_TAG), INavItem.class);
 
-	    Bundle args = new Bundle();
-	    args.putString(GalleryFragment.NAV_KEY, gson.toJson(mGalleryItem));
-	    GalleryFragment frag = new GalleryFragment();
-	    frag.setArguments(args);
+		Bundle args = new Bundle();
+		args.putString(GalleryFragment.NAV_KEY, mGson.toJson(mGalleryItem));
+		GalleryFragment frag = new GalleryFragment();
+		frag.setArguments(args);
 
-	    // update the main content by replacing fragments
-	    FragmentManager fragmentManager = getSupportFragmentManager();
-	    fragmentManager.beginTransaction()
-			    .replace(R.id.container, frag, FRAG_TAG)
-			    .commit();
-    }
+		// update the main content by replacing fragments
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		fragmentManager.beginTransaction()
+				.replace(R.id.container, frag, FRAG_TAG)
+				.commit();
+	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_gallery, menu);
-        return true;
-    }
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.menu_gallery, menu);
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch(item.getItemId()) {
-	        case R.id.action_settings:
-		        break;
-	        case R.id.action_bookmark:
+		MenuItem item = menu.findItem(R.id.action_bookmark);
+		if(isBookmarked()) {
+			//TODO disable item icon
+		}
+
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		switch (item.getItemId()) {
+			case R.id.action_settings:
+				break;
+			case R.id.action_bookmark:
 				bookmark();
-		        break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+				break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
 	/**
 	 * Adds the current gallery to the bookmarks if it's not there already
 	 */
 	private void bookmark() {
-		Gson gson = new Gson();
-
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		List<INavItem> bookmarks;
-		if(preferences.contains(NavigationDrawerFragment.BOOKMARKS)) {
-			bookmarks = gson.fromJson(preferences.getString(NavigationDrawerFragment.BOOKMARKS, null),
-					new TypeToken<List<INavItem>>() {
-					}.getType());
-		}
-		else {
-			bookmarks = new ArrayList<INavItem>();
-		}
+		List<INavItem> bookmarks = loadBookmarks();
 
-		if(!bookmarks.contains(mGalleryItem)) {
-			bookmarks.add(mGalleryItem);
-			SharedPreferences.Editor editor = preferences.edit();
-			editor.putString(NavigationDrawerFragment.BOOKMARKS, gson.toJson(bookmarks, new TypeToken<List<INavItem>>() {
-			}.getType()));
-			editor.apply();
-		}
+		bookmarks.add(mGalleryItem);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putString(NavigationDrawerFragment.BOOKMARKS,
+				mGson.toJson(bookmarks, new TypeToken<List<INavItem>>() {
+				}.getType())
+		);
+		editor.apply();
 	}
 
+	/**
+	 * Checks if the current page is not in the bookmarks already
+	 * @return
+	 */
+	private boolean isBookmarked() {
+		List<INavItem> bookmarks = loadBookmarks();
+		return bookmarks.contains(mGalleryItem);
+	}
+
+	private List<INavItem> loadBookmarks() {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		if (preferences.contains(NavigationDrawerFragment.BOOKMARKS)) {
+			return mGson.fromJson(preferences.getString(NavigationDrawerFragment.BOOKMARKS, null),
+					new TypeToken<List<INavItem>>() {
+					}.getType()
+			);
+		}
+		else {
+			return new ArrayList<INavItem>();
+		}
+	}
 }
