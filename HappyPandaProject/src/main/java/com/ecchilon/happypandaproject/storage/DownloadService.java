@@ -9,7 +9,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 
-import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
 
 import java.util.ArrayList;
 
@@ -18,8 +18,8 @@ import java.util.ArrayList;
  */
 public class DownloadService extends Service {
     public interface DownloadTaskHandler {
-        public void startTask(GalleryItem task);
-        public void stopTask(GalleryItem task);
+        public void startTask(ImageViewerItem task);
+        public void stopTask(ImageViewerItem task);
     }
 
     private static final int NOTIFY_ID = 2131268947;
@@ -87,7 +87,7 @@ public class DownloadService extends Service {
 
     /**
      * Starts the notification without any extra information. Updates get handled in
-     * {@link #updateTask(com.ecchilon.happypandaproject.GalleryItem, float)}
+     * {@link #updateTask(com.ecchilon.happypandaproject.imageviewer.ImageViewerItem, float)}
      */
     private void showNotification() {
         //TODO fix this nonsense with actual notification/click handling
@@ -120,7 +120,7 @@ public class DownloadService extends Service {
      * @param item The item being downloaded
      * @param progress Progress of the item, from 0 (starting) to 1 (finished)
      */
-    public void updateTask(GalleryItem item, float progress){
+    public void updateTask(ImageViewerItem item, float progress){
         //TODO update notification here
 
         for(int i = 0; i < mClients.size(); i++){
@@ -147,10 +147,10 @@ public class DownloadService extends Service {
                     mClients.remove(msg.replyTo);
                     break;
                 case MSG_START_TASK:
-                    mTaskHandler.startTask(GalleryItem.fromJSONString((String) msg.obj));
+                    mTaskHandler.startTask(ImageViewerItem.fromJSONString((String) msg.obj));
                     break;
                 case MSG_STOP_TASK:
-                    mTaskHandler.stopTask(GalleryItem.fromJSONString((String) msg.obj));
+                    mTaskHandler.stopTask(ImageViewerItem.fromJSONString((String) msg.obj));
                     break;
                 default:
                     super.handleMessage(msg);

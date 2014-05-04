@@ -1,10 +1,9 @@
 package com.ecchilon.happypandaproject.sites.util;
 
-import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
 import com.ecchilon.happypandaproject.navigation.INavVisitor;
-import com.ecchilon.happypandaproject.navigation.navitems.BookmarkedNavItem;
+import com.ecchilon.happypandaproject.navigation.navitems.DummyNavItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
-import com.ecchilon.happypandaproject.navigation.navitems.OverviewNavItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.sites.GalleryPagesModuleInterface;
 import com.ecchilon.happypandaproject.sites.test.DummyGalleryModuleInterface;
@@ -28,7 +27,7 @@ public class SiteFactory {
     }
 
 	/**
-	 * Returns the search interface based on the passed INavItem and String
+	 * Returns the menu_search interface based on the passed INavItem and String
 	 * @param index
 	 * @param query
 	 * @return
@@ -39,19 +38,14 @@ public class SiteFactory {
     }
 
 	//TODO should probably be separated from the overview modules
-    public static GalleryPagesModuleInterface getGalleryPagesInterface(GalleryItem item) {
+    public static GalleryPagesModuleInterface getGalleryPagesInterface(ImageViewerItem item) {
         return new DummyImageModuleInterface();
     }
 
 	private static class SiteNavVisitor implements INavVisitor<GalleryOverviewModuleInterface> {
 
 		@Override
-		public GalleryOverviewModuleInterface execute(BookmarkedNavItem simpleNavItem) {
-			return new DummyGalleryModuleInterface();
-		}
-
-		@Override
-		public GalleryOverviewModuleInterface execute(OverviewNavItem overviewNavItem) {
+		public GalleryOverviewModuleInterface execute(DummyNavItem dummyNavItem) {
 			return new DummyGalleryModuleInterface();
 		}
 	}
@@ -65,12 +59,7 @@ public class SiteFactory {
 		}
 
 		@Override
-		public GalleryOverviewModuleInterface execute(BookmarkedNavItem simpleNavItem) {
-			return new DummySearchModuleInterface(mQuery);
-		}
-
-		@Override
-		public GalleryOverviewModuleInterface execute(OverviewNavItem overviewNavItem) {
+		public GalleryOverviewModuleInterface execute(DummyNavItem dummyNavItem) {
 			return new DummySearchModuleInterface(mQuery);
 		}
 	}

@@ -2,7 +2,7 @@ package com.ecchilon.happypandaproject.storage;
 
 import android.os.Environment;
 
-import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -71,8 +71,8 @@ public class AlbumIndex {
         }
     }
 
-    public List<LocalGalleryItem> getStoredAlbums() {
-        List<LocalGalleryItem> localAlbums = new ArrayList<LocalGalleryItem>();
+    public List<LocalImageViewerItem> getStoredAlbums() {
+        List<LocalImageViewerItem> localAlbums = new ArrayList<LocalImageViewerItem>();
 
         NodeList albumList = albumIndex.getElementsByTagName("Album");
 
@@ -83,13 +83,13 @@ public class AlbumIndex {
         return  localAlbums;
     }
 
-    public void removeItemFromStorage(LocalGalleryItem item){
+    public void removeItemFromStorage(LocalImageViewerItem item){
 
 
         WriteChanges();
     }
 
-    public void addItemToStorage(GalleryItem item){
+    public void addItemToStorage(ImageViewerItem item){
         //TODO call storage first, execute index after storage
         Element album = albumIndex.createElement("Album");
 
@@ -105,13 +105,13 @@ public class AlbumIndex {
 
     }
 
-    public class LocalGalleryItem extends GalleryItem {
+    public class LocalImageViewerItem extends ImageViewerItem {
 
         String[] mImagePaths;
 
         public String[] getImagePaths() { return mImagePaths; }
 
-        public LocalGalleryItem(String mTitle, String mThumbUrl, String mGalleryUrl, String[] imagePaths) {
+        public LocalImageViewerItem(String mTitle, String mThumbUrl, String mGalleryUrl, String[] imagePaths) {
             super(mTitle, mThumbUrl, mGalleryUrl);
 
             mImagePaths = imagePaths;

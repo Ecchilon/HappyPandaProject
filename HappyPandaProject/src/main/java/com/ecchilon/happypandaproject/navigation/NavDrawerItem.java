@@ -10,10 +10,12 @@ import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 public class NavDrawerItem implements IDrawerItem {
 	private String mTitle;
 	private INavItem mNavItem;
+	private boolean mIsFragmentDisplay;
 
-	public NavDrawerItem(String mTitle, INavItem mNavItem) {
+	public NavDrawerItem(String mTitle, INavItem mNavItem, boolean mIsFragmentDisplay) {
 		this.mTitle = mTitle;
 		this.mNavItem = mNavItem;
+		this.mIsFragmentDisplay = mIsFragmentDisplay;
 	}
 
 	@Override
@@ -24,6 +26,11 @@ public class NavDrawerItem implements IDrawerItem {
 	@Override
 	public int getViewType() {
 		return 1;
+	}
+
+	@Override
+	public boolean isFragmentDisplay() {
+		return mIsFragmentDisplay;
 	}
 
 	public String getTitle() {

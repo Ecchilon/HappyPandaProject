@@ -1,7 +1,7 @@
 package com.ecchilon.happypandaproject.sites;
 import android.view.View;
 
-import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
 
 import java.util.List;
 
@@ -41,11 +41,11 @@ public interface GalleryOverviewModuleInterface {
      * Implement this function to fill the inner view of a card. Title, thumbnail,
      * and buttons are handled by application. Put all other information (tags, author, date, etc.)
      * inside this view.
-     * @param item The {@link com.ecchilon.happypandaproject.GalleryItem} that is currently on display.
+     * @param item The {@link com.ecchilon.happypandaproject.imageviewer.ImageViewerItem} that is currently on display.
      * @param innerView The inner view. Is structured as the layout defined in {@link #getInnerLayoutName()}.
      * @return
      */
-    public void setCardInnerContentView(GalleryItem item, View innerView);
+    public void setCardInnerContentView(ImageViewerItem item, View innerView);
 
     //TODO ordering of overview
 }

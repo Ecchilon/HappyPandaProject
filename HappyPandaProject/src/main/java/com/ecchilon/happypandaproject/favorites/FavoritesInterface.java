@@ -3,7 +3,7 @@ package com.ecchilon.happypandaproject.favorites;
 import android.os.AsyncTask;
 import android.view.View;
 
-import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 
 import java.util.List;
@@ -22,14 +22,14 @@ public class FavoritesInterface implements GalleryOverviewModuleInterface {
         if(index > 0)
             listener.PageCreationFailed();
 
-        new AsyncTask<Void,Void, List<GalleryItem>>(){
+        new AsyncTask<Void,Void, List<ImageViewerItem>>(){
             @Override
-            protected List<GalleryItem> doInBackground(Void... objects) {
+            protected List<ImageViewerItem> doInBackground(Void... objects) {
                 return FavoritesDatabaseHelper.getInstance().getAllFavorites();
             }
 
             @Override
-            protected void onPostExecute(List<GalleryItem> items) {
+            protected void onPostExecute(List<ImageViewerItem> items) {
                 super.onPostExecute(items);
                 listener.GalleryOverviewPageCreated(items);
             }
@@ -52,7 +52,7 @@ public class FavoritesInterface implements GalleryOverviewModuleInterface {
     }
 
     @Override
-    public void setCardInnerContentView(GalleryItem item, View innerView) {
+    public void setCardInnerContentView(ImageViewerItem item, View innerView) {
 
     }
 }

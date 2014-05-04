@@ -7,6 +7,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
+import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.util.PagedScrollAdapter;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
@@ -14,15 +15,15 @@ import com.ecchilon.happypandaproject.util.VolleySingleton;
 /**
  * Created by Alex on 1/4/14.
  */
-public class GalleryOverviewAdapter extends PagedScrollAdapter<GalleryItem> {
+public class GalleryAdapter extends PagedScrollAdapter<ImageViewerItem> {
 
     public interface PageCreationFailedListener {
         public void PageCreationFailed();
     }
 
     public interface GalleryItemClickListener {
-        public void GalleryItemClicked(GalleryItem item);
-        public void GalleryItemFavoriteClicked(GalleryItem item);
+        public void GalleryItemClicked(ImageViewerItem item);
+        public void GalleryItemFavoriteClicked(ImageViewerItem item);
     }
 
     private PageCreationFailedListener mListener;
@@ -31,7 +32,7 @@ public class GalleryOverviewAdapter extends PagedScrollAdapter<GalleryItem> {
 
     private int mInnerLayoutId;
 
-    public GalleryOverviewAdapter(GalleryOverviewModuleInterface galleryInterface,
+    public GalleryAdapter(GalleryOverviewModuleInterface galleryInterface,
 		    GalleryItemClickListener itemClickListener, Context c) {
         mGalleryInterface = galleryInterface;
         mGalleryItemClickListener = itemClickListener;
@@ -72,7 +73,7 @@ public class GalleryOverviewAdapter extends PagedScrollAdapter<GalleryItem> {
             innerView = ((FrameLayout)view.findViewById(R.id.inner_view)).getChildAt(0);
         }
 
-        final GalleryItem currentItem = getItem(i);
+        final ImageViewerItem currentItem = getItem(i);
 
         ((TextView) view.findViewById(R.id.item_title)).setText(currentItem.getTitle());
 

@@ -2,7 +2,7 @@ package com.ecchilon.happypandaproject.sites.test;
 
 import android.view.View;
 
-import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ public class DummyGalleryModuleInterface implements GalleryOverviewModuleInterfa
     @Override
     public void getPage(int index, GalleryPageCreatedCallback listener) {
         if(index < 3) {
-            List<GalleryItem> items = new ArrayList<GalleryItem>();
+            List<ImageViewerItem> items = new ArrayList<ImageViewerItem>();
             for(int i = 0; i < 10; i++)
-                items.add(new GalleryItem("TitleTest " + (index*10 + i), null, null));
+                items.add(new ImageViewerItem("TitleTest " + (index*10 + i), null, null));
 
             listener.GalleryOverviewPageCreated(items);
         }
@@ -43,7 +43,7 @@ public class DummyGalleryModuleInterface implements GalleryOverviewModuleInterfa
     }
 
     @Override
-    public void setCardInnerContentView(GalleryItem item, View innerView) {
+    public void setCardInnerContentView(ImageViewerItem item, View innerView) {
 
     }
 }

@@ -7,10 +7,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="19" />
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -49,7 +45,7 @@
             android:exported="false" />
 
         <activity
-            android:name="com.ecchilon.happypandaproject.util.BookmarkActivity"
+            android:name=".util.GalleryActivity"
             android:label="@string/title_activity_bookmark" >
         </activity>
     </application>

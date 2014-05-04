@@ -12,13 +12,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.ecchilon.happypandaproject.favorites.FavoritesDatabaseHelper;
-import com.ecchilon.happypandaproject.navigation.INavVisitor;
 import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
-import com.ecchilon.happypandaproject.navigation.navitems.BookmarkedNavItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
-import com.ecchilon.happypandaproject.navigation.navitems.OverviewNavItem;
-import com.ecchilon.happypandaproject.util.BookmarkActivity;
+import com.ecchilon.happypandaproject.util.GalleryActivity;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
+import com.google.gson.Gson;
 
 public class GalleryOverviewActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, TitleActivity {
@@ -37,11 +35,7 @@ public class GalleryOverviewActivity extends ActionBarActivity
 
     private VolleySingleton mVolleySingleton;
     private FavoritesDatabaseHelper databaseHelper;
-
-	/**
-	 * Instantiate directly since @GalleryOverviewActivity#onNavigationDrawerItemSelected is called before onCreate
-	 */
-	private ItemVisitor mVisitor = new ItemVisitor();
+	private Gson mGson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +50,6 @@ public class GalleryOverviewActivity extends ActionBarActivity
         mSubTitle = getSupportActionBar().getSubtitle();
 
         mVolleySingleton = new VolleySingleton(this);
-		mVisitor = new ItemVisitor();
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -65,16 +58,51 @@ public class GalleryOverviewActivity extends ActionBarActivity
     }
 
     @Override
-    public void onNavigationDrawerItemSelected(INavItem item, int position) {
+    public void onNavigationDrawerItemSelected(INavItem item, int position, boolean newActivity) {
         //stop all current requests from this part of the app. we don't need them anymore!
         if(mVolleySingleton != null) {
             VolleySingleton.cancelRequests();
             mVolleySingleton.setNavigationPositionIndex(position);
         }
 
-	    item.visit(mVisitor);
+	    if(newActivity) {
+		    startNavActivity(item);
+	    }
+	    else {
+		    showFragment(item);
+	    }
     }
 
+	/**
+	 * Displays a new @GalleryFragment in this activity
+	 * @param item
+	 */
+	private void showFragment(INavItem item) {
+		Bundle args = new Bundle();
+		args.putString(GalleryFragment.NAV_KEY, mGson.toJson(item));
+		GalleryFragment frag = new GalleryFragment();
+		frag.setArguments(args);
+
+		// update the main content by replacing fragments
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		fragmentManager.beginTransaction()
+				.replace(R.id.container, frag, FRAG_TAG)
+				.commit();
+	}
+
+	/**
+	 * Starts a new @GalleryOverviewActivity activity with the given @INavItem
+	 * @param item
+	 */
+	private void startNavActivity(INavItem item) {
+		Intent bookmarkIntent = new Intent(GalleryOverviewActivity.this, GalleryActivity.class);
+		bookmarkIntent.putExtra(GalleryFragment.NAV_KEY, mGson.toJson(item));
+		startActivity(bookmarkIntent);
+	}
+
+	/**
+	 * Resets the action bar to its default state
+	 */
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -83,42 +111,24 @@ public class GalleryOverviewActivity extends ActionBarActivity
         actionBar.setSubtitle(mSubTitle);
     }
 
+	/**
+	 * Creates a new options menu from @R.menu_gallery_overview with a search action view
+	 * @param menu
+	 * @return
+	 */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.gallery_overview, menu);
+            getMenuInflater().inflate(R.menu.menu_gallery_overview, menu);
             //Set up the search button
             final MenuItem searchItem = menu.findItem(R.id.action_search);
 
             SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
             if (searchView != null) {
-                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String s) {
-                        if(s != null && s.trim().length() > 0)
-                        {
-                            Intent searchIntent = new Intent(GalleryOverviewActivity.this, SearchActivity.class);
-                            searchIntent.putExtra(GalleryOverviewFragment.NAV_KEY, mNavigationDrawerFragment.getCurrentSelectedItem());
-                            searchIntent.putExtra(GalleryOverviewFragment.SEARCH_KEY, s);
-
-                            if(searchIntent.resolveActivity(getPackageManager()) != null)
-                            {
-                                GalleryOverviewActivity.this.startActivity(searchIntent);
-                                MenuItemCompat.collapseActionView(searchItem);
-                            }
-                        }
-
-                        return true;
-                    }
-
-                    @Override
-                    public boolean onQueryTextChange(String s) {
-                        return true;
-                    }
-                });
+                searchView.setOnQueryTextListener(new GalleryQueryListener(searchItem));
             }
 
             restoreActionBar();
@@ -127,6 +137,11 @@ public class GalleryOverviewActivity extends ActionBarActivity
         return super.onCreateOptionsMenu(menu);
     }
 
+	/**
+	 * Listens for presses of the @R.action_settings menu item
+	 * @param item
+	 * @return
+	 */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -140,12 +155,20 @@ public class GalleryOverviewActivity extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
+	/**
+	 * Sets the title in the action bar
+	 * @param title
+	 */
     @Override
     public void setTitle(String title) {
         mTitle = title;
         getSupportActionBar().setTitle(mTitle);
     }
 
+	/**
+	 * Sets the subtitle in the action bar
+	 * @param subTitle
+	 */
     @Override
     public void setSubTitle(String subTitle) {
         mSubTitle = subTitle;
@@ -153,40 +176,36 @@ public class GalleryOverviewActivity extends ActionBarActivity
     }
 
 	/**
-	 * Helper visitor for the INavItems
+	 * Helper class for requesting a search query
 	 */
-	private class ItemVisitor implements INavVisitor<Void> {
-		/**
-		 * Launches a separate activity for the bookmarked item.
-		 * @param simpleNavItem The bookmarked item that was selected
-		 * @return
-		 */
-		@Override
-		public Void execute(BookmarkedNavItem simpleNavItem) {
-			Intent bookmarkIntent = new Intent(GalleryOverviewActivity.this, BookmarkActivity.class);
-			bookmarkIntent.putExtra(GalleryOverviewFragment.NAV_KEY, simpleNavItem);
-			startActivity(bookmarkIntent);
-			return null;
+	private class GalleryQueryListener implements SearchView.OnQueryTextListener {
+		private MenuItem mSearchItem;
+
+		public GalleryQueryListener(MenuItem searchItem) {
+			mSearchItem = searchItem;
 		}
 
-		/**
-		 * Replaces the current framgent of this activity with the new one based on the OverviewNavItem
-		 * @param overviewNavItem
-		 * @return
-		 */
 		@Override
-		public Void execute(OverviewNavItem overviewNavItem) {
-			Bundle args = new Bundle();
-			args.putParcelable(GalleryOverviewFragment.NAV_KEY, overviewNavItem);
-			GalleryOverviewFragment frag = new GalleryOverviewFragment();
-			frag.setArguments(args);
+		public boolean onQueryTextSubmit(String s) {
+			if(s != null && s.trim().length() > 0)
+			{
+				Intent searchIntent = new Intent(GalleryOverviewActivity.this, SearchActivity.class);
+				searchIntent.putExtra(GalleryFragment.NAV_KEY, mGson.toJson(mNavigationDrawerFragment.getCurrentSelectedItem()));
+				searchIntent.putExtra(GalleryFragment.SEARCH_KEY, s);
 
-			// update the main content by replacing fragments
-			FragmentManager fragmentManager = getSupportFragmentManager();
-			fragmentManager.beginTransaction()
-					.replace(R.id.container, frag, FRAG_TAG)
-					.commit();
-			return null;
+				if(searchIntent.resolveActivity(getPackageManager()) != null)
+				{
+					GalleryOverviewActivity.this.startActivity(searchIntent);
+					MenuItemCompat.collapseActionView(mSearchItem);
+				}
+			}
+
+			return true;
+		}
+
+		@Override
+		public boolean onQueryTextChange(String s) {
+			return true;
 		}
 	}
 }

@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
 import com.ecchilon.happypandaproject.sites.GalleryPagesModuleInterface;
 
 /**
@@ -30,7 +30,7 @@ public class StorageService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        GalleryItem item = GalleryItem.fromJSONString(intent.getStringExtra(GALLERY_ITEM));
+        ImageViewerItem item = ImageViewerItem.fromJSONString(intent.getStringExtra(GALLERY_ITEM));
 
         if(!isExternalStorageWritable()) {
             Intent failIntent = new Intent(BROADCAST_ACTION);
@@ -55,7 +55,7 @@ public class StorageService extends IntentService {
 		        Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }
 
-    public static GalleryPagesModuleInterface getGallery(GalleryItem item) {
+    public static GalleryPagesModuleInterface getGallery(ImageViewerItem item) {
 
         return new GalleryPagesModuleInterface() {
             @Override

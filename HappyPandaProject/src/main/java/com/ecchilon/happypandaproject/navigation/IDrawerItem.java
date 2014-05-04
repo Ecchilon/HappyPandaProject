@@ -9,4 +9,5 @@ import android.view.ViewGroup;
 public interface IDrawerItem {
 	<T> T visit(NavigationDrawerAdapter.IDrawerVisitor<T> visitor, View convertView, ViewGroup group);
 	int getViewType();
+	boolean isFragmentDisplay();
 }

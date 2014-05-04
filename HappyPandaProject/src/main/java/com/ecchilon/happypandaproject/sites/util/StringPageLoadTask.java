@@ -2,7 +2,7 @@ package com.ecchilon.happypandaproject.sites.util;
 
 import android.os.AsyncTask;
 
-import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 
 import org.jsoup.Jsoup;
@@ -13,10 +13,10 @@ import java.util.List;
 /**
  * Created by Alex on 1/14/14.
  */
-public class StringPageLoadTask extends AsyncTask<String, Void, List<GalleryItem>> {
+public class StringPageLoadTask extends AsyncTask<String, Void, List<ImageViewerItem>> {
 
     public interface StringContentParser{
-        public List<GalleryItem> parseContent(Document content);
+        public List<ImageViewerItem> parseContent(Document content);
     }
 
     private StringContentParser mParser;
@@ -28,7 +28,7 @@ public class StringPageLoadTask extends AsyncTask<String, Void, List<GalleryItem
     }
 
     @Override
-    protected List<GalleryItem> doInBackground(String... strings) {
+    protected List<ImageViewerItem> doInBackground(String... strings) {
         int startIndex = strings[0].indexOf("<body");
         int endIndex = strings[0].lastIndexOf("</body>");
 
@@ -43,7 +43,7 @@ public class StringPageLoadTask extends AsyncTask<String, Void, List<GalleryItem
     }
 
     @Override
-    protected void onPostExecute(List<GalleryItem> galleryItems) {
+    protected void onPostExecute(List<ImageViewerItem> galleryItems) {
         if(mInterface != null)
         {
             if(galleryItems != null)
