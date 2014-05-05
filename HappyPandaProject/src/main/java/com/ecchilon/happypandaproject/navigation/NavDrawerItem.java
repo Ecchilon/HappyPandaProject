@@ -40,4 +40,20 @@ public class NavDrawerItem implements IDrawerItem {
 	public INavItem getNavItem() {
 		return mNavItem;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+
+		if (!(o instanceof NavDrawerItem)) {
+			return false;
+		}
+
+		NavDrawerItem other = (NavDrawerItem) o;
+
+		return mTitle.equals(other.mTitle) && mNavItem.equals(other.mNavItem)
+				&& mIsFragmentDisplay == other.mIsFragmentDisplay;
+	}
 }

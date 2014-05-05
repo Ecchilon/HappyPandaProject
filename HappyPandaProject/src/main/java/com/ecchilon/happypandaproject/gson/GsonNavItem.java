@@ -23,6 +23,10 @@ public class GsonNavItem {
 				.create();
 	}
 
+	public static Gson getGSON() {
+		return GSON;
+	}
+
 	public static INavItem getItem(String jsonItem) {
 		return GSON.fromJson(jsonItem, INavItem.class);
 	}

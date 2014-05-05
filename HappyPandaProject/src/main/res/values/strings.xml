@@ -21,8 +21,10 @@
     <string name="image_loading_failed">The current image failed to load after several attempts.</string>
     <string name="section_sites">Sites</string>
     <string name="section_bookmarks">Bookmarks</string>
-    <string name="title_activity_bookmark">BookmarkActivity</string>
+    <string name="title_activity_bookmark">Bookmarks</string>
 	<string name="menu_bookmark">Bookmark</string>
 	<string name="page_dummy">dummy</string>
+	<string name="edit_text">EDIT</string>
+	<string name="undo_message">Bookmark removed</string>
 
 </resources>

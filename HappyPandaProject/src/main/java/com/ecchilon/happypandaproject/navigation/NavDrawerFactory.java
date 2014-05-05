@@ -6,25 +6,26 @@ import java.util.List;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.view.View;
 import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.gson.GsonDrawerItem;
 import com.ecchilon.happypandaproject.sites.test.DummyNavItem;
-import com.ecchilon.happypandaproject.gson.GsonNavItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 
 /**
  * Created by Alex on 11-4-2014.
  */
 public class NavDrawerFactory {
-	public static NavigationDrawerAdapter createAdapter(Context context) {
+	public static NavigationDrawerAdapter createAdapter(Context context, View.OnClickListener bookmarksClickListener) {
 		List<IDrawerItem> navigationItemList = new ArrayList<IDrawerItem>();
 
 		navigationItemList.add(new SectionDrawerItem(context.getString(R.string.section_sites), 0));
 		loadFrontPages(navigationItemList, context);
 
 		navigationItemList.add(
-				new SectionDrawerItem(context.getString(R.string.section_bookmarks), R.drawable.ic_menu_star));
-		loadBookmarks(navigationItemList, context);
+				new EditableSectionDrawerItem(context.getString(R.string.section_bookmarks), R.drawable.ic_menu_star,
+						bookmarksClickListener));
+		navigationItemList.addAll(loadBookmarks(context));
 
 		return new NavigationDrawerAdapter(navigationItemList);
 	}
@@ -35,16 +36,16 @@ public class NavDrawerFactory {
 				new NavDrawerItem(context.getString(R.string.page_dummy), new DummyNavItem("Dummy Overview"), true));
 	}
 
-	private static void loadBookmarks(List<IDrawerItem> itemList, Context context) {
+	public static List<NavDrawerItem> loadBookmarks(Context context) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if (!preferences.contains(NavigationDrawerFragment.BOOKMARKS)) {
-			return;
+			return new ArrayList<NavDrawerItem>();
 		}
 
 		List<NavDrawerItem> items = GsonDrawerItem.getItems(
 				preferences.getString(NavigationDrawerFragment.BOOKMARKS, null));
 
-		itemList.addAll(items);
+		return items;
 	}
 
 	public static NavDrawerItem createBookmark(INavItem item) {

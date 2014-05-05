@@ -98,6 +98,7 @@ public class GalleryActivity extends ActionBarActivity {
 		SharedPreferences.Editor editor = preferences.edit();
 
 		editor.putString(NavigationDrawerFragment.BOOKMARKS, GsonDrawerItem.getJson(bookmarks));
+		editor.putBoolean(NavigationDrawerFragment.BOOKMARK_CHANGED, true);
 		editor.apply();
 	}
 

@@ -11,28 +11,22 @@ import com.google.gson.reflect.TypeToken;
  * Created by Alex on 5-5-2014.
  */
 public class GsonDrawerItem {
-	private static Gson GSON;
-
-	static {
-		GSON = new GsonBuilder()
-				.create();
-	}
 
 	public static NavDrawerItem getItem(String jsonItem) {
-		return GSON.fromJson(jsonItem, NavDrawerItem.class);
+		return GsonNavItem.getGSON().fromJson(jsonItem, NavDrawerItem.class);
 	}
 
 	public static String getJson(NavDrawerItem item) {
-		return GSON.toJson(item, NavDrawerItem.class);
+		return GsonNavItem.getGSON().toJson(item, NavDrawerItem.class);
 	}
 
 	public static List<NavDrawerItem> getItems(String jsonItem) {
-		return GSON.fromJson(jsonItem, new TypeToken<List<NavDrawerItem>>() {
+		return GsonNavItem.getGSON().fromJson(jsonItem, new TypeToken<List<NavDrawerItem>>() {
 		}.getType());
 	}
 
 	public static String getJson(List<NavDrawerItem> items) {
-		return GSON.toJson(items, new TypeToken<List<NavDrawerItem>>() {
+		return GsonNavItem.getGSON().toJson(items, new TypeToken<List<NavDrawerItem>>() {
 		}.getType());
 	}
 }

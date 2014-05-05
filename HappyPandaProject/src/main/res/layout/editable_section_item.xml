@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+	<TextView
+			android:id="@+id/section_title"
+			style="@style/TextAppearance.AppCompat.Widget.Base.ActionMode.Title.Inverse"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
+			android:layout_toLeftOf="@+id/edit_section"
+			android:layout_alignBottom="@+id/edit_section" />
+
+	<LinearLayout
+			android:id="@+id/edit_section"
+			android:layout_alignParentRight="true"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:gravity="center_horizontal">
+		<ImageView
+				android:src="@drawable/ic_action_edit"
+				android:layout_width="@dimen/section_icon_size"
+				android:layout_height="@dimen/section_icon_size"
+				android:maxWidth="@dimen/section_icon_size"
+				android:padding="@dimen/section_padding"
+				/>
+		<TextView
+				style="@style/TextAppearance.AppCompat.Widget.Base.ActionMode.Title.Inverse"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/edit_text"
+				android:padding="@dimen/section_padding"
+				android:layout_gravity="bottom"/>
+	</LinearLayout>
+</RelativeLayout>
