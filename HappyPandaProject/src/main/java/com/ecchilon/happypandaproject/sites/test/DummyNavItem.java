@@ -8,6 +8,12 @@ import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
  */
 public class DummyNavItem implements INavItem {
 
+	private String mDummyTitle;
+
+	public DummyNavItem(String title) {
+		mDummyTitle = title;
+	}
+
 	@Override
 	public <T> T visit(INavVisitor<T> visitor) {
 		return visitor.execute(this);
@@ -15,6 +21,6 @@ public class DummyNavItem implements INavItem {
 
 	@Override
 	public String getTitle() {
-		return "Dummy";
+		return mDummyTitle;
 	}
 }

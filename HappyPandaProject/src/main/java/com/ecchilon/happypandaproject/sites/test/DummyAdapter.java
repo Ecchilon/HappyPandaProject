@@ -27,10 +27,10 @@ public class DummyAdapter extends GalleryAdapter {
 		super(galleryInterface, itemClickListener);
 
 		dummyNavItems = new HashMap<String, INavItem>();
-		dummyNavItems.put("Dummy 1", new DummyNavItem());
-		dummyNavItems.put("Dummy 2", new DummyNavItem());
-		dummyNavItems.put("Dummy 3", new DummyNavItem());
-		dummyNavItems.put("Dummy 4", new DummyNavItem());
+		dummyNavItems.put("Dummy 1", new DummyNavItem("Dummy 1"));
+		dummyNavItems.put("Dummy 2", new DummyNavItem("Dummy 2"));
+		dummyNavItems.put("Dummy 3", new DummyNavItem("Dummy 3"));
+		dummyNavItems.put("Dummy 4", new DummyNavItem("Dummy 4"));
 	}
 
 	@Override

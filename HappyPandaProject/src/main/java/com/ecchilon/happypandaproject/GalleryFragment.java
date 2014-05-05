@@ -192,7 +192,7 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.PageCrea
 	}
 
 	/**
-	 * Opens an @ImageViewerActivity activity with
+	 * Opens an @ImageViewerActivity activity with the provided @ImageViewerItem
 	 *
 	 * @param item
 	 */
@@ -203,10 +203,14 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.PageCrea
 		startActivity(imageViewIntent);
 	}
 
+	/**
+	 * Opens a new @GalleryActivity with the provided @INavItem
+	 * @param item
+	 */
 	@Override
 	public void GalleryNavItemClicked(INavItem item) {
 		Intent galleryIntent = new Intent(getActivity(), GalleryActivity.class);
-		galleryIntent.putExtra(NAV_KEY, GsonNavItem.getJson(mGalleryItem));
+		galleryIntent.putExtra(NAV_KEY, GsonNavItem.getJson(item));
 		startActivity(galleryIntent);
 	}
 

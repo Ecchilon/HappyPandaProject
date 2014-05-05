@@ -30,7 +30,7 @@ public class NavAdapterFactory {
 
 	//TODO fill frontpages
 	private static void loadFrontPages(List<IDrawerItem> itemList, Context context) {
-		itemList.add(new NavDrawerItem(context.getString(R.string.page_dummy), new DummyNavItem(), true));
+		itemList.add(new NavDrawerItem(context.getString(R.string.page_dummy), new DummyNavItem("Dummy Overview"), true));
 	}
 
 	private static void loadBookmarks(List<IDrawerItem> itemList, Context context) {

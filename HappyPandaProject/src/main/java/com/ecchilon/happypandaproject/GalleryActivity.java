@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,6 +25,7 @@ public class GalleryActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_gallery);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mGalleryItem = GsonNavItem.getItem(getIntent().getStringExtra(GalleryFragment.NAV_KEY));
 
@@ -73,6 +75,9 @@ public class GalleryActivity extends ActionBarActivity {
 				break;
 			case R.id.action_bookmark:
 				bookmark();
+				break;
+			case android.R.id.home:
+				NavUtils.navigateUpFromSameTask(this);
 				break;
 		}
 		return super.onOptionsItemSelected(item);

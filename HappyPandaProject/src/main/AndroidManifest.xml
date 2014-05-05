@@ -1,53 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ecchilon.happypandaproject"
-    android:versionCode="1"
-    android:versionName="1.0" >
+          package="com.ecchilon.happypandaproject"
+          android:versionCode="1"
+          android:versionName="1.0">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <activity
-            android:name=".GalleryOverviewActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:icon="@drawable/actionbar_icon"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+	<application
+			android:allowBackup="true"
+			android:icon="@drawable/ic_launcher"
+			android:label="@string/app_name"
+			android:theme="@style/AppTheme">
+		<activity
+				android:name=".GalleryOverviewActivity"
+				android:configChanges="orientation|keyboardHidden|screenSize"
+				android:icon="@drawable/actionbar_icon"
+				android:label="@string/app_name">
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN"/>
+				<category android:name="android.intent.category.LAUNCHER"/>
+			</intent-filter>
+		</activity>
+		<activity
+				android:name="com.ecchilon.happypandaproject.SearchActivity"
+				android:configChanges="orientation|keyboardHidden|screenSize"
+				android:label="@string/title_activity_search"
+				android:parentActivityName=".GalleryOverviewActivity">
+			<meta-data
+					android:name="android.support.PARENT_ACTIVITY"
+					android:value="com.ecchilon.happypandaproject.GalleryOverview"/>
+		</activity>
+		<activity
+				android:name="com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity"
+				android:configChanges="orientation|keyboardHidden|screenSize"
+				android:icon="@drawable/actionbar_icon"
+				android:label="@string/title_activity_image_viewer"
+				android:theme="@style/CustomActionBarTheme">
+		</activity>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.ecchilon.happypandaproject.SearchActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_search"
-            android:parentActivityName=".GalleryOverviewActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.ecchilon.happypandaproject.GalleryOverview" />
-        </activity>
-        <activity
-            android:name="com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:icon="@drawable/actionbar_icon"
-            android:label="@string/title_activity_image_viewer"
-            android:theme="@style/CustomActionBarTheme" >
-        </activity>
+		<activity
+				android:name=".GalleryActivity"
+				android:configChanges="orientation|keyboardHidden|screenSize"
+				android:label="@string/title_activity_bookmark">
+			<meta-data
+				android:name="android.support.PARENT_ACTIVITY"
+			    android:value=".GalleryOverviewActivity" />
+		</activity>
 
-        <service
-            android:name="com.ecchilon.happypandaproject.storage.StorageService"
-            android:exported="false" />
+		<service
+				android:name="com.ecchilon.happypandaproject.storage.StorageService"
+				android:exported="false"/>
 
-        <activity
-            android:name=".GalleryActivity"
-            android:label="@string/title_activity_bookmark" >
-        </activity>
-    </application>
+	</application>
 
 </manifest>
