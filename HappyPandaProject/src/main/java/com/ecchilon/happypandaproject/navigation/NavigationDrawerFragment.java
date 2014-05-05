@@ -78,7 +78,7 @@ public class NavigationDrawerFragment extends Fragment {
             mFromSavedInstanceState = true;
         }
 
-	    mNavigationAdapter = NavAdapterFactory.createAdapter(getActivity());
+	    mNavigationAdapter = NavDrawerFactory.createAdapter(getActivity());
 
         // Select either the default item (1) or the last selected item.
         selectItem(mCurrentSelectedPosition);

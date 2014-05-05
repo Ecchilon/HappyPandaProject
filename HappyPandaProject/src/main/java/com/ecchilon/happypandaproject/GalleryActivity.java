@@ -11,6 +11,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.ecchilon.happypandaproject.gson.GsonDrawerItem;
+import com.ecchilon.happypandaproject.navigation.NavDrawerFactory;
+import com.ecchilon.happypandaproject.navigation.NavDrawerItem;
 import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
 import com.ecchilon.happypandaproject.gson.GsonNavItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
@@ -88,13 +91,13 @@ public class GalleryActivity extends ActionBarActivity {
 	 */
 	private void bookmark() {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		List<INavItem> bookmarks = loadBookmarks();
+		List<NavDrawerItem> bookmarks = loadBookmarks();
 
-		bookmarks.add(mGalleryItem);
+		bookmarks.add(NavDrawerFactory.createBookmark(mGalleryItem));
 
 		SharedPreferences.Editor editor = preferences.edit();
 
-		editor.putString(NavigationDrawerFragment.BOOKMARKS, GsonNavItem.getJson(bookmarks));
+		editor.putString(NavigationDrawerFragment.BOOKMARKS, GsonDrawerItem.getJson(bookmarks));
 		editor.apply();
 	}
 
@@ -104,8 +107,15 @@ public class GalleryActivity extends ActionBarActivity {
 	 * @return
 	 */
 	private boolean isBookmarked() {
-		List<INavItem> bookmarks = loadBookmarks();
-		return bookmarks.contains(mGalleryItem);
+		List<NavDrawerItem> bookmarks = loadBookmarks();
+
+		for (NavDrawerItem item : bookmarks) {
+			if (item.getNavItem().equals(mGalleryItem)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -113,13 +123,13 @@ public class GalleryActivity extends ActionBarActivity {
 	 *
 	 * @return a list of bookmarks, or an empty one if no bookmarks have been added yet
 	 */
-	private List<INavItem> loadBookmarks() {
+	private List<NavDrawerItem> loadBookmarks() {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		if (preferences.contains(NavigationDrawerFragment.BOOKMARKS)) {
-			return GsonNavItem.getItems(preferences.getString(NavigationDrawerFragment.BOOKMARKS, null));
+			return GsonDrawerItem.getItems(preferences.getString(NavigationDrawerFragment.BOOKMARKS, null));
 		}
 		else {
-			return new ArrayList<INavItem>();
+			return new ArrayList<NavDrawerItem>();
 		}
 	}
 }

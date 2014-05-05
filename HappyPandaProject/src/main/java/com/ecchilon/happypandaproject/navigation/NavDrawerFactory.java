@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import com.ecchilon.happypandaproject.R;
+import com.ecchilon.happypandaproject.gson.GsonDrawerItem;
 import com.ecchilon.happypandaproject.sites.test.DummyNavItem;
 import com.ecchilon.happypandaproject.gson.GsonNavItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
@@ -14,7 +15,7 @@ import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 /**
  * Created by Alex on 11-4-2014.
  */
-public class NavAdapterFactory {
+public class NavDrawerFactory {
 	public static NavigationDrawerAdapter createAdapter(Context context) {
 		List<IDrawerItem> navigationItemList = new ArrayList<IDrawerItem>();
 
@@ -30,7 +31,8 @@ public class NavAdapterFactory {
 
 	//TODO fill frontpages
 	private static void loadFrontPages(List<IDrawerItem> itemList, Context context) {
-		itemList.add(new NavDrawerItem(context.getString(R.string.page_dummy), new DummyNavItem("Dummy Overview"), true));
+		itemList.add(
+				new NavDrawerItem(context.getString(R.string.page_dummy), new DummyNavItem("Dummy Overview"), true));
 	}
 
 	private static void loadBookmarks(List<IDrawerItem> itemList, Context context) {
@@ -39,12 +41,13 @@ public class NavAdapterFactory {
 			return;
 		}
 
-		List<INavItem> iNavItems =
-				GsonNavItem.getItems(preferences.getString(NavigationDrawerFragment.BOOKMARKS, null));
+		List<NavDrawerItem> items = GsonDrawerItem.getItems(
+				preferences.getString(NavigationDrawerFragment.BOOKMARKS, null));
 
-		for (INavItem item : iNavItems) {
-			NavDrawerItem drawerItem = new NavDrawerItem(item.getTitle(), item, false);
-			itemList.add(drawerItem);
-		}
+		itemList.addAll(items);
+	}
+
+	public static NavDrawerItem createBookmark(INavItem item) {
+		return new NavDrawerItem(item.getTitle(), item, false);
 	}
 }
