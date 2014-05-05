@@ -23,7 +23,7 @@ import com.ecchilon.happypandaproject.util.VolleySingleton;
 /**
  * Created by Alex on 1/4/14.
  */
-public abstract class GalleryAdapter extends PagedScrollAdapter<ImageViewerItem> {
+public abstract class GalleryPageAdapter extends PagedScrollAdapter<ImageViewerItem> {
 
 	public interface PageCreationFailedListener {
 		public void PageCreationFailed();
@@ -43,18 +43,18 @@ public abstract class GalleryAdapter extends PagedScrollAdapter<ImageViewerItem>
 
 	private PopupMenu mCurrentOverflowMenu;
 
+	public GalleryPageAdapter(GalleryOverviewModuleInterface galleryInterface,
+			GalleryItemClickListener itemClickListener) {
+		mGalleryInterface = galleryInterface;
+		mGalleryItemClickListener = itemClickListener;
+	}
+
 	protected GalleryOverviewModuleInterface getInterface() {
 		return mGalleryInterface;
 	}
 
 	protected GalleryItemClickListener getGalleryItemClickListener() {
 		return mGalleryItemClickListener;
-	}
-
-	public GalleryAdapter(GalleryOverviewModuleInterface galleryInterface,
-			GalleryItemClickListener itemClickListener) {
-		mGalleryInterface = galleryInterface;
-		mGalleryItemClickListener = itemClickListener;
 	}
 
 	public void setPageCreationFailedListener(PageCreationFailedListener _listener) {
@@ -77,8 +77,9 @@ public abstract class GalleryAdapter extends PagedScrollAdapter<ImageViewerItem>
 	public abstract View getView(int i, View view, ViewGroup viewGroup);
 
 	/**
-	 * Shows a new overflow menu anchored to the provided view, with the items as defined in #overflowItems.
-	 * On click, the selected INavItem will be passed to the available @GalleryItemClickListener#GalleryNavItemClicked
+	 * Shows a new overflow menu anchored to the provided view, with the items as defined in #overflowItems. On click,
+	 * the selected INavItem will be passed to the available @GalleryItemClickListener#GalleryNavItemClicked
+	 *
 	 * @param anchor
 	 * @param overflowItems
 	 */
@@ -94,7 +95,7 @@ public abstract class GalleryAdapter extends PagedScrollAdapter<ImageViewerItem>
 		popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
 			@Override
 			public void onDismiss(PopupMenu popupMenu) {
-				if(popupMenu == mCurrentOverflowMenu) {
+				if (popupMenu == mCurrentOverflowMenu) {
 					mCurrentOverflowMenu = null;
 				}
 			}
@@ -124,11 +125,12 @@ public abstract class GalleryAdapter extends PagedScrollAdapter<ImageViewerItem>
 
 	/**
 	 * Fills the menu with set of string from map. since these strings are unique keys, no int id is needed
+	 *
 	 * @param menu
 	 * @param itemNames
 	 */
 	private void fillMenu(Menu menu, Set<String> itemNames) {
-		for(String name : itemNames) {
+		for (String name : itemNames) {
 			menu.add(name);
 		}
 	}
@@ -137,7 +139,7 @@ public abstract class GalleryAdapter extends PagedScrollAdapter<ImageViewerItem>
 	 * Dismisses the menu if it's opened
 	 */
 	public void closeCurrentOverflowMenu() {
-		if(mCurrentOverflowMenu != null) {
+		if (mCurrentOverflowMenu != null) {
 			mCurrentOverflowMenu.dismiss();
 		}
 	}

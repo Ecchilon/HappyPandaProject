@@ -17,19 +17,18 @@ import com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity;
 import com.ecchilon.happypandaproject.gson.GsonNavItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
-import com.ecchilon.happypandaproject.sites.test.DummyAdapter;
 import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 
 /**
  * Created by Alex on 1/4/14.
  */
-public class GalleryFragment extends Fragment implements GalleryAdapter.PageCreationFailedListener,
-		GalleryAdapter.GalleryItemClickListener {
+public class GalleryFragment extends Fragment implements GalleryPageAdapter.PageCreationFailedListener,
+		GalleryPageAdapter.GalleryItemClickListener {
 	public GalleryFragment() {
 	}
 
 	private ListView mList;
-	private GalleryAdapter mAdapter;
+	private GalleryPageAdapter mAdapter;
 
 	private INavItem mGalleryItem;
 
@@ -89,8 +88,8 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.PageCrea
 
 		//restore adapter if it was saved
 		final Object data = getActivity().getLastCustomNonConfigurationInstance();
-		if (data instanceof GalleryAdapter) {
-			mAdapter = (GalleryAdapter) data;
+		if (data instanceof GalleryPageAdapter) {
+			mAdapter = (GalleryPageAdapter) data;
 		}
 
 		if (mAdapter == null) {
@@ -189,6 +188,8 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.PageCrea
 		if (mList != null) {
 			mList.invalidate();
 		}
+
+		//TODO add and remove footer
 	}
 
 	/**

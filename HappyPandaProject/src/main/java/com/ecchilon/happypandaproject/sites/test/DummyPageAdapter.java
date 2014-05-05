@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
-import com.ecchilon.happypandaproject.GalleryAdapter;
+import com.ecchilon.happypandaproject.GalleryPageAdapter;
 import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
@@ -18,11 +18,11 @@ import com.ecchilon.happypandaproject.util.VolleySingleton;
 /**
  * Created by Alex on 5/4/2014.
  */
-public class DummyAdapter extends GalleryAdapter {
+public class DummyPageAdapter extends GalleryPageAdapter {
 
 	Map<String, INavItem> dummyNavItems;
 
-	public DummyAdapter(GalleryOverviewModuleInterface galleryInterface,
+	public DummyPageAdapter(GalleryOverviewModuleInterface galleryInterface,
 			GalleryItemClickListener itemClickListener) {
 		super(galleryInterface, itemClickListener);
 

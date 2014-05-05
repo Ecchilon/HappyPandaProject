@@ -1,9 +1,9 @@
 package com.ecchilon.happypandaproject.sites.util;
 
-import com.ecchilon.happypandaproject.GalleryAdapter;
+import com.ecchilon.happypandaproject.GalleryPageAdapter;
 import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
 import com.ecchilon.happypandaproject.navigation.INavVisitor;
-import com.ecchilon.happypandaproject.sites.test.DummyAdapter;
+import com.ecchilon.happypandaproject.sites.test.DummyPageAdapter;
 import com.ecchilon.happypandaproject.sites.test.DummyNavItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
@@ -38,14 +38,14 @@ public class SiteFactory {
 	}
 
 	/**
-	 * Returns a new @GalleryAdapter to use in the gallery view
+	 * Returns a new @GalleryPageAdapter to use in the gallery view
 	 *
 	 * @param item
 	 * @param listener
 	 * @return
 	 */
-	public static GalleryAdapter getGalleryAdapter(INavItem item, GalleryOverviewModuleInterface listInterface,
-			GalleryAdapter.GalleryItemClickListener listener) {
+	public static GalleryPageAdapter getGalleryAdapter(INavItem item, GalleryOverviewModuleInterface listInterface,
+			GalleryPageAdapter.GalleryItemClickListener listener) {
 		return item.visit(new GalleryAdapterVisitor(listInterface, listener));
 	}
 
@@ -76,19 +76,19 @@ public class SiteFactory {
 		}
 	}
 
-	private static class GalleryAdapterVisitor implements INavVisitor<GalleryAdapter> {
+	private static class GalleryAdapterVisitor implements INavVisitor<GalleryPageAdapter> {
 		private GalleryOverviewModuleInterface mInterface;
-		private GalleryAdapter.GalleryItemClickListener mListener;
+		private GalleryPageAdapter.GalleryItemClickListener mListener;
 
 		public GalleryAdapterVisitor(GalleryOverviewModuleInterface listInterface,
-				GalleryAdapter.GalleryItemClickListener clickListener) {
+				GalleryPageAdapter.GalleryItemClickListener clickListener) {
 			mInterface = listInterface;
 			mListener = clickListener;
 		}
 
 		@Override
-		public GalleryAdapter execute(DummyNavItem dummyNavItem) {
-			return new DummyAdapter(mInterface, mListener);
+		public GalleryPageAdapter execute(DummyNavItem dummyNavItem) {
+			return new DummyPageAdapter(mInterface, mListener);
 		}
 	}
 }
