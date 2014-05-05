@@ -21,7 +21,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
-import com.ecchilon.happypandaproject.navigation.navitems.OverviewNavItem;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -29,6 +28,8 @@ import com.ecchilon.happypandaproject.navigation.navitems.OverviewNavItem;
  * design guidelines</a> for a complete explanation of the behaviors implemented here.
  */
 public class NavigationDrawerFragment extends Fragment {
+
+	public static final String BOOKMARKS = "bookmark_items";
 
     /**
      * Remember the position of the selected item.
@@ -187,7 +188,8 @@ public class NavigationDrawerFragment extends Fragment {
 	 */
     private void selectItem(int position) {
         mCurrentSelectedPosition = position;
-        if (mDrawerListView != null && mNavigationAdapter.getItem(position) instanceof OverviewNavItem) {
+	    boolean isFragment = mNavigationAdapter.getItem(position).isFragmentDisplay();
+        if (mDrawerListView != null && isFragment) {
             mDrawerListView.setItemChecked(position, true);
         }
         if (mDrawerLayout != null) {
@@ -195,7 +197,7 @@ public class NavigationDrawerFragment extends Fragment {
         }
         if (mCallbacks != null) {
 	        INavItem navItem = getSelectedNavItem();
-            mCallbacks.onNavigationDrawerItemSelected(navItem, mCurrentSelectedPosition);
+            mCallbacks.onNavigationDrawerItemSelected(navItem, mCurrentSelectedPosition, isFragment);
         }
     }
 
@@ -279,6 +281,6 @@ public class NavigationDrawerFragment extends Fragment {
         /**
          * Called when an item in the navigation drawer is selected.
          */
-        void onNavigationDrawerItemSelected(INavItem item, int position);
+        void onNavigationDrawerItemSelected(INavItem item, int position, boolean isFragment);
     }
 }

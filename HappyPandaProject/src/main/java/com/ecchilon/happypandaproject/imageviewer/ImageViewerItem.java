@@ -1,17 +1,17 @@
-package com.ecchilon.happypandaproject;
+package com.ecchilon.happypandaproject.imageviewer;
 
 import com.google.gson.Gson;
 
 /**
  * Created by Alex on 1/4/14.
  */
-public class GalleryItem {
+public class ImageViewerItem {
 
     protected String mTitle;
     protected String mThumbUrl;
     protected String mGalleryUrl;
 
-    public GalleryItem(String mTitle, String mThumbUrl, String mGalleryUrl) {
+    public ImageViewerItem(String mTitle, String mThumbUrl, String mGalleryUrl) {
         this.mTitle = mTitle;
         this.mThumbUrl = mThumbUrl;
         this.mGalleryUrl = mGalleryUrl;
@@ -30,11 +30,11 @@ public class GalleryItem {
 
     public String toJSONString() {
         Gson gson = new Gson();
-        return gson.toJson(this, GalleryItem.class);
+        return gson.toJson(this, ImageViewerItem.class);
     }
 
-    public static GalleryItem fromJSONString(String jsonString) {
+    public static ImageViewerItem fromJSONString(String jsonString) {
         Gson gson = new Gson();
-        return gson.fromJson(jsonString, GalleryItem.class);
+        return gson.fromJson(jsonString, ImageViewerItem.class);
     }
 }

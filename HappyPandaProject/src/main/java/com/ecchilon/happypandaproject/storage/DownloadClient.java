@@ -10,7 +10,7 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 
-import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
 
 /**
  * Created by Alex on 2/8/14.
@@ -45,7 +45,7 @@ public class DownloadClient {
         mConnection = new DownloadServiceConnection();
     }
 
-    public void sendStartTask(GalleryItem item){
+    public void sendStartTask(ImageViewerItem item){
         try{
             mMessenger.send(Message.obtain(null,
                     DownloadService.MSG_START_TASK, item.toJSONString()));
@@ -54,7 +54,7 @@ public class DownloadClient {
         }
     }
 
-    public void sendStopTask(GalleryItem item){
+    public void sendStopTask(ImageViewerItem item){
         try{
             mMessenger.send(Message.obtain(null,
                     DownloadService.MSG_START_TASK, item.toJSONString()));

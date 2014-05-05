@@ -7,7 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class SearchActivity extends ActionBarActivity implements TitleActivity {
+public class SearchActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +16,7 @@ public class SearchActivity extends ActionBarActivity implements TitleActivity {
         getSupportActionBar().setIcon(R.drawable.actionbar_icon);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        String query = getIntent().getStringExtra(GalleryOverviewFragment.SEARCH_KEY);
+        String query = getIntent().getStringExtra(GalleryFragment.SEARCH_KEY);
         if(query == null)
             finish();
 
@@ -24,10 +24,10 @@ public class SearchActivity extends ActionBarActivity implements TitleActivity {
 
             Bundle args = new Bundle();
             //get site index
-            args.putInt(GalleryOverviewFragment.NAV_KEY, getIntent().getIntExtra(GalleryOverviewFragment.NAV_KEY, -1));
-            args.putString(GalleryOverviewFragment.SEARCH_KEY, query);
+            args.putString(GalleryFragment.NAV_KEY, getIntent().getStringExtra(GalleryFragment.NAV_KEY));
+            args.putString(GalleryFragment.SEARCH_KEY, query);
 
-            GalleryOverviewFragment frag = new GalleryOverviewFragment();
+            GalleryFragment frag = new GalleryFragment();
             frag.setArguments(args);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, frag)
@@ -39,7 +39,7 @@ public class SearchActivity extends ActionBarActivity implements TitleActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.search, menu);
+        //getMenuInflater().inflate(R.menu.menu_search, menu);
         return true;
     }
 
@@ -69,15 +69,5 @@ public class SearchActivity extends ActionBarActivity implements TitleActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void setTitle(String title) {
-        getSupportActionBar().setTitle(title);
-    }
-
-    @Override
-    public void setSubTitle(String subTitle) {
-        getSupportActionBar().setSubtitle(subTitle);
     }
 }

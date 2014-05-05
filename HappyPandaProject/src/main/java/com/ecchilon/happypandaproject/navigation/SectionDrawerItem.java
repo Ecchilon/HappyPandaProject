@@ -38,4 +38,9 @@ public class SectionDrawerItem implements IDrawerItem {
 	public int getViewType() {
 		return 0;
 	}
+
+	@Override
+	public boolean isFragmentDisplay() {
+		return false;
+	}
 }

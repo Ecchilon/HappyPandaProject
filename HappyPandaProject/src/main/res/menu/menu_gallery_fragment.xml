@@ -5,8 +5,4 @@
         android:title="@string/action_refresh"
         android:icon="@drawable/ic_menu_refresh"
         android:showAsAction="ifRoom"/>
-	<item android:id="@+id/menu_bookmark"
-          android:title="@string/menu_bookmark"
-          android:icon="@drawable/ic_menu_star"
-          android:showAsAction="ifRoom"/>
 </menu>

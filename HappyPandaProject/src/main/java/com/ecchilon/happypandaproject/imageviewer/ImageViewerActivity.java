@@ -11,8 +11,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.ecchilon.happypandaproject.GalleryOverviewFragment;
-import com.ecchilon.happypandaproject.GalleryItem;
 import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 
@@ -41,7 +39,7 @@ public class ImageViewerActivity extends ActionBarActivity {
 
         ToggleInterface(false);
 
-        GalleryItem galleryItem = GalleryItem.fromJSONString(getIntent().getStringExtra(GALLERY_ITEM_KEY));
+        ImageViewerItem galleryItem = ImageViewerItem.fromJSONString(getIntent().getStringExtra(GALLERY_ITEM_KEY));
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (GestureViewPager)findViewById(R.id.pager);

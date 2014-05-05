@@ -1,6 +1,6 @@
 package com.ecchilon.happypandaproject.storage;
 
-import com.ecchilon.happypandaproject.GalleryItem;
+import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
 
 /**
  * Created by Alex on 2/9/14.
@@ -13,12 +13,12 @@ public class ThreadedDownloader implements DownloadService.DownloadTaskHandler {
     }
 
     @Override
-    public void startTask(GalleryItem task) {
+    public void startTask(ImageViewerItem task) {
 
     }
 
     @Override
-    public void stopTask(GalleryItem task) {
+    public void stopTask(ImageViewerItem task) {
 
     }
 }

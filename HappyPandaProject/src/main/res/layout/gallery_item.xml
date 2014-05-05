@@ -31,20 +31,24 @@
         android:id="@+id/item_favorite"
         android:layout_width="@dimen/card_button_size"
         android:layout_height="@dimen/card_button_size"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/item_overflow"
         android:src="@drawable/ic_action_important"
         android:scaleType="fitCenter"
         android:clickable="true"
         android:background="@drawable/button_selector"
         android:padding="@dimen/item_padding" />
 
-    <FrameLayout
-        android:id="@+id/inner_view"
-        android:layout_height="match_parent"
-        android:layout_width="wrap_content"
-        android:layout_below="@+id/item_title"
-        android:layout_toRightOf="@+id/item_thumb"
-        android:layout_toLeftOf="@id/item_favorite"/>
+	<ImageView
+			android:id="@+id/item_overflow"
+			android:layout_width="@dimen/card_button_size"
+			android:layout_height="@dimen/card_button_size"
+			android:layout_alignParentBottom="true"
+			android:layout_alignParentRight="true"
+			android:src="@drawable/ic_menu_moreoverflow_normal_holo_light"
+			android:scaleType="fitCenter"
+			android:clickable="true"
+			android:background="@drawable/button_selector"
+			android:padding="@dimen/item_padding"/>
 
 </RelativeLayout>
