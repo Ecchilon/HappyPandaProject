@@ -1,5 +1,8 @@
 package com.ecchilon.happypandaproject.favorites;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.content.SharedPreferences;
@@ -22,6 +25,9 @@ import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 
+/**
+ * Activity that allows the user to organize their bookmarks, if they have any
+ */
 public class BookmarkActivity extends ActionBarActivity implements DragSortListView.DropListener, DragSortListView
 		.RemoveListener, AdapterView.OnItemClickListener, UndoBarController.UndoListener {
 
@@ -62,16 +68,19 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.bookmark, menu);
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == android.R.id.home) {
-			NavUtils.navigateUpFromSameTask(this);
+		switch (item.getItemId()) {
+			case R.id.action_sort_abc:
+				sortBookmarks();
+				break;
+			case android.R.id.home:
+				NavUtils.navigateUpFromSameTask(this);
+				break;
 		}
 
 		return super.onOptionsItemSelected(item);
@@ -92,6 +101,17 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 		if(mUndoControl != null) {
 			mUndoControl.showUndoBar(false, getString(R.string.undo_message), new NavDrawerParcelable(item, i));
 		}
+
+		updateBookmarks();
+	}
+
+	private void sortBookmarks() {
+		Collections.sort(mBookmarks, new Comparator<NavDrawerItem>() {
+			@Override
+			public int compare(NavDrawerItem navDrawerItem, NavDrawerItem navDrawerItem2) {
+				return navDrawerItem.getTitle().compareToIgnoreCase(navDrawerItem2.getTitle());
+			}
+		});
 
 		updateBookmarks();
 	}
