@@ -29,7 +29,7 @@ import com.mobeta.android.dslv.DragSortListView;
  * Activity that allows the user to organize their bookmarks, if they have any
  */
 public class BookmarkActivity extends ActionBarActivity implements DragSortListView.DropListener, DragSortListView
-		.RemoveListener, AdapterView.OnItemClickListener, UndoBarController.UndoListener {
+		.RemoveListener, AdapterView.OnItemClickListener, UndoBarController.UndoListener, RenameDialogFragment.RenameListener {
 
 	private DragSortListView mListView;
 	private DragSortBookmarkAdapter mAdapter;
@@ -105,6 +105,28 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 		updateBookmarks();
 	}
 
+	@Override
+	public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+		RenameDialogFragment fragment = new RenameDialogFragment();
+		fragment.setRenameListener(this);
+		fragment.setItem(mAdapter.getItem(i));
+		fragment.show(getSupportFragmentManager(), "RENAME");
+	}
+
+	@Override
+	public void onUndo(Parcelable token) {
+		NavDrawerParcelable parcelable = (NavDrawerParcelable)token;
+		mBookmarks.add(parcelable.getPosition(), parcelable.getItem());
+		updateBookmarks();
+	}
+
+	@Override
+	public void onNewNameSet(NavDrawerItem item, String name) {
+		item.setTitle(name);
+
+		updateBookmarks();
+	}
+
 	private void sortBookmarks() {
 		Collections.sort(mBookmarks, new Comparator<NavDrawerItem>() {
 			@Override
@@ -125,18 +147,6 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 		editor.putString(NavigationDrawerFragment.BOOKMARKS, GsonDrawerItem.getJson(mBookmarks));
 		editor.putBoolean(NavigationDrawerFragment.BOOKMARK_CHANGED, true);
 		editor.apply();
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-		//TODO show rename dialog
-	}
-
-	@Override
-	public void onUndo(Parcelable token) {
-		NavDrawerParcelable parcelable = (NavDrawerParcelable)token;
-		mBookmarks.add(parcelable.getPosition(), parcelable.getItem());
-		updateBookmarks();
 	}
 
 	/**

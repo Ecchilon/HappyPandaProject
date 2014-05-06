@@ -27,5 +27,10 @@
 	<string name="edit_text">EDIT</string>
 	<string name="undo_message">Bookmark removed</string>
 	<string name="action_sort_abc">Sort</string>
+	<string name="rename_button">Rename</string>
+	<string name="rename_hint">Enter new name</string>
+	<string name="cancel">Cancel</string>
+	<string name="rename_title">Rename</string>
+	<string name="rename_bookmark">bookmark</string>
 
 </resources>
