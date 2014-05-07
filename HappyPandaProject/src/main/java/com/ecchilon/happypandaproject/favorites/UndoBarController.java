@@ -16,18 +16,17 @@ package com.ecchilon.happypandaproject.favorites;
  */
 
 
-
-		import android.animation.Animator;
-		import android.animation.AnimatorListenerAdapter;
-		import android.annotation.SuppressLint;
-		import android.os.Bundle;
-		import android.os.Handler;
-		import android.os.Parcelable;
-		import android.text.TextUtils;
-		import android.view.View;
-		import android.view.ViewPropertyAnimator;
-		import android.widget.TextView;
-		import com.ecchilon.happypandaproject.R;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.annotation.SuppressLint;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Parcelable;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewPropertyAnimator;
+import android.widget.TextView;
+import com.ecchilon.happypandaproject.R;
 
 public class UndoBarController {
 	private View mBarView;
@@ -77,13 +76,15 @@ public class UndoBarController {
 		mBarView.setVisibility(View.VISIBLE);
 		if (immediate) {
 			mBarView.setAlpha(1);
-		} else {
+		}
+		else {
 			mBarAnimator.cancel();
 			mBarAnimator
 					.alpha(1)
 					.setDuration(
 							mBarView.getResources()
-									.getInteger(android.R.integer.config_shortAnimTime))
+									.getInteger(android.R.integer.config_shortAnimTime)
+					)
 					.setListener(null);
 		}
 	}
@@ -97,7 +98,8 @@ public class UndoBarController {
 			mUndoMessage = null;
 			mUndoToken = null;
 
-		} else {
+		}
+		else {
 			mBarAnimator.cancel();
 			mBarAnimator
 					.alpha(0)

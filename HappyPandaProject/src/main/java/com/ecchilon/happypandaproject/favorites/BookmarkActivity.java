@@ -1,18 +1,17 @@
 package com.ecchilon.happypandaproject.favorites;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,16 +25,22 @@ import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 
 /**
- * Activity that allows the user to organize their bookmarks, if they have any
+ * Activity that allows the user to organize their bookmarks, if they have any. Created by Alex on 5/6/2014.
  */
 public class BookmarkActivity extends ActionBarActivity implements DragSortListView.DropListener, DragSortListView
-		.RemoveListener, AdapterView.OnItemClickListener, UndoBarController.UndoListener, RenameDialogFragment.RenameListener {
+		.RemoveListener, AdapterView.OnItemClickListener, UndoBarController.UndoListener,
+		RenameDialogFragment.RenameListener {
 
 	private DragSortListView mListView;
 	private DragSortBookmarkAdapter mAdapter;
 	private List<NavDrawerItem> mBookmarks;
 	private UndoBarController mUndoControl;
 
+	/**
+	 * Constructs the DragSortListView
+	 *
+	 * @param savedInstanceState
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,7 +66,7 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 		mListView.setOnTouchListener(controller);
 		mListView.setDragEnabled(true);
 
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 			mUndoControl = new UndoBarController(findViewById(R.id.undobar), this);
 		}
 	}
@@ -72,6 +77,12 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 		return true;
 	}
 
+	/**
+	 * Handles sorting and up navigation
+	 *
+	 * @param item
+	 * @return
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -86,6 +97,12 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 		return super.onOptionsItemSelected(item);
 	}
 
+	/**
+	 * Reposition bookmark in list and update preferences
+	 *
+	 * @param from
+	 * @param to
+	 */
 	@Override
 	public void drop(int from, int to) {
 		NavDrawerItem movedItem = mBookmarks.remove(from);
@@ -94,17 +111,30 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 		updateBookmarks();
 	}
 
+	/**
+	 * Remove bookmark with option to restore it through UndoBar
+	 *
+	 * @param i
+	 */
 	@Override
 	public void remove(int i) {
 		NavDrawerItem item = mBookmarks.remove(i);
 
-		if(mUndoControl != null) {
+		if (mUndoControl != null) {
 			mUndoControl.showUndoBar(false, getString(R.string.undo_message), new NavDrawerParcelable(item, i));
 		}
 
 		updateBookmarks();
 	}
 
+	/**
+	 * Opens DialogFragment for renaming the clicked bookmark
+	 *
+	 * @param adapterView
+	 * @param view
+	 * @param i
+	 * @param l
+	 */
 	@Override
 	public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 		RenameDialogFragment fragment = new RenameDialogFragment();
@@ -113,13 +143,24 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 		fragment.show(getSupportFragmentManager(), "RENAME");
 	}
 
+	/**
+	 * Restores previously removed bookmark
+	 *
+	 * @param token
+	 */
 	@Override
 	public void onUndo(Parcelable token) {
-		NavDrawerParcelable parcelable = (NavDrawerParcelable)token;
+		NavDrawerParcelable parcelable = (NavDrawerParcelable) token;
 		mBookmarks.add(parcelable.getPosition(), parcelable.getItem());
 		updateBookmarks();
 	}
 
+	/**
+	 * Called when the renaming was completed. Set new name and update bookmarks
+	 *
+	 * @param item
+	 * @param name
+	 */
 	@Override
 	public void onNewNameSet(NavDrawerItem item, String name) {
 		item.setTitle(name);
@@ -127,6 +168,9 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 		updateBookmarks();
 	}
 
+	/**
+	 * Sorts the bookmarks alphabetically
+	 */
 	private void sortBookmarks() {
 		Collections.sort(mBookmarks, new Comparator<NavDrawerItem>() {
 			@Override
@@ -138,6 +182,9 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 		updateBookmarks();
 	}
 
+	/**
+	 * Notifies the adapter of any changes, and writes the new list to the preferences
+	 */
 	private void updateBookmarks() {
 		mAdapter.notifyDataSetChanged();
 
@@ -193,7 +240,7 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 		};
 
 		private NavDrawerParcelable(Parcel in) {
-		    mItem = GsonDrawerItem.getItem(in.readString());
+			mItem = GsonDrawerItem.getItem(in.readString());
 			mPosition = in.readInt();
 		}
 	}
