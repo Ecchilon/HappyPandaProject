@@ -2,6 +2,7 @@ package com.ecchilon.happypandaproject.navigation;
 
 import java.util.List;
 
+import android.graphics.ColorFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +17,17 @@ import com.ecchilon.happypandaproject.R;
 public class NavigationDrawerAdapter extends BaseAdapter {
 
 	public interface IDrawerVisitor<T> {
-		T execute(SectionDrawerItem sectionItem, View convertView, ViewGroup group);
-		T execute(NavDrawerItem navDrawerItem, View convertView, ViewGroup group);
-		T execute(EditableSectionDrawerItem editableSectionDrawerItem, View convertView, ViewGroup group);
+		T execute(SectionDrawerPage sectionItem, View convertView, ViewGroup group);
+
+		T execute(NavDrawerPage navDrawerItem, View convertView, ViewGroup group);
+
+		T execute(EditableSectionDrawerPage editableSectionDrawerItem, View convertView, ViewGroup group);
 	}
 
-	private List<IDrawerItem> mNavItems;
+	private List<IDrawerPage> mNavItems;
 	private NavDrawerVisitor mNavVisitor;
 
-	public NavigationDrawerAdapter(List<IDrawerItem> items) {
+	public NavigationDrawerAdapter(List<IDrawerPage> items) {
 		mNavItems = items;
 		mNavVisitor = new NavDrawerVisitor();
 	}
@@ -35,7 +38,7 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public IDrawerItem getItem(int i) {
+	public IDrawerPage getItem(int i) {
 		return mNavItems.get(i);
 	}
 
@@ -83,7 +86,7 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 		}
 
 		@Override
-		public View execute(SectionDrawerItem sectionNavItem, View convertView, ViewGroup group) {
+		public View execute(SectionDrawerPage sectionNavItem, View convertView, ViewGroup group) {
 			convertView = inflateView(R.layout.section_nav_item, convertView, group);
 
 			((TextView)convertView.findViewById(R.id.section_title)).setText(sectionNavItem.getTitle());
@@ -101,7 +104,7 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 		}
 
 		@Override
-		public View execute(NavDrawerItem navDrawerItem, View convertView, ViewGroup group) {
+		public View execute(NavDrawerPage navDrawerItem, View convertView, ViewGroup group) {
 			convertView = inflateView(R.layout.simple_nav_item, convertView, group);
 
 			((TextView)convertView.findViewById(R.id.nav_item_title)).setText(navDrawerItem.getTitle());
@@ -110,10 +113,20 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 		}
 
 		@Override
-		public View execute(EditableSectionDrawerItem editableSectionDrawerItem, View convertView, ViewGroup group) {
+		public View execute(EditableSectionDrawerPage editableSectionDrawerItem, View convertView, ViewGroup group) {
 			convertView = inflateView(R.layout.editable_section_item, convertView, group);
 
 			((TextView)convertView.findViewById(R.id.section_title)).setText(editableSectionDrawerItem.getTitle());
+
+			ImageView icon = ((ImageView) convertView.findViewById(R.id.section_icon));
+			icon.setColorFilter(new ColorFilter());
+			if (editableSectionDrawerItem.getSectionIconResID() != 0) {
+				icon.setVisibility(View.VISIBLE);
+				icon.setImageResource(editableSectionDrawerItem.getSectionIconResID());
+			}
+			else {
+				icon.setVisibility(View.GONE);
+			}
 
 			convertView.findViewById(R.id.edit_section).setOnClickListener(editableSectionDrawerItem.getListener());
 

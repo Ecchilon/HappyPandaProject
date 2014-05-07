@@ -1,16 +1,16 @@
 package com.ecchilon.happypandaproject.sites.test;
 
 import com.ecchilon.happypandaproject.navigation.INavVisitor;
-import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
+import com.ecchilon.happypandaproject.navigation.navitems.INavPage;
 
 /**
  * Created by Alex on 5/3/2014.
  */
-public class DummyNavItem implements INavItem {
+public class DummyNavPage implements INavPage {
 
 	private String mDummyTitle;
 
-	public DummyNavItem(String title) {
+	public DummyNavPage(String title) {
 		mDummyTitle = title;
 	}
 
@@ -26,13 +26,15 @@ public class DummyNavItem implements INavItem {
 
 	@Override
 	public boolean equals(Object o) {
-		if(this == o)
+		if (this == o) {
 			return true;
+		}
 
-		if(!(o instanceof DummyNavItem))
+		if (!(o instanceof DummyNavPage)) {
 			return false;
+		}
 
-		DummyNavItem other = (DummyNavItem)o;
+		DummyNavPage other = (DummyNavPage) o;
 
 		return mDummyTitle.equals(other.mDummyTitle);
 	}

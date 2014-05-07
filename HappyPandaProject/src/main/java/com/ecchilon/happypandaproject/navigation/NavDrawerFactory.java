@@ -9,21 +9,21 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.gson.GsonDrawerItem;
-import com.ecchilon.happypandaproject.sites.test.DummyNavItem;
-import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
+import com.ecchilon.happypandaproject.navigation.navitems.INavPage;
+import com.ecchilon.happypandaproject.sites.test.DummyNavPage;
 
 /**
  * Created by Alex on 11-4-2014.
  */
 public class NavDrawerFactory {
 	public static NavigationDrawerAdapter createAdapter(Context context, View.OnClickListener bookmarksClickListener) {
-		List<IDrawerItem> navigationItemList = new ArrayList<IDrawerItem>();
+		List<IDrawerPage> navigationItemList = new ArrayList<IDrawerPage>();
 
-		navigationItemList.add(new SectionDrawerItem(context.getString(R.string.section_sites), 0));
+		navigationItemList.add(new SectionDrawerPage(context.getString(R.string.section_sites), 0));
 		loadFrontPages(navigationItemList, context);
 
 		navigationItemList.add(
-				new EditableSectionDrawerItem(context.getString(R.string.section_bookmarks), R.drawable.ic_menu_star,
+				new EditableSectionDrawerPage(context.getString(R.string.section_bookmarks), R.drawable.bookmark,
 						bookmarksClickListener));
 		navigationItemList.addAll(loadBookmarks(context));
 
@@ -31,24 +31,24 @@ public class NavDrawerFactory {
 	}
 
 	//TODO fill frontpages
-	private static void loadFrontPages(List<IDrawerItem> itemList, Context context) {
+	private static void loadFrontPages(List<IDrawerPage> itemList, Context context) {
 		itemList.add(
-				new NavDrawerItem(context.getString(R.string.page_dummy), new DummyNavItem("Dummy Overview"), true));
+				new NavDrawerPage(context.getString(R.string.page_dummy), new DummyNavPage("Dummy Overview"), true));
 	}
 
-	public static List<NavDrawerItem> loadBookmarks(Context context) {
+	public static List<NavDrawerPage> loadBookmarks(Context context) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if (!preferences.contains(NavigationDrawerFragment.BOOKMARKS)) {
-			return new ArrayList<NavDrawerItem>();
+			return new ArrayList<NavDrawerPage>();
 		}
 
-		List<NavDrawerItem> items = GsonDrawerItem.getItems(
+		List<NavDrawerPage> items = GsonDrawerItem.getItems(
 				preferences.getString(NavigationDrawerFragment.BOOKMARKS, null));
 
 		return items;
 	}
 
-	public static NavDrawerItem createBookmark(INavItem item) {
-		return new NavDrawerItem(item.getTitle(), item, false);
+	public static NavDrawerPage createBookmark(INavPage item) {
+		return new NavDrawerPage(item.getTitle(), item, false);
 	}
 }

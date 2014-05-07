@@ -3,13 +3,13 @@ package com.ecchilon.happypandaproject.sites.util;
 import com.ecchilon.happypandaproject.GalleryPageAdapter;
 import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
 import com.ecchilon.happypandaproject.navigation.INavVisitor;
-import com.ecchilon.happypandaproject.sites.test.DummyPageAdapter;
-import com.ecchilon.happypandaproject.sites.test.DummyNavItem;
-import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
+import com.ecchilon.happypandaproject.navigation.navitems.INavPage;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.sites.GalleryPagesModuleInterface;
 import com.ecchilon.happypandaproject.sites.test.DummyGalleryModuleInterface;
 import com.ecchilon.happypandaproject.sites.test.DummyImageModuleInterface;
+import com.ecchilon.happypandaproject.sites.test.DummyNavPage;
+import com.ecchilon.happypandaproject.sites.test.DummyPageAdapter;
 import com.ecchilon.happypandaproject.sites.test.DummySearchModuleInterface;
 
 /**
@@ -17,23 +17,23 @@ import com.ecchilon.happypandaproject.sites.test.DummySearchModuleInterface;
  */
 public class SiteFactory {
 	/**
-	 * Returns the site interface based on the passed INavItem
+	 * Returns the site interface based on the passed INavPage
 	 *
 	 * @param index
 	 * @return
 	 */
-	public static GalleryOverviewModuleInterface getOverviewInterface(INavItem index) {
+	public static GalleryOverviewModuleInterface getOverviewInterface(INavPage index) {
 		return index.visit(new SiteNavVisitor());
 	}
 
 	/**
-	 * Returns the menu_search interface based on the passed INavItem and String
+	 * Returns the menu_search interface based on the passed INavPage and String
 	 *
 	 * @param index
 	 * @param query
 	 * @return
 	 */
-	public static GalleryOverviewModuleInterface getSearchInterface(INavItem index, String query) {
+	public static GalleryOverviewModuleInterface getSearchInterface(INavPage index, String query) {
 		return index.visit(new SearchNavVisitor(query));
 	}
 
@@ -44,7 +44,7 @@ public class SiteFactory {
 	 * @param listener
 	 * @return
 	 */
-	public static GalleryPageAdapter getGalleryAdapter(INavItem item, GalleryOverviewModuleInterface listInterface,
+	public static GalleryPageAdapter getGalleryAdapter(INavPage item, GalleryOverviewModuleInterface listInterface,
 			GalleryPageAdapter.GalleryItemClickListener listener) {
 		return item.visit(new GalleryAdapterVisitor(listInterface, listener));
 	}
@@ -57,7 +57,7 @@ public class SiteFactory {
 	private static class SiteNavVisitor implements INavVisitor<GalleryOverviewModuleInterface> {
 
 		@Override
-		public GalleryOverviewModuleInterface execute(DummyNavItem dummyNavItem) {
+		public GalleryOverviewModuleInterface execute(DummyNavPage dummyNavItem) {
 			return new DummyGalleryModuleInterface();
 		}
 	}
@@ -71,7 +71,7 @@ public class SiteFactory {
 		}
 
 		@Override
-		public GalleryOverviewModuleInterface execute(DummyNavItem dummyNavItem) {
+		public GalleryOverviewModuleInterface execute(DummyNavPage dummyNavItem) {
 			return new DummySearchModuleInterface(mQuery);
 		}
 	}
@@ -87,7 +87,7 @@ public class SiteFactory {
 		}
 
 		@Override
-		public GalleryPageAdapter execute(DummyNavItem dummyNavItem) {
+		public GalleryPageAdapter execute(DummyNavPage dummyNavItem) {
 			return new DummyPageAdapter(mInterface, mListener);
 		}
 	}

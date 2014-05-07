@@ -1,24 +1,17 @@
 package com.ecchilon.happypandaproject;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import android.content.Context;
 import android.support.v7.widget.PopupMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-
-import com.android.volley.toolbox.NetworkImageView;
 import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
-import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
+import com.ecchilon.happypandaproject.navigation.navitems.INavPage;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.util.PagedScrollAdapter;
-import com.ecchilon.happypandaproject.util.VolleySingleton;
 
 /**
  * Created by Alex on 1/4/14.
@@ -32,7 +25,7 @@ public abstract class GalleryPageAdapter extends PagedScrollAdapter<ImageViewerI
 	public interface GalleryItemClickListener {
 		public void GalleryItemClicked(ImageViewerItem item);
 
-		public void GalleryNavItemClicked(INavItem item);
+		public void GalleryNavItemClicked(INavPage item);
 
 		public void GalleryItemFavoriteClicked(ImageViewerItem item);
 	}
@@ -78,12 +71,12 @@ public abstract class GalleryPageAdapter extends PagedScrollAdapter<ImageViewerI
 
 	/**
 	 * Shows a new overflow menu anchored to the provided view, with the items as defined in #overflowItems. On click,
-	 * the selected INavItem will be passed to the available @GalleryItemClickListener#GalleryNavItemClicked
+	 * the selected INavPage will be passed to the available @GalleryItemClickListener#GalleryNavItemClicked
 	 *
 	 * @param anchor
 	 * @param overflowItems
 	 */
-	protected void showOverflowView(View anchor, final Map<String, INavItem> overflowItems) {
+	protected void showOverflowView(View anchor, final Map<String, INavPage> overflowItems) {
 		closeCurrentOverflowMenu();
 
 		final PopupMenu popupMenu = new PopupMenu(anchor.getContext(), anchor);
@@ -106,7 +99,7 @@ public abstract class GalleryPageAdapter extends PagedScrollAdapter<ImageViewerI
 			public boolean onMenuItemClick(MenuItem menuItem) {
 				String key = menuItem.getTitle().toString();
 				if (overflowItems.containsKey(key)) {
-					INavItem value = overflowItems.get(key);
+					INavPage value = overflowItems.get(key);
 
 					if (mGalleryItemClickListener != null) {
 						mGalleryItemClickListener.GalleryNavItemClicked(value);

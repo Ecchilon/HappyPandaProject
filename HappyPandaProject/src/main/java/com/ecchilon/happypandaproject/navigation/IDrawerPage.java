@@ -6,8 +6,10 @@ import android.view.ViewGroup;
 /**
  * Created by Alex on 12-4-2014.
  */
-public interface IDrawerItem {
+public interface IDrawerPage {
 	<T> T visit(NavigationDrawerAdapter.IDrawerVisitor<T> visitor, View convertView, ViewGroup group);
+
 	int getViewType();
+
 	boolean isFragmentDisplay();
 }

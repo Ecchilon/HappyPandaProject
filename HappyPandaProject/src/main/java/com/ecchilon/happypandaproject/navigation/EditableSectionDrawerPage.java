@@ -4,14 +4,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
+ * Handles a section item in the drawer which allows the section to be edited
  * Created by Alex on 5-5-2014.
  */
-public class EditableSectionDrawerItem implements IDrawerItem {
+public class EditableSectionDrawerPage implements IDrawerPage {
 	private String mTitle;
 	private int mDrawableId;
 	private View.OnClickListener mListener;
 
-	public EditableSectionDrawerItem(String title, int drawableId, View.OnClickListener listener) {
+	public EditableSectionDrawerPage(String title, int drawableId, View.OnClickListener listener) {
 		mTitle = title;
 		mDrawableId = drawableId;
 		mListener = listener;
@@ -34,6 +35,10 @@ public class EditableSectionDrawerItem implements IDrawerItem {
 
 	public String getTitle() {
 		return mTitle;
+	}
+
+	public int getSectionIconResID() {
+		return mDrawableId;
 	}
 
 	public View.OnClickListener getListener() {

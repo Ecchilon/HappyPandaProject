@@ -11,7 +11,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.ecchilon.happypandaproject.GalleryPageAdapter;
 import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
-import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
+import com.ecchilon.happypandaproject.navigation.navitems.INavPage;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 
@@ -20,24 +20,24 @@ import com.ecchilon.happypandaproject.util.VolleySingleton;
  */
 public class DummyPageAdapter extends GalleryPageAdapter {
 
-	Map<String, INavItem> dummyNavItems;
+	Map<String, INavPage> dummyNavItems;
 
 	public DummyPageAdapter(GalleryOverviewModuleInterface galleryInterface,
 			GalleryItemClickListener itemClickListener) {
 		super(galleryInterface, itemClickListener);
 
-		dummyNavItems = new HashMap<String, INavItem>();
-		dummyNavItems.put("Dummy 1", new DummyNavItem("Dummy 1"));
-		dummyNavItems.put("Dummy 2", new DummyNavItem("Dummy 2"));
-		dummyNavItems.put("Dummy 3", new DummyNavItem("Dummy 3"));
-		dummyNavItems.put("Dummy 4", new DummyNavItem("Dummy 4"));
+		dummyNavItems = new HashMap<String, INavPage>();
+		dummyNavItems.put("Dummy 1", new DummyNavPage("Dummy 1"));
+		dummyNavItems.put("Dummy 2", new DummyNavPage("Dummy 2"));
+		dummyNavItems.put("Dummy 3", new DummyNavPage("Dummy 3"));
+		dummyNavItems.put("Dummy 4", new DummyNavPage("Dummy 4"));
 	}
 
 	@Override
 	public View getView(int i, View view, ViewGroup viewGroup) {
 		Context c = viewGroup.getContext();
 
-		if(view == null) {
+		if (view == null) {
 			view = View.inflate(c, R.layout.gallery_item, null);
 		}
 
@@ -46,8 +46,8 @@ public class DummyPageAdapter extends GalleryPageAdapter {
 		((TextView) view.findViewById(R.id.item_title)).setText(currentItem.getTitle());
 
 		//set all gallery item values
-		if(currentItem.getThumbUrl() != null) {
-			NetworkImageView networkImageView = (NetworkImageView)view.findViewById(R.id.item_thumb);
+		if (currentItem.getThumbUrl() != null) {
+			NetworkImageView networkImageView = (NetworkImageView) view.findViewById(R.id.item_thumb);
 			networkImageView.setImageUrl(currentItem.getThumbUrl(), VolleySingleton.getImageLoader());
 		}
 
@@ -72,6 +72,6 @@ public class DummyPageAdapter extends GalleryPageAdapter {
 			}
 		});
 
-		return  view;
+		return view;
 	}
 }

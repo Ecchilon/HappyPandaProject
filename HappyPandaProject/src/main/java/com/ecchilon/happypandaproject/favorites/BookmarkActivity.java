@@ -19,7 +19,7 @@ import android.widget.AdapterView;
 import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.gson.GsonDrawerItem;
 import com.ecchilon.happypandaproject.navigation.NavDrawerFactory;
-import com.ecchilon.happypandaproject.navigation.NavDrawerItem;
+import com.ecchilon.happypandaproject.navigation.NavDrawerPage;
 import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
@@ -33,7 +33,7 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 
 	private DragSortListView mListView;
 	private DragSortBookmarkAdapter mAdapter;
-	private List<NavDrawerItem> mBookmarks;
+	private List<NavDrawerPage> mBookmarks;
 	private UndoBarController mUndoControl;
 
 	/**
@@ -105,7 +105,7 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 	 */
 	@Override
 	public void drop(int from, int to) {
-		NavDrawerItem movedItem = mBookmarks.remove(from);
+		NavDrawerPage movedItem = mBookmarks.remove(from);
 		mBookmarks.add(to, movedItem);
 
 		updateBookmarks();
@@ -118,7 +118,7 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 	 */
 	@Override
 	public void remove(int i) {
-		NavDrawerItem item = mBookmarks.remove(i);
+		NavDrawerPage item = mBookmarks.remove(i);
 
 		if (mUndoControl != null) {
 			mUndoControl.showUndoBar(false, getString(R.string.undo_message), new NavDrawerParcelable(item, i));
@@ -162,7 +162,7 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 	 * @param name
 	 */
 	@Override
-	public void onNewNameSet(NavDrawerItem item, String name) {
+	public void onNewNameSet(NavDrawerPage item, String name) {
 		item.setTitle(name);
 
 		updateBookmarks();
@@ -172,9 +172,9 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 	 * Sorts the bookmarks alphabetically
 	 */
 	private void sortBookmarks() {
-		Collections.sort(mBookmarks, new Comparator<NavDrawerItem>() {
+		Collections.sort(mBookmarks, new Comparator<NavDrawerPage>() {
 			@Override
-			public int compare(NavDrawerItem navDrawerItem, NavDrawerItem navDrawerItem2) {
+			public int compare(NavDrawerPage navDrawerItem, NavDrawerPage navDrawerItem2) {
 				return navDrawerItem.getTitle().compareToIgnoreCase(navDrawerItem2.getTitle());
 			}
 		});
@@ -201,10 +201,10 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 	 */
 	private static class NavDrawerParcelable implements Parcelable {
 
-		private NavDrawerItem mItem;
+		private NavDrawerPage mItem;
 		private int mPosition;
 
-		public NavDrawerItem getItem() {
+		public NavDrawerPage getItem() {
 			return mItem;
 		}
 
@@ -212,7 +212,7 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 			return mPosition;
 		}
 
-		public NavDrawerParcelable(NavDrawerItem item, int position) {
+		public NavDrawerParcelable(NavDrawerPage item, int position) {
 			mItem = item;
 			mPosition = position;
 		}
