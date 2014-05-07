@@ -4,36 +4,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.ecchilon.happypandaproject.gson.GsonDrawerItem;
+import com.ecchilon.happypandaproject.gson.GsonNavItem;
 import com.ecchilon.happypandaproject.navigation.NavDrawerFactory;
 import com.ecchilon.happypandaproject.navigation.NavDrawerItem;
 import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
-import com.ecchilon.happypandaproject.gson.GsonNavItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 
+/**
+ * Activity wrapper for the @GalleryFragment. Handles ActionBar and navigation
+ */
 public class GalleryActivity extends ActionBarActivity {
 
 	public final static String FRAG_TAG = "GALLERY";
 
-	INavItem mGalleryItem;
+	private INavItem mNavItem;
 
+	/**
+	 * Retrieves the navigation item from the intent, and passes it to the fragment
+	 *
+	 * @param savedInstanceState
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_gallery);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		mGalleryItem = GsonNavItem.getItem(getIntent().getStringExtra(GalleryFragment.NAV_KEY));
+		mNavItem = GsonNavItem.getItem(getIntent().getStringExtra(GalleryFragment.NAV_KEY));
 
 		Bundle args = new Bundle();
-		args.putString(GalleryFragment.NAV_KEY, GsonNavItem.getJson(mGalleryItem));
+		args.putString(GalleryFragment.NAV_KEY, GsonNavItem.getJson(mNavItem));
 		GalleryFragment frag = new GalleryFragment();
 		frag.setArguments(args);
 
@@ -62,12 +71,30 @@ public class GalleryActivity extends ActionBarActivity {
 		MenuItem item = menu.findItem(R.id.action_bookmark);
 		if (isBookmarked()) {
 			item.setEnabled(false);
-			//TODO set greyed icon
+
+			Drawable icon = item.getIcon();
+			if (icon != null) {
+				icon.setAlpha(127);
+			}
+		}
+		else {
+			item.setEnabled(true);
+
+			Drawable icon = item.getIcon();
+			if (icon != null) {
+				icon.setAlpha(127);
+			}
 		}
 
 		return super.onPrepareOptionsMenu(menu);
 	}
 
+	/**
+	 * Handles settings, bookmarks and up navigation in ActionBar
+	 *
+	 * @param item
+	 * @return
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
@@ -93,7 +120,7 @@ public class GalleryActivity extends ActionBarActivity {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		List<NavDrawerItem> bookmarks = loadBookmarks();
 
-		bookmarks.add(NavDrawerFactory.createBookmark(mGalleryItem));
+		bookmarks.add(NavDrawerFactory.createBookmark(mNavItem));
 
 		SharedPreferences.Editor editor = preferences.edit();
 
@@ -111,7 +138,7 @@ public class GalleryActivity extends ActionBarActivity {
 		List<NavDrawerItem> bookmarks = loadBookmarks();
 
 		for (NavDrawerItem item : bookmarks) {
-			if (item.getNavItem().equals(mGalleryItem)) {
+			if (item.getNavItem().equals(mNavItem)) {
 				return true;
 			}
 		}
