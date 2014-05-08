@@ -2,32 +2,32 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="wrap_content">
 	<ImageView
 			android:layout_alignParentLeft="true"
-			android:layout_alignParentTop="true"
+			android:layout_alignBottom="@+id/section_title"
 			android:id="@+id/section_icon"
 			android:layout_width="@dimen/section_icon_size"
 			android:layout_height="@dimen/section_icon_size"
+			android:adjustViewBounds="true"
+			android:layout_marginLeft="@dimen/drawer_divider_padding"
+			android:layout_marginRight="@dimen/drawer_image_margin"
 			android:maxWidth="@dimen/section_icon_size"
-	        android:padding="@dimen/section_padding"
 	        android:visibility="gone"
 			/>
 
 	<TextView
 			style="@style/DrawerText"
-			android:layout_alignBottom="@+id/section_icon"
-			android:layout_toRightOf="@id/section_icon"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
 			android:id="@+id/section_title"
-	        android:padding="@dimen/section_padding"
-			/>
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginRight="@dimen/drawer_divider_padding"
+			android:layout_toRightOf="@id/section_icon"/>
 
 	<View
 			android:layout_below="@+id/section_title"
 			android:layout_width="match_parent"
-			android:layout_height="2dp"
-	        android:padding="@dimen/section_padding"
-	        android:background="@color/drawer_section"/>
+			android:layout_height="1px"
+			android:layout_marginTop="@dimen/drawer_bottom_padding"
+			android:background="@color/drawer_color_inverse"/>
 </RelativeLayout>

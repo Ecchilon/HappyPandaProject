@@ -56,7 +56,7 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 
 	@Override
 	public boolean areAllItemsEnabled() {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -90,11 +90,10 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 
 			ImageView icon = ((ImageView) convertView.findViewById(R.id.section_icon));
 			if(sectionNavItem.getSectionIconResID() != 0) {
-				icon.setVisibility(View.VISIBLE);
 				icon.setImageResource(sectionNavItem.getSectionIconResID());
 			}
 			else {
-				icon.setVisibility(View.GONE);
+				icon.setImageResource(0);
 			}
 
 			return convertView;
@@ -117,11 +116,10 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 
 			ImageView icon = ((ImageView) convertView.findViewById(R.id.section_icon));
 			if (editableSectionDrawerItem.getSectionIconResID() != 0) {
-				icon.setVisibility(View.VISIBLE);
 				icon.setImageResource(editableSectionDrawerItem.getSectionIconResID());
 			}
 			else {
-				icon.setVisibility(View.GONE);
+				icon.setImageResource(0);
 			}
 
 			convertView.findViewById(R.id.edit_section).setOnClickListener(editableSectionDrawerItem.getListener());
