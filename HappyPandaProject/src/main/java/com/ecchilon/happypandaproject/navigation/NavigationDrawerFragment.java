@@ -1,6 +1,7 @@
 package com.ecchilon.happypandaproject.navigation;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.ecchilon.happypandaproject.R;
+import com.ecchilon.happypandaproject.favorites.BookmarkActivity;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 
 /**
@@ -42,7 +44,12 @@ public class NavigationDrawerFragment extends Fragment {
      */
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
 
-    /**
+	/**
+	 * Used to notify fragment of changed bookmarks. Saves reloading every time
+	 */
+	public static String BOOKMARK_CHANGED = "bookmarks_changed";
+
+	/**
      * A pointer to the current callbacks instance (the Activity).
      */
     private NavigationDrawerCallbacks mCallbacks;
@@ -78,7 +85,7 @@ public class NavigationDrawerFragment extends Fragment {
             mFromSavedInstanceState = true;
         }
 
-	    mNavigationAdapter = NavAdapterFactory.createAdapter(getActivity());
+	    createAdapter();
 
         // Select either the default item (1) or the last selected item.
         selectItem(mCurrentSelectedPosition);
@@ -87,7 +94,33 @@ public class NavigationDrawerFragment extends Fragment {
         setHasOptionsMenu(true);
     }
 
-    @Override
+	/**
+	 * Reload if bookmarks have been altered
+	 */
+	@Override
+	public void onResume() {
+		super.onResume();
+
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		if(preferences.getBoolean(BOOKMARK_CHANGED, false)) {
+			createAdapter();
+			mDrawerListView.setAdapter(mNavigationAdapter);
+
+			preferences.edit().putBoolean(BOOKMARK_CHANGED, false).apply();
+		}
+	}
+
+	private void createAdapter() {
+		mNavigationAdapter = NavDrawerFactory.createAdapter(getActivity(), new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent bookmarkIntent = new Intent(getActivity(), BookmarkActivity.class);
+				startActivity(bookmarkIntent);
+			}
+		});
+	}
+
+	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         mDrawerListView = (ListView) inflater.inflate(

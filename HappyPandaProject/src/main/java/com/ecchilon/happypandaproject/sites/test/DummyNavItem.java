@@ -23,4 +23,17 @@ public class DummyNavItem implements INavItem {
 	public String getTitle() {
 		return mDummyTitle;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if(this == o)
+			return true;
+
+		if(!(o instanceof DummyNavItem))
+			return false;
+
+		DummyNavItem other = (DummyNavItem)o;
+
+		return mDummyTitle.equals(other.mDummyTitle);
+	}
 }

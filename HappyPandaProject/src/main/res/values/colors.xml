@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="background_card_color">#ffe3e3e3</color>
-    <color name="black_overlay">#66000000</color>
-    <color name="holo_blue_light">#ff33b5e5</color>
-    <color name="holo_blue_dark">#ff0099cc</color>
+	<color name="background_card_color">#ffe3e3e3</color>
+	<color name="black_overlay">#66000000</color>
+	<color name="holo_blue_light">#ff33b5e5</color>
+	<color name="holo_blue_dark">#ff0099cc</color>
+	<color name="drawer_color_inverse">#4D4D4D</color>
+	<color name="drawer_color">#CCCCCC</color>
+	<color name="drawer_section">#FFFFFF</color>
 </resources>

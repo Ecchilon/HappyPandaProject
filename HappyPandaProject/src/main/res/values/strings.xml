@@ -1,28 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">HappyPanda</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="action_example">Example action</string>
-    <string name="action_settings">Settings</string>
-    <string name="action_search">Search</string>
-    <string name="action_refresh">Refresh</string>
-    <string name="search_hint">Keywords</string>
-    <string name="end_of_overview">No more pages found. Refresh?</string>
-    <string name="title_activity_search">SearchActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_image_viewer">ImageViewerActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="image_loading_failed">The current image failed to load after several attempts.</string>
-    <string name="section_sites">Sites</string>
-    <string name="section_bookmarks">Bookmarks</string>
-    <string name="title_activity_bookmark">BookmarkActivity</string>
+	<string name="app_name">HappyPanda</string>
+	<string name="title_section1">Section 1</string>
+	<string name="title_section2">Section 2</string>
+	<string name="title_section3">Section 3</string>
+	<string name="navigation_drawer_open">Open navigation drawer</string>
+	<string name="navigation_drawer_close">Close navigation drawer</string>
+	<string name="action_example">Example action</string>
+	<string name="action_settings">Settings</string>
+	<string name="action_search">Search</string>
+	<string name="action_refresh">Refresh</string>
+	<string name="search_hint">Keywords</string>
+	<string name="end_of_overview">No more pages found. Refresh?</string>
+	<string name="title_activity_search">SearchActivity</string>
+	<string name="hello_world">Hello world!</string>
+	<string name="title_activity_image_viewer">ImageViewerActivity</string>
+	<string name="dummy_button">Dummy Button</string>
+	<string name="dummy_content">DUMMY\nCONTENT</string>
+	<string name="image_loading_failed">The current image failed to load after several attempts.</string>
+	<string name="section_sites">Sites</string>
+	<string name="section_bookmarks">Bookmarks</string>
+	<string name="title_activity_bookmark">Bookmarks</string>
 	<string name="menu_bookmark">Bookmark</string>
 	<string name="page_dummy">dummy</string>
+	<string name="edit_text">EDIT</string>
+	<string name="undo_message">Bookmark removed</string>
+	<string name="action_sort_abc">Sort</string>
+	<string name="rename_button">Rename</string>
+	<string name="rename_hint">Enter new name</string>
+	<string name="cancel">Cancel</string>
+	<string name="rename_title">Rename bookmark</string>
 
 </resources>

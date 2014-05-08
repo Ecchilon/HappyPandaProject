@@ -1,1 +1,1 @@
-include ':HappyPandaProject'
+include ':HappyPandaProject', ':libs:DragSortListview'
