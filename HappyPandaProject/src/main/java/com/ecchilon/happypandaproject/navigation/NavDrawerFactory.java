@@ -23,7 +23,7 @@ public class NavDrawerFactory {
 		loadFrontPages(navigationItemList, context);
 
 		navigationItemList.add(
-				new EditableSectionDrawerItem(context.getString(R.string.section_bookmarks), R.drawable.ic_menu_star,
+				new EditableSectionDrawerItem(context.getString(R.string.section_bookmarks), R.drawable.icon_bookmark,
 						bookmarksClickListener));
 		navigationItemList.addAll(loadBookmarks(context));
 
