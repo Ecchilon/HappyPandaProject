@@ -18,12 +18,11 @@
     <dimen name="item_padding">10dp</dimen>
 
     <dimen name="title_text_size">14sp</dimen>
-	<dimen name="section_padding">4dp</dimen>
+	<dimen name="section_padding">2dp</dimen>
 	<dimen name="nav_item_padding">8dp</dimen>
-	<dimen name="section_icon_size">28dp</dimen>
+	<dimen name="section_icon_size">36dp</dimen>
 	<dimen name="item_height">67dp</dimen>
 	<dimen name="bookmark_text_padding">50dp</dimen>
 	<dimen name="drag_padding">12dp</dimen>
-	<dimen name="drawer_side_padding">8dp</dimen>
 
 </resources>

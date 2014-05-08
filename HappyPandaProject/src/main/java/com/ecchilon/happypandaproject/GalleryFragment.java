@@ -11,10 +11,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import com.ecchilon.happypandaproject.gson.GsonNavItem;
-import com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity;
+
 import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
-import com.ecchilon.happypandaproject.navigation.navitems.INavPage;
+import com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity;
+import com.ecchilon.happypandaproject.gson.GsonNavItem;
+import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 
@@ -29,7 +30,7 @@ public class GalleryFragment extends Fragment implements GalleryPageAdapter.Page
 	private ListView mList;
 	private GalleryPageAdapter mAdapter;
 
-	private INavPage mGalleryItem;
+	private INavItem mGalleryItem;
 
 	/**
 	 * Key in arguments from which the search query string is retrieved
@@ -42,7 +43,7 @@ public class GalleryFragment extends Fragment implements GalleryPageAdapter.Page
 	public static final String NAV_KEY = "SITE";
 
 	/**
-	 * Constructs a new gallery of items based on the INavPage that is put in as an argument
+	 * Constructs a new gallery of items based on the INavItem that is put in as an argument
 	 *
 	 * @param savedInstanceState
 	 */
@@ -204,12 +205,11 @@ public class GalleryFragment extends Fragment implements GalleryPageAdapter.Page
 	}
 
 	/**
-	 * Opens a new @GalleryActivity with the provided @INavPage
-	 *
+	 * Opens a new @GalleryActivity with the provided @INavItem
 	 * @param item
 	 */
 	@Override
-	public void GalleryNavItemClicked(INavPage item) {
+	public void GalleryNavItemClicked(INavItem item) {
 		Intent galleryIntent = new Intent(getActivity(), GalleryActivity.class);
 		galleryIntent.putExtra(NAV_KEY, GsonNavItem.getJson(item));
 		startActivity(galleryIntent);

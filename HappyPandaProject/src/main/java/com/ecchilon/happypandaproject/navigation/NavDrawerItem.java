@@ -2,17 +2,17 @@ package com.ecchilon.happypandaproject.navigation;
 
 import android.view.View;
 import android.view.ViewGroup;
-import com.ecchilon.happypandaproject.navigation.navitems.INavPage;
+import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 
 /**
- * Handles item with an @INavPage in the drawer Created by Alex on 12-4-2014.
+ * Created by Alex on 12-4-2014.
  */
-public class NavDrawerPage implements IDrawerPage {
+public class NavDrawerItem implements IDrawerItem {
 	private String mTitle;
-	private INavPage mNavItem;
+	private INavItem mNavItem;
 	private boolean mIsFragmentDisplay;
 
-	public NavDrawerPage(String mTitle, INavPage mNavItem, boolean mIsFragmentDisplay) {
+	public NavDrawerItem(String mTitle, INavItem mNavItem, boolean mIsFragmentDisplay) {
 		this.mTitle = mTitle;
 		this.mNavItem = mNavItem;
 		this.mIsFragmentDisplay = mIsFragmentDisplay;
@@ -41,7 +41,7 @@ public class NavDrawerPage implements IDrawerPage {
 		mTitle = title;
 	}
 
-	public INavPage getNavItem() {
+	public INavItem getNavItem() {
 		return mNavItem;
 	}
 
@@ -51,11 +51,11 @@ public class NavDrawerPage implements IDrawerPage {
 			return true;
 		}
 
-		if (!(o instanceof NavDrawerPage)) {
+		if (!(o instanceof NavDrawerItem)) {
 			return false;
 		}
 
-		NavDrawerPage other = (NavDrawerPage) o;
+		NavDrawerItem other = (NavDrawerItem) o;
 
 		return mTitle.equals(other.mTitle) && mNavItem.equals(other.mNavItem)
 				&& mIsFragmentDisplay == other.mIsFragmentDisplay;

@@ -5,54 +5,35 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
 
-	<ImageView
-			android:id="@+id/section_icon"
-			android:layout_width="wrap_content"
-			android:layout_height="@dimen/section_icon_size"
-			android:layout_alignParentLeft="true"
-			android:layout_alignParentBottom="true"
-			android:adjustViewBounds="true"
-			android:maxWidth="@dimen/section_icon_size"
-			android:padding="@dimen/section_padding"
-			android:visibility="gone"
-			/>
-
 	<TextView
-			style="@style/TextAppearance.AppCompat.Widget.Base.ActionMode.Title.Inverse"
 			android:id="@+id/section_title"
+			style="@style/TextAppearance.AppCompat.Widget.Base.ActionMode.Title.Inverse"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:layout_alignParentLeft="true"
 			android:layout_toLeftOf="@+id/edit_section"
-			android:layout_toRightOf="@id/section_icon"
-			android:layout_alignBottom="@+id/edit_section"/>
+			android:layout_alignBottom="@+id/edit_section" />
 
 	<LinearLayout
 			android:id="@+id/edit_section"
+			android:layout_alignParentRight="true"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignParentRight="true"
 			android:orientation="horizontal"
-			android:gravity="center_horizontal"
-			android:paddingRight="@dimen/drawer_side_padding">
+			android:gravity="center_horizontal">
 		<ImageView
 				android:src="@drawable/ic_action_edit"
 				android:layout_width="@dimen/section_icon_size"
 				android:layout_height="@dimen/section_icon_size"
 				android:maxWidth="@dimen/section_icon_size"
 				android:padding="@dimen/section_padding"
-				android:layout_gravity="bottom"/>
+				/>
 		<TextView
-				style="@style/TextAppearance.AppCompat.Widget.Base.ActionMode.Subtitle.Inverse"
+				style="@style/TextAppearance.AppCompat.Widget.Base.ActionMode.Title.Inverse"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/edit_text"
+				android:padding="@dimen/section_padding"
 				android:layout_gravity="bottom"/>
 	</LinearLayout>
-
-	<View
-			android:layout_below="@+id/section_title"
-			android:layout_width="match_parent"
-			android:layout_height="1dp"
-			android:padding="@dimen/section_padding"
-			android:background="@color/black_overlay"/>
 </RelativeLayout>

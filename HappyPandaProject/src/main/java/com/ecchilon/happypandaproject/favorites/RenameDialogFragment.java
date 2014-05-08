@@ -9,7 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import com.ecchilon.happypandaproject.R;
-import com.ecchilon.happypandaproject.navigation.NavDrawerPage;
+import com.ecchilon.happypandaproject.navigation.NavDrawerItem;
 
 /**
  * Dialog which allows user to rename their bookmarks. Created by Alex on 5/6/2014.
@@ -17,12 +17,12 @@ import com.ecchilon.happypandaproject.navigation.NavDrawerPage;
 public class RenameDialogFragment extends DialogFragment implements TextWatcher {
 
 	public interface RenameListener {
-		public void onNewNameSet(NavDrawerPage item, String name);
+		public void onNewNameSet(NavDrawerItem item, String name);
 	}
 
 	private RenameListener mListener;
 	private AlertDialog mDialog;
-	private NavDrawerPage mItem;
+	private NavDrawerItem mItem;
 	private EditText mEditText;
 
 	/**
@@ -39,7 +39,7 @@ public class RenameDialogFragment extends DialogFragment implements TextWatcher 
 	 *
 	 * @param item
 	 */
-	public void setItem(NavDrawerPage item) {
+	public void setItem(NavDrawerItem item) {
 		mItem = item;
 	}
 

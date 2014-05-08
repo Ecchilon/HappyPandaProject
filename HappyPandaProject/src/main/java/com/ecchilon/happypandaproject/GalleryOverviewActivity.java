@@ -10,10 +10,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import com.ecchilon.happypandaproject.favorites.FavoritesDatabaseHelper;
-import com.ecchilon.happypandaproject.gson.GsonNavItem;
 import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
-import com.ecchilon.happypandaproject.navigation.navitems.INavPage;
+import com.ecchilon.happypandaproject.gson.GsonNavItem;
+import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 
 public class GalleryOverviewActivity extends ActionBarActivity
@@ -55,7 +56,7 @@ public class GalleryOverviewActivity extends ActionBarActivity
 	}
 
 	@Override
-	public void onNavigationDrawerItemSelected(INavPage item, int position, boolean isFragment) {
+	public void onNavigationDrawerItemSelected(INavItem item, int position, boolean isFragment) {
 		//stop all current requests from this part of the app. we don't need them anymore!
 		if (mVolleySingleton != null) {
 			VolleySingleton.cancelRequests();
@@ -75,7 +76,7 @@ public class GalleryOverviewActivity extends ActionBarActivity
 	 *
 	 * @param item
 	 */
-	private void showFragment(INavPage item) {
+	private void showFragment(INavItem item) {
 		Bundle args = new Bundle();
 		args.putString(GalleryFragment.NAV_KEY, GsonNavItem.getJson(item));
 		GalleryFragment frag = new GalleryFragment();
@@ -89,11 +90,11 @@ public class GalleryOverviewActivity extends ActionBarActivity
 	}
 
 	/**
-	 * Starts a new @GalleryOverviewActivity activity with the given @INavPage
+	 * Starts a new @GalleryOverviewActivity activity with the given @INavItem
 	 *
 	 * @param item
 	 */
-	private void startNavActivity(INavPage item) {
+	private void startNavActivity(INavItem item) {
 		Intent bookmarkIntent = new Intent(GalleryOverviewActivity.this, GalleryActivity.class);
 		bookmarkIntent.putExtra(GalleryFragment.NAV_KEY, GsonNavItem.getJson(item));
 		startActivity(bookmarkIntent);

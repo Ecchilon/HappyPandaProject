@@ -22,7 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.favorites.BookmarkActivity;
-import com.ecchilon.happypandaproject.navigation.navitems.INavPage;
+import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -229,8 +229,8 @@ public class NavigationDrawerFragment extends Fragment {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
         }
         if (mCallbacks != null) {
-	        INavPage navItem = getSelectedNavItem();
-	        mCallbacks.onNavigationDrawerItemSelected(navItem, mCurrentSelectedPosition, isFragment);
+	        INavItem navItem = getSelectedNavItem();
+            mCallbacks.onNavigationDrawerItemSelected(navItem, mCurrentSelectedPosition, isFragment);
         }
     }
 
@@ -299,12 +299,12 @@ public class NavigationDrawerFragment extends Fragment {
         return ((ActionBarActivity)getActivity()).getSupportActionBar();
     }
 
-	public INavPage getCurrentSelectedItem() {
-		return getSelectedNavItem();
+    public INavItem getCurrentSelectedItem() {
+        return getSelectedNavItem();
     }
 
-	private INavPage getSelectedNavItem() {
-		return ((NavDrawerPage) mNavigationAdapter.getItem(mCurrentSelectedPosition)).getNavItem();
+	private INavItem getSelectedNavItem(){
+		return ((NavDrawerItem)mNavigationAdapter.getItem(mCurrentSelectedPosition)).getNavItem();
 	}
 
     /**
@@ -314,6 +314,6 @@ public class NavigationDrawerFragment extends Fragment {
         /**
          * Called when an item in the navigation drawer is selected.
          */
-        void onNavigationDrawerItemSelected(INavPage item, int position, boolean isFragment);
+        void onNavigationDrawerItemSelected(INavItem item, int position, boolean isFragment);
     }
 }

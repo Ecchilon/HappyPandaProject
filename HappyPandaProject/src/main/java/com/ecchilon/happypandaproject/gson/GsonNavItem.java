@@ -2,8 +2,8 @@ package com.ecchilon.happypandaproject.gson;
 
 import java.util.List;
 
-import com.ecchilon.happypandaproject.navigation.navitems.INavPage;
-import com.ecchilon.happypandaproject.sites.test.DummyNavPage;
+import com.ecchilon.happypandaproject.sites.test.DummyNavItem;
+import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -13,11 +13,10 @@ import com.google.gson.reflect.TypeToken;
  */
 public class GsonNavItem {
 	private static Gson GSON;
-
 	//TODO find an acceptable way around this ugly code
 	static {
-		RuntimeTypeAdapterFactory<INavPage> rta = RuntimeTypeAdapterFactory.of(INavPage.class);
-		rta.registerSubtype(DummyNavPage.class);
+		RuntimeTypeAdapterFactory<INavItem> rta = RuntimeTypeAdapterFactory.of(INavItem.class);
+		rta.registerSubtype(DummyNavItem.class);
 
 		GSON = new GsonBuilder()
 				.registerTypeAdapterFactory(rta)
@@ -28,21 +27,21 @@ public class GsonNavItem {
 		return GSON;
 	}
 
-	public static INavPage getItem(String jsonItem) {
-		return GSON.fromJson(jsonItem, INavPage.class);
+	public static INavItem getItem(String jsonItem) {
+		return GSON.fromJson(jsonItem, INavItem.class);
 	}
 
-	public static String getJson(INavPage navItem) {
-		return GSON.toJson(navItem, INavPage.class);
+	public static String getJson(INavItem navItem) {
+		return GSON.toJson(navItem, INavItem.class);
 	}
 
-	public static String getJson(List<INavPage> navItems) {
-		return GSON.toJson(navItems, new TypeToken<List<INavPage>>() {
+	public static String getJson(List<INavItem> navItems) {
+		return GSON.toJson(navItems, new TypeToken<List<INavItem>>() {
 		}.getType());
 	}
 
-	public static List<INavPage> getItems(String jsonItem) {
-		return GSON.fromJson(jsonItem, new TypeToken<List<INavPage>>() {
+	public static List<INavItem> getItems(String jsonItem) {
+		return GSON.fromJson(jsonItem, new TypeToken<List<INavItem>>() {
 		}.getType());
 	}
 }

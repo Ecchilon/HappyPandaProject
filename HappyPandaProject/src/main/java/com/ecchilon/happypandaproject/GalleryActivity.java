@@ -13,7 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.ecchilon.happypandaproject.gson.GsonDrawerItem;
 import com.ecchilon.happypandaproject.navigation.NavDrawerFactory;
-import com.ecchilon.happypandaproject.navigation.NavDrawerPage;
+import com.ecchilon.happypandaproject.navigation.NavDrawerItem;
 import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
 import com.ecchilon.happypandaproject.gson.GsonNavItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
@@ -22,7 +22,7 @@ public class GalleryActivity extends ActionBarActivity {
 
 	public final static String FRAG_TAG = "GALLERY";
 
-	private INavPage mNavItem;
+	private INavItem mNavItem;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +30,10 @@ public class GalleryActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_gallery);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		mGalleryItem = GsonNavItem.getItem(getIntent().getStringExtra(GalleryFragment.NAV_KEY));
+		mNavItem = GsonNavItem.getItem(getIntent().getStringExtra(GalleryFragment.NAV_KEY));
 
 		Bundle args = new Bundle();
-		args.putString(GalleryFragment.NAV_KEY, GsonNavItem.getJson(mGalleryItem));
+		args.putString(GalleryFragment.NAV_KEY, GsonNavItem.getJson(mNavItem));
 		GalleryFragment frag = new GalleryFragment();
 		frag.setArguments(args);
 
@@ -91,9 +91,9 @@ public class GalleryActivity extends ActionBarActivity {
 	 */
 	private void bookmark() {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-		List<NavDrawerPage> bookmarks = loadBookmarks();
+		List<NavDrawerItem> bookmarks = loadBookmarks();
 
-		bookmarks.add(NavDrawerFactory.createBookmark(mGalleryItem));
+		bookmarks.add(NavDrawerFactory.createBookmark(mNavItem));
 
 		SharedPreferences.Editor editor = preferences.edit();
 
@@ -108,10 +108,10 @@ public class GalleryActivity extends ActionBarActivity {
 	 * @return
 	 */
 	private boolean isBookmarked() {
-		List<NavDrawerPage> bookmarks = loadBookmarks();
+		List<NavDrawerItem> bookmarks = loadBookmarks();
 
-		for (NavDrawerPage item : bookmarks) {
-			if (item.getNavItem().equals(mGalleryItem)) {
+		for (NavDrawerItem item : bookmarks) {
+			if (item.getNavItem().equals(mNavItem)) {
 				return true;
 			}
 		}
@@ -124,13 +124,13 @@ public class GalleryActivity extends ActionBarActivity {
 	 *
 	 * @return a list of bookmarks, or an empty one if no bookmarks have been added yet
 	 */
-	private List<NavDrawerPage> loadBookmarks() {
+	private List<NavDrawerItem> loadBookmarks() {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		if (preferences.contains(NavigationDrawerFragment.BOOKMARKS)) {
 			return GsonDrawerItem.getItems(preferences.getString(NavigationDrawerFragment.BOOKMARKS, null));
 		}
 		else {
-			return new ArrayList<NavDrawerPage>();
+			return new ArrayList<NavDrawerItem>();
 		}
 	}
 }

@@ -5,13 +5,12 @@
               android:layout_height="match_parent">
 	<ImageView
 			android:layout_alignParentLeft="true"
-			android:layout_alignParentBottom="true"
+			android:layout_alignParentTop="true"
 			android:id="@+id/section_icon"
 			android:layout_width="wrap_content"
 			android:layout_height="@dimen/section_icon_size"
 			android:maxWidth="@dimen/section_icon_size"
 	        android:padding="@dimen/section_padding"
-	        android:adjustViewBounds="true"
 	        android:visibility="gone"
 			/>
 
