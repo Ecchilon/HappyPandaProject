@@ -7,7 +7,7 @@
 			android:layout_alignParentLeft="true"
 			android:layout_alignParentTop="true"
 			android:id="@+id/section_icon"
-			android:layout_width="wrap_content"
+			android:layout_width="@dimen/section_icon_size"
 			android:layout_height="@dimen/section_icon_size"
 			android:maxWidth="@dimen/section_icon_size"
 	        android:padding="@dimen/section_padding"
@@ -15,19 +15,19 @@
 			/>
 
 	<TextView
+			style="@style/DrawerText"
 			android:layout_alignBottom="@+id/section_icon"
 			android:layout_toRightOf="@id/section_icon"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:id="@+id/section_title"
-			android:textAppearance="@android:style/TextAppearance.Medium"
 	        android:padding="@dimen/section_padding"
 			/>
 
 	<View
 			android:layout_below="@+id/section_title"
 			android:layout_width="match_parent"
-			android:layout_height="1dp"
+			android:layout_height="2dp"
 	        android:padding="@dimen/section_padding"
-	        android:background="@color/black_overlay" />
+	        android:background="@color/drawer_section"/>
 </RelativeLayout>

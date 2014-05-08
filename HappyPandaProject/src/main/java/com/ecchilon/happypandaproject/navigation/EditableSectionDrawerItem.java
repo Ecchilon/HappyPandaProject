@@ -39,4 +39,8 @@ public class EditableSectionDrawerItem implements IDrawerItem {
 	public View.OnClickListener getListener() {
 		return mListener;
 	}
+
+	public int getSectionIconResID() {
+		return mDrawableId;
+	}
 }

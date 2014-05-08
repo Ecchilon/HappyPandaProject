@@ -5,13 +5,24 @@
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
 
+	<ImageView
+			android:layout_alignParentLeft="true"
+			android:layout_alignParentBottom="true"
+			android:id="@+id/section_icon"
+			android:layout_width="@dimen/section_icon_size"
+			android:layout_height="@dimen/section_icon_size"
+			android:maxWidth="@dimen/section_icon_size"
+			android:padding="@dimen/section_padding"
+			android:visibility="gone"
+			/>
+
 	<TextView
+			style="@style/DrawerText"
 			android:id="@+id/section_title"
-			style="@style/TextAppearance.AppCompat.Widget.Base.ActionMode.Title.Inverse"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_alignParentLeft="true"
 			android:layout_toLeftOf="@+id/edit_section"
+			android:layout_toRightOf="@id/section_icon"
 			android:layout_alignBottom="@+id/edit_section" />
 
 	<LinearLayout
@@ -29,11 +40,18 @@
 				android:padding="@dimen/section_padding"
 				/>
 		<TextView
-				style="@style/TextAppearance.AppCompat.Widget.Base.ActionMode.Title.Inverse"
+				style="@style/DrawerText"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/edit_text"
 				android:padding="@dimen/section_padding"
 				android:layout_gravity="bottom"/>
 	</LinearLayout>
+
+	<View
+			android:layout_below="@+id/section_title"
+			android:layout_width="match_parent"
+			android:layout_height="2dp"
+			android:padding="@dimen/section_padding"
+			android:background="@color/drawer_section"/>
 </RelativeLayout>
