@@ -10,10 +10,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.ecchilon.happypandaproject.favorites.FavoritesDatabaseHelper;
-import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
 import com.ecchilon.happypandaproject.gson.GsonNavItem;
+import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 
@@ -170,7 +169,7 @@ public class GalleryOverviewActivity extends ActionBarActivity
 		@Override
 		public boolean onQueryTextSubmit(String s) {
 			if (s != null && s.trim().length() > 0) {
-				Intent searchIntent = new Intent(GalleryOverviewActivity.this, SearchActivity.class);
+				Intent searchIntent = new Intent(GalleryOverviewActivity.this, GalleryActivity.class);
 				searchIntent.putExtra(GalleryFragment.NAV_KEY, GsonNavItem.getJson(
 						mNavigationDrawerFragment.getCurrentSelectedItem()));
 				searchIntent.putExtra(GalleryFragment.SEARCH_KEY, s);
