@@ -3,7 +3,6 @@ package com.ecchilon.happypandaproject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,10 +10,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
-import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
-import com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity;
 import com.ecchilon.happypandaproject.gson.GsonNavItem;
+import com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity;
+import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.sites.util.SiteFactory;
@@ -74,16 +72,6 @@ public class GalleryFragment extends Fragment implements GalleryPageAdapter.Page
 		//FIXME should be far more user friendly! Error message
 		if (listInterface == null) {
 			throw new IllegalArgumentException("Site module wasn't loaded properly!");
-		}
-
-		if (savedInstanceState == null) {
-			if (!(getActivity() instanceof ActionBarActivity)) {
-				throw new IllegalArgumentException("Activity using this fragment must extends ActionBarActivity!");
-			}
-
-			ActionBarActivity activity = (ActionBarActivity) getActivity();
-			activity.getSupportActionBar().setTitle(mGalleryItem.getTitle());
-			activity.getSupportActionBar().setSubtitle(listInterface.getSubTitle());
 		}
 
 		//restore adapter if it was saved

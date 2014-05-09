@@ -4,18 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.ecchilon.happypandaproject.gson.GsonDrawerItem;
+import com.ecchilon.happypandaproject.gson.GsonNavItem;
 import com.ecchilon.happypandaproject.navigation.NavDrawerFactory;
 import com.ecchilon.happypandaproject.navigation.NavDrawerItem;
 import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
-import com.ecchilon.happypandaproject.gson.GsonNavItem;
+import com.ecchilon.happypandaproject.navigation.SubtitleVisitor;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 
 public class GalleryActivity extends ActionBarActivity {
@@ -23,6 +24,7 @@ public class GalleryActivity extends ActionBarActivity {
 	public final static String FRAG_TAG = "GALLERY";
 
 	private INavItem mNavItem;
+	private SubtitleVisitor mVisitor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +32,26 @@ public class GalleryActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_gallery);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		mNavItem = GsonNavItem.getItem(getIntent().getStringExtra(GalleryFragment.NAV_KEY));
+		mVisitor = new SubtitleVisitor(this);
 
 		Bundle args = new Bundle();
+
+		mNavItem = GsonNavItem.getItem(getIntent().getStringExtra(GalleryFragment.NAV_KEY));
+
+		if (mNavItem == null) {
+			throw new IllegalArgumentException("This Activity requires a INavItem to be passed as an argument!");
+		}
+
 		args.putString(GalleryFragment.NAV_KEY, GsonNavItem.getJson(mNavItem));
+
+		String query = getIntent().getStringExtra(GalleryFragment.SEARCH_KEY);
+		setTitle(query);
+		if (query != null) {
+			args.putString(GalleryFragment.SEARCH_KEY, query);
+		}
+
+		getSupportActionBar().setSubtitle(mNavItem.visit(mVisitor));
+
 		GalleryFragment frag = new GalleryFragment();
 		frag.setArguments(args);
 
@@ -44,8 +62,23 @@ public class GalleryActivity extends ActionBarActivity {
 				.commit();
 	}
 
+	/**
+	 * Sets the title of the activity
+	 *
+	 * @param query
+	 */
+	private void setTitle(String query) {
+		if (query != null) {
+			getSupportActionBar().setTitle("\"" + query + "\"");
+		}
+		else {
+			getSupportActionBar().setTitle(mNavItem.getTitle());
+		}
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.clear();
 		getMenuInflater().inflate(R.menu.menu_gallery, menu);
 
 		return super.onCreateOptionsMenu(menu);
@@ -60,10 +93,7 @@ public class GalleryActivity extends ActionBarActivity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		MenuItem item = menu.findItem(R.id.action_bookmark);
-		if (isBookmarked()) {
-			item.setEnabled(false);
-			//TODO set greyed icon
-		}
+		setStateBookmark(item, !isBookmarked());
 
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -78,12 +108,29 @@ public class GalleryActivity extends ActionBarActivity {
 				break;
 			case R.id.action_bookmark:
 				bookmark();
+				setStateBookmark(item, false);
 				break;
 			case android.R.id.home:
 				NavUtils.navigateUpFromSameTask(this);
 				break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	/**
+	 * Enables or disables the menu item and its icon
+	 * @param bookmarkItem
+	 * @param state
+	 */
+	private void setStateBookmark(MenuItem bookmarkItem, boolean state) {
+		if (state) {
+			bookmarkItem.setEnabled(true);
+			bookmarkItem.getIcon().setAlpha(255);
+		}
+		else {
+			bookmarkItem.setEnabled(false);
+			bookmarkItem.getIcon().setAlpha(77);
+		}
 	}
 
 	/**

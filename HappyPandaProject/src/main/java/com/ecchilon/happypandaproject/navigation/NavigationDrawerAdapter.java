@@ -17,7 +17,9 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 
 	public interface IDrawerVisitor<T> {
 		T execute(SectionDrawerItem sectionItem, View convertView, ViewGroup group);
+
 		T execute(NavDrawerItem navDrawerItem, View convertView, ViewGroup group);
+
 		T execute(EditableSectionDrawerItem editableSectionDrawerItem, View convertView, ViewGroup group);
 	}
 
@@ -56,7 +58,7 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 
 	@Override
 	public boolean areAllItemsEnabled() {
-		return true;
+		return false;
 	}
 
 	@Override
@@ -75,8 +77,9 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 	private class NavDrawerVisitor implements IDrawerVisitor<View> {
 
 		private View inflateView(int id, View convertView, ViewGroup group) {
-			if(convertView != null)
+			if (convertView != null) {
 				return convertView;
+			}
 			else {
 				return LayoutInflater.from(group.getContext()).inflate(id, group, false);
 			}
@@ -86,12 +89,12 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 		public View execute(SectionDrawerItem sectionNavItem, View convertView, ViewGroup group) {
 			convertView = inflateView(R.layout.section_nav_item, convertView, group);
 
-			((TextView)convertView.findViewById(R.id.section_title)).setText(sectionNavItem.getTitle());
+			((TextView) convertView.findViewById(R.id.section_title)).setText(sectionNavItem.getTitle());
 
 			ImageView icon = ((ImageView) convertView.findViewById(R.id.section_icon));
-			if(sectionNavItem.getSectionIconResID() != 0) {
-				icon.setVisibility(View.VISIBLE);
+			if (sectionNavItem.getSectionIconResID() != 0) {
 				icon.setImageResource(sectionNavItem.getSectionIconResID());
+				icon.setVisibility(View.VISIBLE);
 			}
 			else {
 				icon.setVisibility(View.GONE);
@@ -104,7 +107,7 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 		public View execute(NavDrawerItem navDrawerItem, View convertView, ViewGroup group) {
 			convertView = inflateView(R.layout.simple_nav_item, convertView, group);
 
-			((TextView)convertView.findViewById(R.id.nav_item_title)).setText(navDrawerItem.getTitle());
+			((TextView) convertView.findViewById(R.id.nav_item_title)).setText(navDrawerItem.getTitle());
 
 			return convertView;
 		}
@@ -113,12 +116,12 @@ public class NavigationDrawerAdapter extends BaseAdapter {
 		public View execute(EditableSectionDrawerItem editableSectionDrawerItem, View convertView, ViewGroup group) {
 			convertView = inflateView(R.layout.editable_section_item, convertView, group);
 
-			((TextView)convertView.findViewById(R.id.section_title)).setText(editableSectionDrawerItem.getTitle());
+			((TextView) convertView.findViewById(R.id.section_title)).setText(editableSectionDrawerItem.getTitle());
 
 			ImageView icon = ((ImageView) convertView.findViewById(R.id.section_icon));
 			if (editableSectionDrawerItem.getSectionIconResID() != 0) {
-				icon.setVisibility(View.VISIBLE);
 				icon.setImageResource(editableSectionDrawerItem.getSectionIconResID());
+				icon.setVisibility(View.VISIBLE);
 			}
 			else {
 				icon.setVisibility(View.GONE);

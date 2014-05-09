@@ -10,10 +10,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.ecchilon.happypandaproject.favorites.FavoritesDatabaseHelper;
-import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
 import com.ecchilon.happypandaproject.gson.GsonNavItem;
+import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
+import com.ecchilon.happypandaproject.navigation.SubtitleVisitor;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 
@@ -34,9 +34,12 @@ public class GalleryOverviewActivity extends ActionBarActivity
 
 	private VolleySingleton mVolleySingleton;
 	private FavoritesDatabaseHelper databaseHelper;
+	private SubtitleVisitor mVisitor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		mVisitor = new SubtitleVisitor(this);
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_overview);
 
@@ -44,8 +47,6 @@ public class GalleryOverviewActivity extends ActionBarActivity
 
 		mNavigationDrawerFragment = (NavigationDrawerFragment)
 				getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-		mTitle = getTitle();
-		mSubTitle = getSupportActionBar().getSubtitle();
 
 		mVolleySingleton = new VolleySingleton(this);
 
@@ -65,6 +66,9 @@ public class GalleryOverviewActivity extends ActionBarActivity
 
 		if (isFragment) {
 			showFragment(item);
+			mTitle = item.getTitle();
+			mSubTitle = item.visit(mVisitor);
+			restoreActionBar();
 		}
 		else {
 			startNavActivity(item);
@@ -170,7 +174,7 @@ public class GalleryOverviewActivity extends ActionBarActivity
 		@Override
 		public boolean onQueryTextSubmit(String s) {
 			if (s != null && s.trim().length() > 0) {
-				Intent searchIntent = new Intent(GalleryOverviewActivity.this, SearchActivity.class);
+				Intent searchIntent = new Intent(GalleryOverviewActivity.this, GalleryActivity.class);
 				searchIntent.putExtra(GalleryFragment.NAV_KEY, GsonNavItem.getJson(
 						mNavigationDrawerFragment.getCurrentSelectedItem()));
 				searchIntent.putExtra(GalleryFragment.SEARCH_KEY, s);

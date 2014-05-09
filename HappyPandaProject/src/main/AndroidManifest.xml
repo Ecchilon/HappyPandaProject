@@ -24,15 +24,6 @@
 			</intent-filter>
 		</activity>
 		<activity
-				android:name="com.ecchilon.happypandaproject.SearchActivity"
-				android:configChanges="orientation|keyboardHidden|screenSize"
-				android:label="@string/title_activity_search"
-				android:parentActivityName="com.ecchilon.happypandaproject.GalleryOverviewActivity">
-			<meta-data
-					android:name="android.support.PARENT_ACTIVITY"
-					android:value="com.ecchilon.happypandaproject.GalleryOverview"/>
-		</activity>
-		<activity
 				android:name="com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:icon="@drawable/actionbar_icon"

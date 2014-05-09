@@ -10,7 +10,6 @@
     <dimen name="card_padding">10dp</dimen>
     <dimen name="empty_view_size">72dp</dimen>
 
-    <dimen name="divider_padding">4dp</dimen>
     <dimen name="card_height">160dp</dimen>
     <dimen name="card_thumb_width">60dp</dimen>
     <dimen name="card_thumb_height">84dp</dimen>
@@ -24,6 +23,8 @@
 	<dimen name="item_height">67dp</dimen>
 	<dimen name="bookmark_text_padding">50dp</dimen>
 	<dimen name="drag_padding">12dp</dimen>
-	<dimen name="drawer_text_bottom_padding">4dp</dimen>
+	<dimen name="drawer_bottom_padding">4dp</dimen>
+	<dimen name="drawer_divider_padding">8dp</dimen>
+	<dimen name="drawer_image_margin">4dp</dimen>
 
 </resources>

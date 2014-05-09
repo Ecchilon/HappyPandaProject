@@ -9,6 +9,6 @@
         app:showAsAction="never" />
 	<item android:id="@+id/action_bookmark"
 	      android:title="@string/menu_bookmark"
-	      android:icon="@drawable/ic_menu_star"
-	      android:showAsAction="ifRoom"/>
+	      android:icon="@drawable/icon_bookmark_inverse"
+	      app:showAsAction="always"/>
 </menu>
