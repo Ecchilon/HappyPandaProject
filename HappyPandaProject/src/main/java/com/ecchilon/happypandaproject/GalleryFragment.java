@@ -31,11 +31,6 @@ public class GalleryFragment extends Fragment implements GalleryPageAdapter.Page
 	private INavItem mGalleryItem;
 
 	/**
-	 * Key in arguments from which the search query string is retrieved
-	 */
-	public static final String SEARCH_KEY = "SEARCH";
-
-	/**
 	 * Key in arguments from which the navigation item is retrieved
 	 */
 	public static final String NAV_KEY = "SITE";
@@ -59,15 +54,7 @@ public class GalleryFragment extends Fragment implements GalleryPageAdapter.Page
 
 		mGalleryItem = GsonNavItem.getItem(galleryString);
 
-		GalleryOverviewModuleInterface listInterface;
-
-		if (getArguments().containsKey(SEARCH_KEY)) {
-			String query = getArguments().getString(SEARCH_KEY);
-			listInterface = SiteFactory.getSearchInterface(mGalleryItem, query);
-		}
-		else {
-			listInterface = SiteFactory.getOverviewInterface(mGalleryItem);
-		}
+		GalleryOverviewModuleInterface listInterface = SiteFactory.getOverviewInterface(mGalleryItem);
 
 		//FIXME should be far more user friendly! Error message
 		if (listInterface == null) {

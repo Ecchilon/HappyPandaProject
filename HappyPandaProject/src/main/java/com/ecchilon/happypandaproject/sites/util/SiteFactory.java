@@ -33,7 +33,7 @@ public class SiteFactory {
 	 * @param query
 	 * @return
 	 */
-	public static GalleryOverviewModuleInterface getSearchInterface(INavItem index, String query) {
+	public static INavItem getSearchInterface(INavItem index, String query) {
 		return index.visit(new SearchNavVisitor(query));
 	}
 
@@ -62,7 +62,7 @@ public class SiteFactory {
 		}
 	}
 
-	private static class SearchNavVisitor implements INavVisitor<GalleryOverviewModuleInterface> {
+	private static class SearchNavVisitor implements INavVisitor<INavItem> {
 
 		private String mQuery;
 
@@ -71,8 +71,8 @@ public class SiteFactory {
 		}
 
 		@Override
-		public GalleryOverviewModuleInterface execute(DummyNavItem dummyNavItem) {
-			return new DummySearchModuleInterface(mQuery);
+		public INavItem execute(DummyNavItem dummyNavItem) {
+			return new DummyNavItem(mQuery);
 		}
 	}
 
