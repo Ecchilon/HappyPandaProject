@@ -10,8 +10,8 @@ import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-
 import com.ecchilon.happypandaproject.R;
+import com.ecchilon.happypandaproject.gson.GsonMangaItem;
 import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 
 public class ImageViewerActivity extends ActionBarActivity {
@@ -39,9 +39,9 @@ public class ImageViewerActivity extends ActionBarActivity {
 
         ToggleInterface(false);
 
-        ImageViewerItem galleryItem = ImageViewerItem.fromJSONString(getIntent().getStringExtra(GALLERY_ITEM_KEY));
+	    IMangaItem galleryItem = GsonMangaItem.getItem(getIntent().getStringExtra(GALLERY_ITEM_KEY));
 
-        // Instantiate a ViewPager and a PagerAdapter.
+	    // Instantiate a ViewPager and a PagerAdapter.
         mPager = (GestureViewPager)findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager(), SiteFactory.getGalleryPagesInterface(galleryItem));
         mPager.setAdapter(mPagerAdapter);

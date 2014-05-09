@@ -4,8 +4,8 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
-
-import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
+import com.ecchilon.happypandaproject.gson.GsonMangaItem;
+import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.sites.GalleryPagesModuleInterface;
 
 /**
@@ -30,15 +30,15 @@ public class StorageService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        ImageViewerItem item = ImageViewerItem.fromJSONString(intent.getStringExtra(GALLERY_ITEM));
+	    IMangaItem item = GsonMangaItem.getItem(intent.getStringExtra(GALLERY_ITEM));
 
-        if(!isExternalStorageWritable()) {
+	    if(!isExternalStorageWritable()) {
             Intent failIntent = new Intent(BROADCAST_ACTION);
             //notify that it was a storage fail
             failIntent.putExtra(DOWNLOAD_STATUS, StorageStatus.failedStoring);
             //return item to tell application which item it was that failed
-            failIntent.putExtra(GALLERY_ITEM, item.toJSONString());
-            LocalBroadcastManager.getInstance(this).sendBroadcast(failIntent);
+		    failIntent.putExtra(GALLERY_ITEM, GsonMangaItem.getJson(item));
+		    LocalBroadcastManager.getInstance(this).sendBroadcast(failIntent);
         }
     }
 
@@ -55,9 +55,9 @@ public class StorageService extends IntentService {
 		        Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }
 
-    public static GalleryPagesModuleInterface getGallery(ImageViewerItem item) {
+	public static GalleryPagesModuleInterface getGallery(IMangaItem item) {
 
-        return new GalleryPagesModuleInterface() {
+		return new GalleryPagesModuleInterface() {
             @Override
             public int getPageCount() {
                 return 0;

@@ -1,4 +1,4 @@
-package com.ecchilon.happypandaproject.favorites;
+package com.ecchilon.happypandaproject.bookmarks;
 /*
  * Copyright 2012 Roman Nurik
  *

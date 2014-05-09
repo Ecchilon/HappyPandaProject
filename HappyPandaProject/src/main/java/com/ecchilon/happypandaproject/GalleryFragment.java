@@ -10,11 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import com.ecchilon.happypandaproject.gson.GsonMangaItem;
 import com.ecchilon.happypandaproject.gson.GsonNavItem;
+import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity;
-import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
-import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 
 /**
@@ -54,13 +54,6 @@ public class GalleryFragment extends Fragment implements GalleryPageAdapter.Page
 
 		mGalleryItem = GsonNavItem.getItem(galleryString);
 
-		GalleryOverviewModuleInterface listInterface = SiteFactory.getOverviewInterface(mGalleryItem);
-
-		//FIXME should be far more user friendly! Error message
-		if (listInterface == null) {
-			throw new IllegalArgumentException("Site module wasn't loaded properly!");
-		}
-
 		//restore adapter if it was saved
 		final Object data = getActivity().getLastCustomNonConfigurationInstance();
 		if (data instanceof GalleryPageAdapter) {
@@ -68,7 +61,10 @@ public class GalleryFragment extends Fragment implements GalleryPageAdapter.Page
 		}
 
 		if (mAdapter == null) {
-			mAdapter = SiteFactory.getGalleryAdapter(mGalleryItem, listInterface, this);
+			mAdapter = SiteFactory.getGalleryAdapter(mGalleryItem, this, getActivity());
+			if (mAdapter == null) {
+				throw new IllegalArgumentException("Site module wasn't loaded properly!");
+			}
 			mAdapter.setPageCreationFailedListener(this);
 		}
 	}
@@ -168,19 +164,20 @@ public class GalleryFragment extends Fragment implements GalleryPageAdapter.Page
 	}
 
 	/**
-	 * Opens an @ImageViewerActivity activity with the provided @ImageViewerItem
+	 * Opens an @ImageViewerActivity activity with the provided @IMangaItem
 	 *
 	 * @param item
 	 */
 	@Override
-	public void GalleryItemClicked(ImageViewerItem item) {
+	public void GalleryItemClicked(IMangaItem item) {
 		Intent imageViewIntent = new Intent(getActivity(), ImageViewerActivity.class);
-		imageViewIntent.putExtra(ImageViewerActivity.GALLERY_ITEM_KEY, item.toJSONString());
+		imageViewIntent.putExtra(ImageViewerActivity.GALLERY_ITEM_KEY, GsonMangaItem.getJson(item));
 		startActivity(imageViewIntent);
 	}
 
 	/**
 	 * Opens a new @GalleryActivity with the provided @INavItem
+	 *
 	 * @param item
 	 */
 	@Override
@@ -191,7 +188,7 @@ public class GalleryFragment extends Fragment implements GalleryPageAdapter.Page
 	}
 
 	@Override
-	public void GalleryItemFavoriteClicked(ImageViewerItem item) {
-		//TODO store ImageViewerItem in favorites.
+	public void GalleryItemFavoriteClicked(IMangaItem item) {
+		//TODO store IMangaItem in favorites.
 	}
 }

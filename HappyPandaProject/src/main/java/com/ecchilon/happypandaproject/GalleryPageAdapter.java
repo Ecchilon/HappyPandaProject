@@ -1,40 +1,33 @@
 package com.ecchilon.happypandaproject;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import android.content.Context;
 import android.support.v7.widget.PopupMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-
-import com.android.volley.toolbox.NetworkImageView;
-import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
+import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.util.PagedScrollAdapter;
-import com.ecchilon.happypandaproject.util.VolleySingleton;
 
 /**
  * Created by Alex on 1/4/14.
  */
-public abstract class GalleryPageAdapter extends PagedScrollAdapter<ImageViewerItem> {
+public abstract class GalleryPageAdapter<T extends IMangaItem> extends PagedScrollAdapter<T> {
 
 	public interface PageCreationFailedListener {
 		public void PageCreationFailed();
 	}
 
 	public interface GalleryItemClickListener {
-		public void GalleryItemClicked(ImageViewerItem item);
+		public void GalleryItemClicked(IMangaItem item);
 
 		public void GalleryNavItemClicked(INavItem item);
 
-		public void GalleryItemFavoriteClicked(ImageViewerItem item);
+		public void GalleryItemFavoriteClicked(IMangaItem item);
 	}
 
 	private PageCreationFailedListener mListener;

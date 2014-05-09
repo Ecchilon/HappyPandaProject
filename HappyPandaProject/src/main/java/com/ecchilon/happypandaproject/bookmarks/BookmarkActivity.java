@@ -1,4 +1,4 @@
-package com.ecchilon.happypandaproject.favorites;
+package com.ecchilon.happypandaproject.bookmarks;
 
 import java.util.Collections;
 import java.util.Comparator;

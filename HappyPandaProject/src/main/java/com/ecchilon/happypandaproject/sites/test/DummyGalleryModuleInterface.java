@@ -1,12 +1,10 @@
 package com.ecchilon.happypandaproject.sites.test;
 
-import android.view.View;
-
-import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
-import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
+import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 
 /**
  * A simply dummy class to test the factory and the fragments
@@ -17,18 +15,14 @@ public class DummyGalleryModuleInterface implements GalleryOverviewModuleInterfa
     @Override
     public void getPage(int index, GalleryPageCreatedCallback listener) {
         if(index < 3) {
-            List<ImageViewerItem> items = new ArrayList<ImageViewerItem>();
-            for(int i = 0; i < 10; i++)
-                items.add(new ImageViewerItem("TitleTest " + (index*10 + i), null, null));
+	        List<IMangaItem> items = new ArrayList<IMangaItem>();
+	        for (int i = 0; i < 10; i++) {
+		        items.add(new DummyMangaItem("TitleTest " + (index * 10 + i)));
+	        }
 
-            listener.GalleryOverviewPageCreated(items);
+	        listener.GalleryOverviewPageCreated(items);
         }
         else
             listener.PageCreationFailed();
-    }
-
-    @Override
-    public String getSubTitle() {
-        return "test";
     }
 }

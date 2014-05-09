@@ -1,4 +1,4 @@
-package com.ecchilon.happypandaproject.favorites;
+package com.ecchilon.happypandaproject.bookmarks;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

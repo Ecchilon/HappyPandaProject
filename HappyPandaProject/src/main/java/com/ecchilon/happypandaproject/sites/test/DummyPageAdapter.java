@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.ecchilon.happypandaproject.GalleryPageAdapter;
 import com.ecchilon.happypandaproject.R;
-import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
@@ -18,7 +17,7 @@ import com.ecchilon.happypandaproject.util.VolleySingleton;
 /**
  * Created by Alex on 5/4/2014.
  */
-public class DummyPageAdapter extends GalleryPageAdapter {
+public class DummyPageAdapter extends GalleryPageAdapter<DummyMangaItem> {
 
 	Map<String, INavItem> dummyNavItems;
 
@@ -41,7 +40,7 @@ public class DummyPageAdapter extends GalleryPageAdapter {
 			view = View.inflate(c, R.layout.gallery_item, null);
 		}
 
-		final ImageViewerItem currentItem = getItem(i);
+		final DummyMangaItem currentItem = getItem(i);
 
 		((TextView) view.findViewById(R.id.item_title)).setText(currentItem.getTitle());
 
