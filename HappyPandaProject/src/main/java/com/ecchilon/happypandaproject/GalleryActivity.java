@@ -44,12 +44,7 @@ public class GalleryActivity extends ActionBarActivity {
 
 		args.putString(GalleryFragment.NAV_KEY, GsonNavItem.getJson(mNavItem));
 
-		String query = getIntent().getStringExtra(GalleryFragment.SEARCH_KEY);
-		setTitle(query);
-		if (query != null) {
-			args.putString(GalleryFragment.SEARCH_KEY, query);
-		}
-
+		getSupportActionBar().setTitle(mNavItem.getTitle());
 		getSupportActionBar().setSubtitle(mNavItem.visit(mVisitor));
 
 		GalleryFragment frag = new GalleryFragment();
@@ -62,23 +57,8 @@ public class GalleryActivity extends ActionBarActivity {
 				.commit();
 	}
 
-	/**
-	 * Sets the title of the activity
-	 *
-	 * @param query
-	 */
-	private void setTitle(String query) {
-		if (query != null) {
-			getSupportActionBar().setTitle("\"" + query + "\"");
-		}
-		else {
-			getSupportActionBar().setTitle(mNavItem.getTitle());
-		}
-	}
-
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.clear();
+		public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_gallery, menu);
 
 		return super.onCreateOptionsMenu(menu);

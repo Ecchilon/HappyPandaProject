@@ -15,6 +15,7 @@ import com.ecchilon.happypandaproject.gson.GsonNavItem;
 import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
 import com.ecchilon.happypandaproject.navigation.SubtitleVisitor;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
+import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 
 public class GalleryOverviewActivity extends ActionBarActivity
@@ -175,9 +176,11 @@ public class GalleryOverviewActivity extends ActionBarActivity
 		public boolean onQueryTextSubmit(String s) {
 			if (s != null && s.trim().length() > 0) {
 				Intent searchIntent = new Intent(GalleryOverviewActivity.this, GalleryActivity.class);
-				searchIntent.putExtra(GalleryFragment.NAV_KEY, GsonNavItem.getJson(
-						mNavigationDrawerFragment.getCurrentSelectedItem()));
-				searchIntent.putExtra(GalleryFragment.SEARCH_KEY, s);
+
+				INavItem searchItem =
+						SiteFactory.getSearchInterface(mNavigationDrawerFragment.getCurrentSelectedItem(), s);
+
+				searchIntent.putExtra(GalleryFragment.NAV_KEY, GsonNavItem.getJson(searchItem));
 
 				if (searchIntent.resolveActivity(getPackageManager()) != null) {
 					GalleryOverviewActivity.this.startActivity(searchIntent);
