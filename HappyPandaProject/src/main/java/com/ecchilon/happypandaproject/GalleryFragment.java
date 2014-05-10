@@ -10,30 +10,32 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
+import com.ecchilon.happypandaproject.favorites.FavoritesLoader;
 import com.ecchilon.happypandaproject.gson.GsonMangaItem;
 import com.ecchilon.happypandaproject.gson.GsonNavItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
-import com.ecchilon.happypandaproject.sites.util.SiteFactory;
+import com.ecchilon.happypandaproject.sites.util.AdapterBuilder;
 
 /**
  * Created by Alex on 1/4/14.
  */
 public class GalleryFragment extends Fragment implements GalleryPageAdapter.PageCreationFailedListener,
 		GalleryPageAdapter.GalleryItemClickListener {
-	public GalleryFragment() {
-	}
+
+	/**
+	 * Key in arguments from which the navigation item is retrieved
+	 */
+	public static final String NAV_KEY = "SITE";
 
 	private ListView mList;
 	private GalleryPageAdapter mAdapter;
 
 	private INavItem mGalleryItem;
 
-	/**
-	 * Key in arguments from which the navigation item is retrieved
-	 */
-	public static final String NAV_KEY = "SITE";
+	private FavoritesLoader mLoader;
 
 	/**
 	 * Constructs a new gallery of items based on the INavItem that is put in as an argument
@@ -60,8 +62,12 @@ public class GalleryFragment extends Fragment implements GalleryPageAdapter.Page
 			mAdapter = (GalleryPageAdapter) data;
 		}
 
+		mLoader = new FavoritesLoader(getActivity());
+
 		if (mAdapter == null) {
-			mAdapter = SiteFactory.getGalleryAdapter(mGalleryItem, this, getActivity());
+			mAdapter = mGalleryItem.visit(
+					new AdapterBuilder(getActivity()).withFavoritesLoader(mLoader).withGalleryItemListener(this));
+
 			if (mAdapter == null) {
 				throw new IllegalArgumentException("Site module wasn't loaded properly!");
 			}
@@ -189,6 +195,16 @@ public class GalleryFragment extends Fragment implements GalleryPageAdapter.Page
 
 	@Override
 	public void GalleryItemFavoriteClicked(IMangaItem item) {
-		//TODO store IMangaItem in favorites.
+		if (!mLoader.containsFavorite(item)) {
+			mLoader.addFavorite(item);
+			mAdapter.notifyDataSetChanged();
+
+			Toast.makeText(getActivity(), item.getTitle() + " " + getString(R.string.added_favorite),
+					Toast.LENGTH_SHORT).show();
+		}
+		else {
+			//TODO fancier than toast?
+			Toast.makeText(getActivity(), R.string.already_favorite, Toast.LENGTH_SHORT).show();
+		}
 	}
 }

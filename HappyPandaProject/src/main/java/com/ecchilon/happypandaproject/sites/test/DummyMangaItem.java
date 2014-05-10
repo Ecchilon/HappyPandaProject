@@ -27,4 +27,19 @@ public class DummyMangaItem implements IMangaItem {
 	public String getThumbUrl() {
 		return null;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+
+		if (!(o instanceof DummyMangaItem)) {
+			return false;
+		}
+
+		DummyMangaItem other = (DummyMangaItem) o;
+
+		return this.mTitle.equals(other.mTitle);
+	}
 }

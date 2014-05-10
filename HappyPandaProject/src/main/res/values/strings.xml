@@ -31,5 +31,7 @@
 	<string name="rename_hint">Enter new name</string>
 	<string name="cancel">Cancel</string>
 	<string name="rename_title">Rename bookmark</string>
+	<string name="already_favorite">Manga already in favorites!</string>
+	<string name="added_favorite">added to favorites!</string>
 
 </resources>

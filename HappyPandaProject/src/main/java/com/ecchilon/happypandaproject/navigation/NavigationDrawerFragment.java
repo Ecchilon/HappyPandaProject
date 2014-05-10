@@ -175,7 +175,7 @@ public class NavigationDrawerFragment extends Fragment {
 					return;
 				}
 
-				getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+				getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
 			}
 
 			@Override
@@ -194,7 +194,7 @@ public class NavigationDrawerFragment extends Fragment {
 					sp.edit().putBoolean(PREF_USER_LEARNED_DRAWER, true).commit();
 				}
 
-				getActivity().invalidateOptionsMenu(); // calls onPrepareOptionsMenu()
+				getActivity().supportInvalidateOptionsMenu(); // calls onPrepareOptionsMenu()
 			}
 		};
 

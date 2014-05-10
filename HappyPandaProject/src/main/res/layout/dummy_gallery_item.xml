@@ -33,7 +33,7 @@
 			android:layout_height="@dimen/card_button_size"
 			android:layout_alignParentBottom="true"
 			android:layout_toLeftOf="@+id/item_overflow"
-			android:src="@drawable/ic_action_important"
+			android:src="@drawable/ic_action_favorite"
 			android:scaleType="fitCenter"
 			android:clickable="true"
 			android:background="@drawable/button_selector"

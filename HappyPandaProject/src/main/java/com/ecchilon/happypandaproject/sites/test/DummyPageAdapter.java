@@ -6,10 +6,12 @@ import java.util.Map;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.android.volley.toolbox.NetworkImageView;
 import com.ecchilon.happypandaproject.GalleryPageAdapter;
 import com.ecchilon.happypandaproject.R;
+import com.ecchilon.happypandaproject.favorites.FavoritesLoader;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
@@ -22,8 +24,8 @@ public class DummyPageAdapter extends GalleryPageAdapter<DummyMangaItem> {
 	Map<String, INavItem> dummyNavItems;
 
 	public DummyPageAdapter(GalleryOverviewModuleInterface galleryInterface,
-			GalleryItemClickListener itemClickListener) {
-		super(galleryInterface, itemClickListener);
+			GalleryItemClickListener itemClickListener, FavoritesLoader favoritesLoader) {
+		super(galleryInterface, itemClickListener, favoritesLoader);
 
 		dummyNavItems = new HashMap<String, INavItem>();
 		dummyNavItems.put("Dummy 1", new DummyNavItem("Dummy 1"));
@@ -50,13 +52,8 @@ public class DummyPageAdapter extends GalleryPageAdapter<DummyMangaItem> {
 			networkImageView.setImageUrl(currentItem.getThumbUrl(), VolleySingleton.getImageLoader());
 		}
 
-		//set up click calls
-		view.findViewById(R.id.item_favorite).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				getGalleryItemClickListener().GalleryItemFavoriteClicked(currentItem);
-			}
-		});
+		setupFavoriteButton((ImageView) view.findViewById(R.id.item_favorite), currentItem);
+
 		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
@@ -72,5 +69,28 @@ public class DummyPageAdapter extends GalleryPageAdapter<DummyMangaItem> {
 		});
 
 		return view;
+	}
+
+	/**
+	 * Enables or disables the favorite button based on whether the item is already in favorites
+	 *
+	 * @param view
+	 * @param item
+	 */
+	private void setupFavoriteButton(ImageView view, final DummyMangaItem item) {
+
+		if (isFavorite(item)) {
+			view.setImageResource(R.drawable.ic_action_favorite_disabled);
+		}
+		else {
+			view.setImageResource(R.drawable.ic_action_favorite);
+		}
+
+		view.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				getGalleryItemClickListener().GalleryItemFavoriteClicked(item);
+			}
+		});
 	}
 }

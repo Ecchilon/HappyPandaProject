@@ -19,8 +19,8 @@ public class FavoritesAdapter extends GalleryPageAdapter<IMangaItem> {
 	private FavoritesViewVisitor mVisitor;
 
 	public FavoritesAdapter(GalleryOverviewModuleInterface galleryInterface,
-			GalleryItemClickListener itemClickListener) {
-		super(galleryInterface, itemClickListener);
+			GalleryItemClickListener itemClickListener, FavoritesLoader favoritesLoader) {
+		super(galleryInterface, itemClickListener, favoritesLoader);
 
 		mVisitor = new FavoritesViewVisitor();
 	}

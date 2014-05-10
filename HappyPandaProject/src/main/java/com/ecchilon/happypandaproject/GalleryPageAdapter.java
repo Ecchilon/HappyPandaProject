@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import com.ecchilon.happypandaproject.favorites.FavoritesLoader;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
@@ -33,13 +34,15 @@ public abstract class GalleryPageAdapter<T extends IMangaItem> extends PagedScro
 	private PageCreationFailedListener mListener;
 	private GalleryItemClickListener mGalleryItemClickListener;
 	private GalleryOverviewModuleInterface mGalleryInterface;
+	private FavoritesLoader mLoader;
 
 	private PopupMenu mCurrentOverflowMenu;
 
 	public GalleryPageAdapter(GalleryOverviewModuleInterface galleryInterface,
-			GalleryItemClickListener itemClickListener) {
+			GalleryItemClickListener itemClickListener, FavoritesLoader loader) {
 		mGalleryInterface = galleryInterface;
 		mGalleryItemClickListener = itemClickListener;
+		mLoader = loader;
 	}
 
 	protected GalleryOverviewModuleInterface getInterface() {
@@ -126,6 +129,16 @@ public abstract class GalleryPageAdapter<T extends IMangaItem> extends PagedScro
 		for (String name : itemNames) {
 			menu.add(name);
 		}
+	}
+
+	/**
+	 * Returns whether this item has been added to favorites
+	 *
+	 * @param item
+	 * @return
+	 */
+	protected final boolean isFavorite(T item) {
+		return mLoader.containsFavorite(item);
 	}
 
 	/**
