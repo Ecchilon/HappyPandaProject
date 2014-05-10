@@ -16,7 +16,7 @@ public class DummyMangaItem implements IMangaItem {
 
 	@Override
 	public <T> T visit(IMangaVisitor<T> visitor) {
-		return null;
+		return visitor.execute(this);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.ecchilon.happypandaproject.imageviewer;
 
+import com.ecchilon.happypandaproject.sites.test.DummyMangaItem;
 import com.ecchilon.happypandaproject.storage.AlbumIndex;
 
 /**
@@ -7,4 +8,6 @@ import com.ecchilon.happypandaproject.storage.AlbumIndex;
  */
 public interface IMangaVisitor<T> {
 	T execute(AlbumIndex.LocalImageViewerItem localImageViewerItem);
+
+	T execute(DummyMangaItem dummyMangaItem);
 }

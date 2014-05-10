@@ -36,8 +36,8 @@ public class DummyPageAdapter extends GalleryPageAdapter<DummyMangaItem> {
 	public View getView(int i, View view, ViewGroup viewGroup) {
 		Context c = viewGroup.getContext();
 
-		if(view == null) {
-			view = View.inflate(c, R.layout.gallery_item, null);
+		if (view == null) {
+			view = View.inflate(c, R.layout.dummy_gallery_item, null);
 		}
 
 		final DummyMangaItem currentItem = getItem(i);
@@ -45,8 +45,8 @@ public class DummyPageAdapter extends GalleryPageAdapter<DummyMangaItem> {
 		((TextView) view.findViewById(R.id.item_title)).setText(currentItem.getTitle());
 
 		//set all gallery item values
-		if(currentItem.getThumbUrl() != null) {
-			NetworkImageView networkImageView = (NetworkImageView)view.findViewById(R.id.item_thumb);
+		if (currentItem.getThumbUrl() != null) {
+			NetworkImageView networkImageView = (NetworkImageView) view.findViewById(R.id.item_thumb);
 			networkImageView.setImageUrl(currentItem.getThumbUrl(), VolleySingleton.getImageLoader());
 		}
 
@@ -71,6 +71,6 @@ public class DummyPageAdapter extends GalleryPageAdapter<DummyMangaItem> {
 			}
 		});
 
-		return  view;
+		return view;
 	}
 }
