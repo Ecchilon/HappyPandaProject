@@ -1,4 +1,4 @@
-package com.ecchilon.happypandaproject;
+package com.ecchilon.happypandaproject.gallery;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,30 +10,34 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
+import com.ecchilon.happypandaproject.GalleryActivity;
+import com.ecchilon.happypandaproject.R;
+import com.ecchilon.happypandaproject.favorites.FavoritesLoader;
+import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
+import com.ecchilon.happypandaproject.gson.GsonMangaItem;
 import com.ecchilon.happypandaproject.gson.GsonNavItem;
+import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity;
-import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
-import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
-import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
-import com.ecchilon.happypandaproject.sites.util.SiteFactory;
+import com.ecchilon.happypandaproject.sites.util.AdapterBuilder;
 
 /**
  * Created by Alex on 1/4/14.
  */
-public class GalleryFragment extends Fragment implements GalleryPageAdapter.PageCreationFailedListener,
-		GalleryPageAdapter.GalleryItemClickListener {
-	public GalleryFragment() {
-	}
-
-	private ListView mList;
-	private GalleryPageAdapter mAdapter;
-
-	private INavItem mGalleryItem;
+public class GalleryFragment extends Fragment implements AbstractGalleryPageAdapter.PageCreationFailedListener,
+		AbstractGalleryPageAdapter.GalleryItemClickListener {
 
 	/**
 	 * Key in arguments from which the navigation item is retrieved
 	 */
 	public static final String NAV_KEY = "SITE";
+
+	private ListView mList;
+	private AbstractGalleryPageAdapter mAdapter;
+
+	private INavItem mGalleryItem;
+
+	private FavoritesLoader mLoader;
 
 	/**
 	 * Constructs a new gallery of items based on the INavItem that is put in as an argument
@@ -54,21 +58,21 @@ public class GalleryFragment extends Fragment implements GalleryPageAdapter.Page
 
 		mGalleryItem = GsonNavItem.getItem(galleryString);
 
-		GalleryOverviewModuleInterface listInterface = SiteFactory.getOverviewInterface(mGalleryItem);
-
-		//FIXME should be far more user friendly! Error message
-		if (listInterface == null) {
-			throw new IllegalArgumentException("Site module wasn't loaded properly!");
-		}
-
 		//restore adapter if it was saved
 		final Object data = getActivity().getLastCustomNonConfigurationInstance();
-		if (data instanceof GalleryPageAdapter) {
-			mAdapter = (GalleryPageAdapter) data;
+		if (data instanceof AbstractGalleryPageAdapter) {
+			mAdapter = (AbstractGalleryPageAdapter) data;
 		}
 
+		mLoader = new FavoritesLoader(getActivity());
+
 		if (mAdapter == null) {
-			mAdapter = SiteFactory.getGalleryAdapter(mGalleryItem, listInterface, this);
+			mAdapter = mGalleryItem.visit(
+					new AdapterBuilder(getActivity()).withFavoritesLoader(mLoader).withGalleryItemListener(this));
+
+			if (mAdapter == null) {
+				throw new IllegalArgumentException("Site module wasn't loaded properly!");
+			}
 			mAdapter.setPageCreationFailedListener(this);
 		}
 	}
@@ -168,19 +172,20 @@ public class GalleryFragment extends Fragment implements GalleryPageAdapter.Page
 	}
 
 	/**
-	 * Opens an @ImageViewerActivity activity with the provided @ImageViewerItem
+	 * Opens an @ImageViewerActivity activity with the provided @IMangaItem
 	 *
 	 * @param item
 	 */
 	@Override
-	public void GalleryItemClicked(ImageViewerItem item) {
+	public void GalleryItemClicked(IMangaItem item) {
 		Intent imageViewIntent = new Intent(getActivity(), ImageViewerActivity.class);
-		imageViewIntent.putExtra(ImageViewerActivity.GALLERY_ITEM_KEY, item.toJSONString());
+		imageViewIntent.putExtra(ImageViewerActivity.GALLERY_ITEM_KEY, GsonMangaItem.getJson(item));
 		startActivity(imageViewIntent);
 	}
 
 	/**
 	 * Opens a new @GalleryActivity with the provided @INavItem
+	 *
 	 * @param item
 	 */
 	@Override
@@ -191,7 +196,17 @@ public class GalleryFragment extends Fragment implements GalleryPageAdapter.Page
 	}
 
 	@Override
-	public void GalleryItemFavoriteClicked(ImageViewerItem item) {
-		//TODO store ImageViewerItem in favorites.
+	public void GalleryItemFavoriteClicked(IMangaItem item) {
+		if (!mLoader.containsFavorite(item)) {
+			mLoader.addFavorite(item);
+			mAdapter.notifyDataSetChanged();
+
+			Toast.makeText(getActivity(), item.getTitle() + " " + getString(R.string.added_favorite),
+					Toast.LENGTH_SHORT).show();
+		}
+		else {
+			//TODO fancier than toast?
+			Toast.makeText(getActivity(), R.string.already_favorite, Toast.LENGTH_SHORT).show();
+		}
 	}
 }

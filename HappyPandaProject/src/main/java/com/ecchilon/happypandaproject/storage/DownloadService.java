@@ -3,95 +3,60 @@ package com.ecchilon.happypandaproject.storage;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Intent;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.RemoteException;
-
-import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
-
-import java.util.ArrayList;
+import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 
 /**
  * Created by Alex on 2/8/14.
  */
 public class DownloadService extends Service {
-    public interface DownloadTaskHandler {
-        public void startTask(ImageViewerItem task);
-        public void stopTask(ImageViewerItem task);
-    }
 
-    private static final int NOTIFY_ID = 2131268947;
+	private static final int NOTIFY_ID = 2131268947;
 
-    /** For showing and hiding our notification. */
-    NotificationManager mNM;
-    /** Keeps track of all current registered clients. */
-    ArrayList<Messenger> mClients = new ArrayList<Messenger>();
-    /** Holds last value set by a client. */
-    int mValue = 0;
+	/**
+	 * For showing and hiding our notification.
+	 */
+	NotificationManager mNM;
+	/**
+	 * Holds last value set by a client.
+	 */
+	int mValue = 0;
 
-    /**
-     * Command to the service to register a client, receiving callbacks
-     * from the service.  The Message's replyTo field must be a Messenger of
-     * the client where callbacks should be sent.
-     */
-    static final int MSG_REGISTER_CLIENT = 1;
+	private DownloadTaskHandler mTaskHandler;
 
-    /**
-     * Command to the service to unregister a client, ot stop receiving callbacks
-     * from the service.  The Message's replyTo field must be a Messenger of
-     * the client as previously given with MSG_REGISTER_CLIENT.
-     */
-    static final int MSG_UNREGISTER_CLIENT = 2;
+	public DownloadService() {
+		mTaskHandler = new ThreadedDownloader(this);
+	}
 
-    static final int MSG_START_TASK = 3;
+	@Override
+	public void onCreate() {
+		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-    static final int MSG_STOP_TASK = 4;
+		// Display a notification about us starting.
+		showNotification();
+	}
 
-    static final int MSG_UPDATE_TASK = 5;
+	@Override
+	public void onDestroy() {
+		// Cancel the persistent notification.
+		mNM.cancel(NOTIFY_ID);
+	}
 
-    private DownloadTaskHandler mTaskHandler;
+	/**
+	 * When binding to the service, we return an interface to our messenger for sending messages to the service.
+	 */
+	@Override
+	public IBinder onBind(Intent intent) {
+		return mTaskHandler;
+	}
 
-    public  DownloadService(){
-        mTaskHandler = new ThreadedDownloader(this);
-    }
-
-    /**
-     * Target we publish for clients to send messages to IncomingHandler.
-     */
-    final Messenger mMessenger = new Messenger(new IncomingHandler());
-
-    @Override
-    public void onCreate() {
-        mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-
-        // Display a notification about us starting.
-        showNotification();
-    }
-
-    @Override
-    public void onDestroy() {
-        // Cancel the persistent notification.
-        mNM.cancel(NOTIFY_ID);
-    }
-
-    /**
-     * When binding to the service, we return an interface to our messenger
-     * for sending messages to the service.
-     */
-    @Override
-    public IBinder onBind(Intent intent) {
-        return mMessenger.getBinder();
-    }
-
-    /**
-     * Starts the notification without any extra information. Updates get handled in
-     * {@link #updateTask(com.ecchilon.happypandaproject.imageviewer.ImageViewerItem, float)}
-     */
-    private void showNotification() {
-        //TODO fix this nonsense with actual notification/click handling
-        /*
+	/**
+	 * Starts the notification without any extra information. Updates get handled in {@link
+	 * #updateTask(com.ecchilon.happypandaproject.imageviewer.IMangaItem, float)}
+	 */
+	private void showNotification() {
+		//TODO fix this nonsense with actual notification/click handling
+	    /*
         // In this sample, we'll use the same text for the ticker and the expanded notification
         CharSequence text = getText(R.string.remote_service_started);
 
@@ -113,48 +78,16 @@ public class DownloadService extends Service {
         // Send the notification.
         // We use a string id because it is a unique number.  We use it later to cancel.
         mNM.notify(R.string.remote_service_started, notification);*/
-    }
+	}
 
-    /**
-     * updates the notification for an album item and notifies any clients listening
-     * @param item The item being downloaded
-     * @param progress Progress of the item, from 0 (starting) to 1 (finished)
-     */
-    public void updateTask(ImageViewerItem item, float progress){
-        //TODO update notification here
+	/**
+	 * updates the notification for an album item and notifies any clients listening
+	 *
+	 * @param item     The item being downloaded
+	 * @param progress Progress of the item, from 0 (starting) to 1 (finished)
+	 */
+	public void updateTask(IMangaItem item, float progress) {
+		//TODO update notification here
 
-        for(int i = 0; i < mClients.size(); i++){
-            try
-            {
-                mClients.get(i).send(Message.obtain(null, MSG_UPDATE_TASK, item.toJSONString()));
-            }catch(RemoteException e){
-                mClients.remove(i);
-            }
-        }
-    }
-
-    /**
-     * Handler of incoming messages from clients.
-     */
-    class IncomingHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_REGISTER_CLIENT:
-                    mClients.add(msg.replyTo);
-                    break;
-                case MSG_UNREGISTER_CLIENT:
-                    mClients.remove(msg.replyTo);
-                    break;
-                case MSG_START_TASK:
-                    mTaskHandler.startTask(ImageViewerItem.fromJSONString((String) msg.obj));
-                    break;
-                case MSG_STOP_TASK:
-                    mTaskHandler.stopTask(ImageViewerItem.fromJSONString((String) msg.obj));
-                    break;
-                default:
-                    super.handleMessage(msg);
-            }
-        }
-    }
+	}
 }

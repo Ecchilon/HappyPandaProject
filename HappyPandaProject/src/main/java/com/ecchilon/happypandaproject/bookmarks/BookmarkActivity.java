@@ -1,4 +1,4 @@
-package com.ecchilon.happypandaproject.favorites;
+package com.ecchilon.happypandaproject.bookmarks;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,10 +17,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import com.ecchilon.happypandaproject.R;
+import com.ecchilon.happypandaproject.drawer.NavDrawerFactory;
+import com.ecchilon.happypandaproject.drawer.NavDrawerItem;
+import com.ecchilon.happypandaproject.drawer.NavigationDrawerFragment;
 import com.ecchilon.happypandaproject.gson.GsonDrawerItem;
-import com.ecchilon.happypandaproject.navigation.NavDrawerFactory;
-import com.ecchilon.happypandaproject.navigation.NavDrawerItem;
-import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 

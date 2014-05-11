@@ -1,56 +1,48 @@
-package com.ecchilon.happypandaproject;
+package com.ecchilon.happypandaproject.gallery;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import android.content.Context;
 import android.support.v7.widget.PopupMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.TextView;
-
-import com.android.volley.toolbox.NetworkImageView;
-import com.ecchilon.happypandaproject.imageviewer.ImageViewerItem;
-import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
+import com.ecchilon.happypandaproject.favorites.FavoritesLoader;
+import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
+import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.util.PagedScrollAdapter;
-import com.ecchilon.happypandaproject.util.VolleySingleton;
 
 /**
  * Created by Alex on 1/4/14.
  */
-public abstract class GalleryPageAdapter extends PagedScrollAdapter<ImageViewerItem> {
+public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends PagedScrollAdapter<T> {
 
 	public interface PageCreationFailedListener {
 		public void PageCreationFailed();
 	}
 
 	public interface GalleryItemClickListener {
-		public void GalleryItemClicked(ImageViewerItem item);
+		public void GalleryItemClicked(IMangaItem item);
 
 		public void GalleryNavItemClicked(INavItem item);
 
-		public void GalleryItemFavoriteClicked(ImageViewerItem item);
+		public void GalleryItemFavoriteClicked(IMangaItem item);
 	}
 
 	private PageCreationFailedListener mListener;
 	private GalleryItemClickListener mGalleryItemClickListener;
 	private GalleryOverviewModuleInterface mGalleryInterface;
+	private FavoritesLoader mLoader;
 
 	private PopupMenu mCurrentOverflowMenu;
 
-	public GalleryPageAdapter(GalleryOverviewModuleInterface galleryInterface,
-			GalleryItemClickListener itemClickListener) {
+	public AbstractGalleryPageAdapter(GalleryOverviewModuleInterface galleryInterface,
+			GalleryItemClickListener itemClickListener, FavoritesLoader loader) {
 		mGalleryInterface = galleryInterface;
 		mGalleryItemClickListener = itemClickListener;
-	}
-
-	protected GalleryOverviewModuleInterface getInterface() {
-		return mGalleryInterface;
+		mLoader = loader;
 	}
 
 	protected GalleryItemClickListener getGalleryItemClickListener() {
@@ -85,6 +77,10 @@ public abstract class GalleryPageAdapter extends PagedScrollAdapter<ImageViewerI
 	 */
 	protected void showOverflowView(View anchor, final Map<String, INavItem> overflowItems) {
 		closeCurrentOverflowMenu();
+
+		if (overflowItems == null) {
+			return;
+		}
 
 		final PopupMenu popupMenu = new PopupMenu(anchor.getContext(), anchor);
 
@@ -133,6 +129,16 @@ public abstract class GalleryPageAdapter extends PagedScrollAdapter<ImageViewerI
 		for (String name : itemNames) {
 			menu.add(name);
 		}
+	}
+
+	/**
+	 * Returns whether this item has been added to favorites
+	 *
+	 * @param item
+	 * @return
+	 */
+	protected final boolean isFavorite(T item) {
+		return mLoader.containsFavorite(item);
 	}
 
 	/**

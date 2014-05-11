@@ -2,9 +2,7 @@ package com.ecchilon.happypandaproject.gson;
 
 import java.util.List;
 
-import com.ecchilon.happypandaproject.navigation.NavDrawerItem;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.ecchilon.happypandaproject.drawer.NavDrawerItem;
 import com.google.gson.reflect.TypeToken;
 
 /**

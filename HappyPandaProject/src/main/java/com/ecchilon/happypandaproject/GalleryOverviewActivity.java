@@ -10,11 +10,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.ecchilon.happypandaproject.favorites.FavoritesDatabaseHelper;
+import com.ecchilon.happypandaproject.drawer.NavigationDrawerFragment;
+import com.ecchilon.happypandaproject.drawer.SubtitleVisitor;
+import com.ecchilon.happypandaproject.gallery.GalleryFragment;
+import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
 import com.ecchilon.happypandaproject.gson.GsonNavItem;
-import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
-import com.ecchilon.happypandaproject.navigation.SubtitleVisitor;
-import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 
@@ -34,7 +34,6 @@ public class GalleryOverviewActivity extends ActionBarActivity
 	private CharSequence mTitle, mSubTitle;
 
 	private VolleySingleton mVolleySingleton;
-	private FavoritesDatabaseHelper databaseHelper;
 	private SubtitleVisitor mVisitor;
 
 	@Override
@@ -43,8 +42,6 @@ public class GalleryOverviewActivity extends ActionBarActivity
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_overview);
-
-		databaseHelper = new FavoritesDatabaseHelper(this);
 
 		mNavigationDrawerFragment = (NavigationDrawerFragment)
 				getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -178,7 +175,7 @@ public class GalleryOverviewActivity extends ActionBarActivity
 				Intent searchIntent = new Intent(GalleryOverviewActivity.this, GalleryActivity.class);
 
 				INavItem searchItem =
-						SiteFactory.getSearchInterface(mNavigationDrawerFragment.getCurrentSelectedItem(), s);
+						SiteFactory.getSearchItem(mNavigationDrawerFragment.getCurrentSelectedItem(), s);
 
 				searchIntent.putExtra(GalleryFragment.NAV_KEY, GsonNavItem.getJson(searchItem));
 

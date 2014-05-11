@@ -39,7 +39,7 @@
 					android:value=".GalleryOverviewActivity"/>
 		</activity>
 		<activity
-				android:name="com.ecchilon.happypandaproject.favorites.BookmarkActivity"
+				android:name=".bookmarks.BookmarkActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="@string/title_activity_bookmark">
 			<meta-data

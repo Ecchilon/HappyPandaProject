@@ -1,4 +1,4 @@
-package com.ecchilon.happypandaproject.favorites;
+package com.ecchilon.happypandaproject.bookmarks;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,7 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import com.ecchilon.happypandaproject.R;
-import com.ecchilon.happypandaproject.navigation.NavDrawerItem;
+import com.ecchilon.happypandaproject.drawer.NavDrawerItem;
 
 /**
  * Dialog which allows user to rename their bookmarks. Created by Alex on 5/6/2014.

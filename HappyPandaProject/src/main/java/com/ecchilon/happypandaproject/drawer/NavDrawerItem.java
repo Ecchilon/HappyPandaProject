@@ -1,8 +1,8 @@
-package com.ecchilon.happypandaproject.navigation;
+package com.ecchilon.happypandaproject.drawer;
 
 import android.view.View;
 import android.view.ViewGroup;
-import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
+import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
 
 /**
  * Created by Alex on 12-4-2014.
