@@ -1,6 +1,6 @@
-package com.ecchilon.happypandaproject.navigation;
+package com.ecchilon.happypandaproject.drawer;
 
-import com.ecchilon.happypandaproject.navigation.navitems.FavoritesNavItem;
+import com.ecchilon.happypandaproject.gallery.navitems.FavoritesNavItem;
 import com.ecchilon.happypandaproject.sites.test.DummyNavItem;
 
 /**

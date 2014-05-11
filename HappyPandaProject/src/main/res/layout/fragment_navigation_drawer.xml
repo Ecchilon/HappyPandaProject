@@ -6,4 +6,4 @@
           android:divider="@drawable/drawer_divider"
           android:dividerHeight="1px"
           android:background="@color/drawer_color"
-          tools:context="com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment"/>
+          tools:context="com.ecchilon.happypandaproject.drawer.NavigationDrawerFragment"/>

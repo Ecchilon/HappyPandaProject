@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import com.ecchilon.happypandaproject.R;
-import com.ecchilon.happypandaproject.navigation.NavDrawerItem;
+import com.ecchilon.happypandaproject.drawer.NavDrawerItem;
 
 /**
  * Created by Alex on 5-5-2014.

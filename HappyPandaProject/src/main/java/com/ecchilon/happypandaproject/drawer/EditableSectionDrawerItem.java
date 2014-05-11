@@ -1,4 +1,4 @@
-package com.ecchilon.happypandaproject.navigation;
+package com.ecchilon.happypandaproject.drawer;
 
 import android.view.View;
 import android.view.ViewGroup;

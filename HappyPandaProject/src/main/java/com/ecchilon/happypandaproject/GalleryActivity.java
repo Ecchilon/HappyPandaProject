@@ -11,13 +11,14 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.ecchilon.happypandaproject.drawer.NavDrawerFactory;
+import com.ecchilon.happypandaproject.drawer.NavDrawerItem;
+import com.ecchilon.happypandaproject.drawer.NavigationDrawerFragment;
+import com.ecchilon.happypandaproject.drawer.SubtitleVisitor;
+import com.ecchilon.happypandaproject.gallery.GalleryFragment;
+import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
 import com.ecchilon.happypandaproject.gson.GsonDrawerItem;
 import com.ecchilon.happypandaproject.gson.GsonNavItem;
-import com.ecchilon.happypandaproject.navigation.NavDrawerFactory;
-import com.ecchilon.happypandaproject.navigation.NavDrawerItem;
-import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
-import com.ecchilon.happypandaproject.navigation.SubtitleVisitor;
-import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 
 public class GalleryActivity extends ActionBarActivity {
 
@@ -58,7 +59,7 @@ public class GalleryActivity extends ActionBarActivity {
 	}
 
 	@Override
-		public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_gallery, menu);
 
 		return super.onCreateOptionsMenu(menu);
@@ -99,6 +100,7 @@ public class GalleryActivity extends ActionBarActivity {
 
 	/**
 	 * Enables or disables the menu item and its icon
+	 *
 	 * @param bookmarkItem
 	 * @param state
 	 */

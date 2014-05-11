@@ -22,18 +22,19 @@ public class FavoritesInterface implements GalleryOverviewModuleInterface<IManga
 		if (index > 0) {
 			listener.PageCreationFailed();
 		}
+		else {
+			new AsyncTask<Void, Void, List<IMangaItem>>() {
+				@Override
+				protected List<IMangaItem> doInBackground(Void... objects) {
+					return mFavoritesLoader.getFavorites();
+				}
 
-		new AsyncTask<Void, Void, List<IMangaItem>>() {
-			@Override
-			protected List<IMangaItem> doInBackground(Void... objects) {
-				return mFavoritesLoader.getFavorites();
-			}
-
-			@Override
-			protected void onPostExecute(List<IMangaItem> items) {
-				super.onPostExecute(items);
-				listener.GalleryOverviewPageCreated(items);
-			}
-		}.execute();
+				@Override
+				protected void onPostExecute(List<IMangaItem> items) {
+					super.onPostExecute(items);
+					listener.GalleryOverviewPageCreated(items);
+				}
+			}.execute();
+		}
 	}
 }

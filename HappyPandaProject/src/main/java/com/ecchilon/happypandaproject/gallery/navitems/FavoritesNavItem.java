@@ -1,6 +1,6 @@
-package com.ecchilon.happypandaproject.navigation.navitems;
+package com.ecchilon.happypandaproject.gallery.navitems;
 
-import com.ecchilon.happypandaproject.navigation.INavVisitor;
+import com.ecchilon.happypandaproject.drawer.INavVisitor;
 
 /**
  * Navigation Item for the user's favorites Created by Alex on 9-5-2014.

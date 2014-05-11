@@ -10,7 +10,6 @@ import java.util.List;
 
 import android.os.Environment;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
-import com.ecchilon.happypandaproject.imageviewer.IMangaVisitor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -107,18 +106,14 @@ public class AlbumIndex {
 	}
 
 	private void WriteChanges() {
-
+		//TODO actually store changes
 	}
 
-	public class LocalImageViewerItem implements IMangaItem {
+	public class LocalImageViewerItem {
 
 		private String[] mImagePaths;
 		private String mTitle;
 		private IMangaItem mOnlineItem;
-
-		public String[] getImagePaths() {
-			return mImagePaths;
-		}
 
 		public LocalImageViewerItem(String title, String[] imagePaths, IMangaItem onlineItem) {
 			mTitle = title;
@@ -126,14 +121,16 @@ public class AlbumIndex {
 			mOnlineItem = onlineItem;
 		}
 
-		@Override
-		public <T> T visit(IMangaVisitor<T> visitor) {
-			return visitor.execute(this);
-		}
-
-		@Override
 		public String getTitle() {
 			return mTitle;
+		}
+
+		public String[] getImagePaths() {
+			return mImagePaths;
+		}
+
+		public IMangaItem getOnlineItem() {
+			return mOnlineItem;
 		}
 	}
 }

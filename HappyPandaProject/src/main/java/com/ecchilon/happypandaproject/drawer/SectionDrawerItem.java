@@ -1,12 +1,7 @@
-package com.ecchilon.happypandaproject.navigation;
+package com.ecchilon.happypandaproject.drawer;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.view.View;
 import android.view.ViewGroup;
-import com.ecchilon.happypandaproject.navigation.IDrawerItem;
-import com.ecchilon.happypandaproject.navigation.NavigationDrawerAdapter;
-import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
 
 /**
  * Created by Alex on 6-4-2014.
@@ -16,12 +11,12 @@ public class SectionDrawerItem implements IDrawerItem {
 	private String mTitle;
 	private int mSectionIconResID;
 
-	public SectionDrawerItem(String title, int sectionIconResID){
+	public SectionDrawerItem(String title, int sectionIconResID) {
 		mTitle = title;
 		mSectionIconResID = sectionIconResID;
 	}
 
-	public String getTitle(){
+	public String getTitle() {
 		return mTitle;
 	}
 

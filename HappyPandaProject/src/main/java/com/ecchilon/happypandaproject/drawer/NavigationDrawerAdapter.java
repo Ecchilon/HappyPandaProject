@@ -1,4 +1,4 @@
-package com.ecchilon.happypandaproject.navigation;
+package com.ecchilon.happypandaproject.drawer;
 
 import java.util.List;
 

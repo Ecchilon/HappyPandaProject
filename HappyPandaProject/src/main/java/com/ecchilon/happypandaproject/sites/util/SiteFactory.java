@@ -1,9 +1,9 @@
 package com.ecchilon.happypandaproject.sites.util;
 
+import com.ecchilon.happypandaproject.drawer.INavVisitor;
+import com.ecchilon.happypandaproject.gallery.navitems.FavoritesNavItem;
+import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
-import com.ecchilon.happypandaproject.navigation.INavVisitor;
-import com.ecchilon.happypandaproject.navigation.navitems.FavoritesNavItem;
-import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.sites.GalleryPagesModuleInterface;
 import com.ecchilon.happypandaproject.sites.test.DummyImageModuleInterface;
 import com.ecchilon.happypandaproject.sites.test.DummyNavItem;

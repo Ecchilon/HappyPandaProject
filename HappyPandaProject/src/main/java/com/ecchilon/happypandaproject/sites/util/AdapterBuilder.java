@@ -1,25 +1,24 @@
 package com.ecchilon.happypandaproject.sites.util;
 
 import android.content.Context;
-import com.ecchilon.happypandaproject.GalleryPageAdapter;
-import com.ecchilon.happypandaproject.favorites.FavoritesAdapter;
+import com.ecchilon.happypandaproject.drawer.INavVisitor;
 import com.ecchilon.happypandaproject.favorites.FavoritesInterface;
 import com.ecchilon.happypandaproject.favorites.FavoritesLoader;
+import com.ecchilon.happypandaproject.gallery.AbstractGalleryPageAdapter;
+import com.ecchilon.happypandaproject.gallery.BaseGalleryPageAdapter;
+import com.ecchilon.happypandaproject.gallery.navitems.FavoritesNavItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
-import com.ecchilon.happypandaproject.navigation.INavVisitor;
-import com.ecchilon.happypandaproject.navigation.navitems.FavoritesNavItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.sites.test.DummyGalleryModuleInterface;
 import com.ecchilon.happypandaproject.sites.test.DummyNavItem;
-import com.ecchilon.happypandaproject.sites.test.DummyPageAdapter;
 
 /**
  * Builder class for constructing the GalleryPageAdapters for in the fragments Created by Alex on 10-5-2014.
  */
-public class AdapterBuilder implements INavVisitor<GalleryPageAdapter> {
+public class AdapterBuilder implements INavVisitor<AbstractGalleryPageAdapter> {
 	private FavoritesLoader mLoader;
 	private GalleryOverviewModuleInterface<IMangaItem> mModuleInterface;
-	private GalleryPageAdapter.GalleryItemClickListener mListener;
+	private AbstractGalleryPageAdapter.GalleryItemClickListener mListener;
 
 	public AdapterBuilder(Context context) {
 		mLoader = new FavoritesLoader(context);
@@ -54,13 +53,13 @@ public class AdapterBuilder implements INavVisitor<GalleryPageAdapter> {
 	 * @param listener
 	 * @return reference to self to stick true to the 'Builder' pattern
 	 */
-	public AdapterBuilder withGalleryItemListener(GalleryPageAdapter.GalleryItemClickListener listener) {
+	public AdapterBuilder withGalleryItemListener(AbstractGalleryPageAdapter.GalleryItemClickListener listener) {
 		mListener = listener;
 		return this;
 	}
 
 	@Override
-	public GalleryPageAdapter execute(DummyNavItem dummyNavItem) {
+	public AbstractGalleryPageAdapter execute(DummyNavItem dummyNavItem) {
 
 		if (mLoader == null) {
 			throw new IllegalArgumentException("Favorites Loader can't be null!");
@@ -74,11 +73,11 @@ public class AdapterBuilder implements INavVisitor<GalleryPageAdapter> {
 			tempModuleInterface = new DummyGalleryModuleInterface();
 		}
 
-		return new DummyPageAdapter(tempModuleInterface, mListener, mLoader);
+		return new BaseGalleryPageAdapter(tempModuleInterface, mListener, mLoader);
 	}
 
 	@Override
-	public GalleryPageAdapter execute(FavoritesNavItem favoritesNavItem) {
+	public AbstractGalleryPageAdapter execute(FavoritesNavItem favoritesNavItem) {
 
 		if (mLoader == null) {
 			throw new IllegalArgumentException("Favorites Loader can't be null!");
@@ -92,7 +91,7 @@ public class AdapterBuilder implements INavVisitor<GalleryPageAdapter> {
 			tempModuleInterface = new FavoritesInterface(mLoader);
 		}
 
-		return new FavoritesAdapter(tempModuleInterface, mListener, mLoader);
+		return new BaseGalleryPageAdapter(tempModuleInterface, mListener, mLoader);
 
 	}
 }

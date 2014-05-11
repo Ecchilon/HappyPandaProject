@@ -10,10 +10,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.ecchilon.happypandaproject.drawer.NavigationDrawerFragment;
+import com.ecchilon.happypandaproject.drawer.SubtitleVisitor;
+import com.ecchilon.happypandaproject.gallery.GalleryFragment;
+import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
 import com.ecchilon.happypandaproject.gson.GsonNavItem;
-import com.ecchilon.happypandaproject.navigation.NavigationDrawerFragment;
-import com.ecchilon.happypandaproject.navigation.SubtitleVisitor;
-import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 

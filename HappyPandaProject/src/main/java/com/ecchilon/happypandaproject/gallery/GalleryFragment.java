@@ -1,4 +1,4 @@
-package com.ecchilon.happypandaproject;
+package com.ecchilon.happypandaproject.gallery;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,19 +11,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
+import com.ecchilon.happypandaproject.GalleryActivity;
+import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.favorites.FavoritesLoader;
+import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
 import com.ecchilon.happypandaproject.gson.GsonMangaItem;
 import com.ecchilon.happypandaproject.gson.GsonNavItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.ImageViewerActivity;
-import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.sites.util.AdapterBuilder;
 
 /**
  * Created by Alex on 1/4/14.
  */
-public class GalleryFragment extends Fragment implements GalleryPageAdapter.PageCreationFailedListener,
-		GalleryPageAdapter.GalleryItemClickListener {
+public class GalleryFragment extends Fragment implements AbstractGalleryPageAdapter.PageCreationFailedListener,
+		AbstractGalleryPageAdapter.GalleryItemClickListener {
 
 	/**
 	 * Key in arguments from which the navigation item is retrieved
@@ -31,7 +33,7 @@ public class GalleryFragment extends Fragment implements GalleryPageAdapter.Page
 	public static final String NAV_KEY = "SITE";
 
 	private ListView mList;
-	private GalleryPageAdapter mAdapter;
+	private AbstractGalleryPageAdapter mAdapter;
 
 	private INavItem mGalleryItem;
 
@@ -58,8 +60,8 @@ public class GalleryFragment extends Fragment implements GalleryPageAdapter.Page
 
 		//restore adapter if it was saved
 		final Object data = getActivity().getLastCustomNonConfigurationInstance();
-		if (data instanceof GalleryPageAdapter) {
-			mAdapter = (GalleryPageAdapter) data;
+		if (data instanceof AbstractGalleryPageAdapter) {
+			mAdapter = (AbstractGalleryPageAdapter) data;
 		}
 
 		mLoader = new FavoritesLoader(getActivity());

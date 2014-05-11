@@ -1,4 +1,4 @@
-package com.ecchilon.happypandaproject;
+package com.ecchilon.happypandaproject.gallery;
 
 import java.util.Map;
 import java.util.Set;
@@ -9,15 +9,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import com.ecchilon.happypandaproject.favorites.FavoritesLoader;
+import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
-import com.ecchilon.happypandaproject.navigation.navitems.INavItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.util.PagedScrollAdapter;
 
 /**
  * Created by Alex on 1/4/14.
  */
-public abstract class GalleryPageAdapter<T extends IMangaItem> extends PagedScrollAdapter<T> {
+public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends PagedScrollAdapter<T> {
 
 	public interface PageCreationFailedListener {
 		public void PageCreationFailed();
@@ -38,15 +38,11 @@ public abstract class GalleryPageAdapter<T extends IMangaItem> extends PagedScro
 
 	private PopupMenu mCurrentOverflowMenu;
 
-	public GalleryPageAdapter(GalleryOverviewModuleInterface galleryInterface,
+	public AbstractGalleryPageAdapter(GalleryOverviewModuleInterface galleryInterface,
 			GalleryItemClickListener itemClickListener, FavoritesLoader loader) {
 		mGalleryInterface = galleryInterface;
 		mGalleryItemClickListener = itemClickListener;
 		mLoader = loader;
-	}
-
-	protected GalleryOverviewModuleInterface getInterface() {
-		return mGalleryInterface;
 	}
 
 	protected GalleryItemClickListener getGalleryItemClickListener() {
@@ -81,6 +77,10 @@ public abstract class GalleryPageAdapter<T extends IMangaItem> extends PagedScro
 	 */
 	protected void showOverflowView(View anchor, final Map<String, INavItem> overflowItems) {
 		closeCurrentOverflowMenu();
+
+		if (overflowItems == null) {
+			return;
+		}
 
 		final PopupMenu popupMenu = new PopupMenu(anchor.getContext(), anchor);
 
