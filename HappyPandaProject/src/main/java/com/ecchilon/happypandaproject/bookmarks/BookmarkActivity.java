@@ -31,7 +31,6 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 		.RemoveListener, AdapterView.OnItemClickListener, UndoBarController.UndoListener,
 		RenameDialogFragment.RenameListener {
 
-	private DragSortListView mListView;
 	private DragSortBookmarkAdapter mAdapter;
 	private List<NavDrawerItem> mBookmarks;
 	private UndoBarController mUndoControl;
@@ -44,13 +43,13 @@ public class BookmarkActivity extends ActionBarActivity implements DragSortListV
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_bookmark);
+		setContentView(R.layout.activity_organize);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		mBookmarks = NavDrawerFactory.loadBookmarks(this);
 		mAdapter = new DragSortBookmarkAdapter(mBookmarks);
 
-		mListView = (DragSortListView) findViewById(R.id.bookmark_list);
+		DragSortListView mListView = (DragSortListView) findViewById(R.id.organize_list);
 
 		DragSortController controller = new DragSortController(mListView);
 		controller.setDragHandleId(R.id.drag_handle);

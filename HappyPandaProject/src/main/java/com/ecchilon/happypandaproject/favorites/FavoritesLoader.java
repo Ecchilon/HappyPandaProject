@@ -61,6 +61,15 @@ public class FavoritesLoader {
 		writeFavorites();
 	}
 
+	public void addFavorite(IMangaItem item, int position) {
+		if (isDirty()) {
+			reloadFavorites();
+		}
+
+		mFavorites.add(position, item);
+		writeFavorites();
+	}
+
 	public boolean removeFavorite(IMangaItem item) {
 		if (isDirty()) {
 			reloadFavorites();

@@ -31,7 +31,7 @@
 				android:theme="@style/CustomActionBarTheme">
 		</activity>
 		<activity
-				android:name="com.ecchilon.happypandaproject.GalleryActivity"
+				android:name="com.ecchilon.happypandaproject.gallery.GalleryActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="@string/title_activity_bookmark">
 			<meta-data
@@ -39,9 +39,19 @@
 					android:value=".GalleryOverviewActivity"/>
 		</activity>
 		<activity
-				android:name=".bookmarks.BookmarkActivity"
+				android:name="com.ecchilon.happypandaproject.bookmarks.BookmarkActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
 				android:label="@string/title_activity_bookmark">
+			<meta-data
+					android:name="android.support.PARENT_ACTIVITY"
+					android:value=".GalleryOverviewActivity"/>
+		</activity>
+
+
+		<activity
+				android:name="com.ecchilon.happypandaproject.favorites.FavoritesActivity"
+				android:configChanges="orientation|keyboardHidden|screenSize"
+				android:label="@string/title_activity_favorites">
 			<meta-data
 					android:name="android.support.PARENT_ACTIVITY"
 					android:value=".GalleryOverviewActivity"/>
@@ -50,7 +60,6 @@
 		<service
 				android:name="com.ecchilon.happypandaproject.storage.StorageService"
 				android:exported="false"/>
-
 	</application>
 
 </manifest>

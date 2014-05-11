@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
-import com.ecchilon.happypandaproject.GalleryActivity;
 import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.favorites.FavoritesLoader;
 import com.ecchilon.happypandaproject.gallery.navitems.INavItem;

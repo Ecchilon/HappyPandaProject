@@ -1,14 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.ecchilon.happypandaproject.GalleryActivity">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.ecchilon.happypandaproject.gallery.GalleryActivity">
 
 	<!-- As the main content view, the view below consumes the entire
 		 space available using match_parent in both dimensions. -->
 	<FrameLayout
 			android:id="@+id/container"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent" />
+			android:layout_height="match_parent"/>
 
 </RelativeLayout>

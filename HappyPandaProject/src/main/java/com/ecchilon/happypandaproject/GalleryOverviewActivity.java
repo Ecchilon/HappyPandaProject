@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.ecchilon.happypandaproject.drawer.NavigationDrawerFragment;
 import com.ecchilon.happypandaproject.drawer.SubtitleVisitor;
+import com.ecchilon.happypandaproject.gallery.GalleryActivity;
 import com.ecchilon.happypandaproject.gallery.GalleryFragment;
 import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
 import com.ecchilon.happypandaproject.gson.GsonNavItem;
