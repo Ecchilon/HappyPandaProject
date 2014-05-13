@@ -46,8 +46,6 @@
 					android:name="android.support.PARENT_ACTIVITY"
 					android:value=".GalleryOverviewActivity"/>
 		</activity>
-
-
 		<activity
 				android:name="com.ecchilon.happypandaproject.favorites.FavoritesActivity"
 				android:configChanges="orientation|keyboardHidden|screenSize"
@@ -60,6 +58,11 @@
 		<service
 				android:name="com.ecchilon.happypandaproject.storage.StorageService"
 				android:exported="false"/>
+
+		<activity
+				android:name="com.ecchilon.happypandaproject.OrganizeActivity"
+				android:label="@string/title_activity_organize">
+		</activity>
 	</application>
 
 </manifest>

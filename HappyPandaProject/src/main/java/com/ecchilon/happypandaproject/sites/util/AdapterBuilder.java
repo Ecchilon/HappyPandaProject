@@ -7,6 +7,7 @@ import com.ecchilon.happypandaproject.favorites.FavoritesLoader;
 import com.ecchilon.happypandaproject.gallery.AbstractGalleryPageAdapter;
 import com.ecchilon.happypandaproject.gallery.BaseGalleryPageAdapter;
 import com.ecchilon.happypandaproject.gallery.navitems.FavoritesNavItem;
+import com.ecchilon.happypandaproject.gallery.navitems.LibraryNavPage;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.sites.test.DummyGalleryModuleInterface;
@@ -93,5 +94,11 @@ public class AdapterBuilder implements INavVisitor<AbstractGalleryPageAdapter> {
 
 		return new BaseGalleryPageAdapter(tempModuleInterface, mListener, mLoader);
 
+	}
+
+	@Override
+	public AbstractGalleryPageAdapter execute(LibraryNavPage libraryNavPage) {
+		//TODO implement
+		throw new UnsupportedOperationException("Oops. Better implement this quickly!");
 	}
 }

@@ -33,12 +33,12 @@ public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends P
 
 	private PageCreationFailedListener mListener;
 	private GalleryItemClickListener mGalleryItemClickListener;
-	private GalleryOverviewModuleInterface mGalleryInterface;
+	private GalleryOverviewModuleInterface<T> mGalleryInterface;
 	private FavoritesLoader mLoader;
 
 	private PopupMenu mCurrentOverflowMenu;
 
-	public AbstractGalleryPageAdapter(GalleryOverviewModuleInterface galleryInterface,
+	public AbstractGalleryPageAdapter(GalleryOverviewModuleInterface<T> galleryInterface,
 			GalleryItemClickListener itemClickListener, FavoritesLoader loader) {
 		mGalleryInterface = galleryInterface;
 		mGalleryItemClickListener = itemClickListener;

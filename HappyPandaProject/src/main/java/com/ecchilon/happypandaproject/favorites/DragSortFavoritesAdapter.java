@@ -30,8 +30,7 @@ public class DragSortFavoritesAdapter extends BaseGalleryPageAdapter {
 	}
 
 	/**
-	 * TODO should be implemented better to allow easy extension Number of types based on the number of subclasses of
-	 * IMangaItem
+	 * TODO should be implemented better to allow extension of types based on the number of subclasses of IMangaItem
 	 *
 	 * @return
 	 */

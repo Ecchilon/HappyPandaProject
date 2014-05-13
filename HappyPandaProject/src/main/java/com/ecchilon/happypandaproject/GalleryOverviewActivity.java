@@ -90,6 +90,8 @@ public class GalleryOverviewActivity extends ActionBarActivity
 		fragmentManager.beginTransaction()
 				.replace(R.id.container, frag, FRAG_TAG)
 				.commit();
+
+		supportInvalidateOptionsMenu();
 	}
 
 	/**

@@ -3,6 +3,7 @@ package com.ecchilon.happypandaproject.sites.util;
 import com.ecchilon.happypandaproject.drawer.INavVisitor;
 import com.ecchilon.happypandaproject.gallery.navitems.FavoritesNavItem;
 import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
+import com.ecchilon.happypandaproject.gallery.navitems.LibraryNavPage;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.sites.GalleryPagesModuleInterface;
 import com.ecchilon.happypandaproject.sites.test.DummyImageModuleInterface;
@@ -45,6 +46,12 @@ public class SiteFactory {
 		//TODO allow user to search and return available favorites based on search
 		@Override
 		public INavItem execute(FavoritesNavItem favoritesNavItem) {
+			return null;
+		}
+
+		//TODO search library as well!
+		@Override
+		public INavItem execute(LibraryNavPage libraryNavPage) {
 			return null;
 		}
 	}

@@ -36,5 +36,6 @@
 	<string name="section_my_items">My Things</string>
 	<string name="page_favorite">Favorites</string>
 	<string name="title_activity_favorites">FavoritesActivity</string>
+	<string name="title_activity_organize">Organize</string>
 
 </resources>

@@ -3,6 +3,7 @@ package com.ecchilon.happypandaproject.drawer;
 import android.content.Context;
 import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.gallery.navitems.FavoritesNavItem;
+import com.ecchilon.happypandaproject.gallery.navitems.LibraryNavPage;
 import com.ecchilon.happypandaproject.sites.test.DummyNavItem;
 
 /**
@@ -29,6 +30,17 @@ public class SubtitleVisitor implements INavVisitor<String> {
 	 */
 	@Override
 	public String execute(FavoritesNavItem favoritesNavItem) {
+		return null;
+	}
+
+	/**
+	 * Same for library
+	 *
+	 * @param libraryNavPage
+	 * @return
+	 */
+	@Override
+	public String execute(LibraryNavPage libraryNavPage) {
 		return null;
 	}
 }
