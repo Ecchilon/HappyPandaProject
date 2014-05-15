@@ -3,9 +3,10 @@ package com.ecchilon.happypandaproject.favorites;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.TextView;
 import com.ecchilon.happypandaproject.R;
-import com.ecchilon.happypandaproject.gallery.BaseGalleryPageAdapter;
+import com.ecchilon.happypandaproject.gallery.AbstractGalleryPageAdapter;
+import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaVisitor;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.sites.test.DummyMangaItem;
@@ -13,73 +14,43 @@ import com.ecchilon.happypandaproject.sites.test.DummyMangaItem;
 /**
  * Created by Alex on 11-5-2014.
  */
-public class DragSortFavoritesAdapter extends BaseGalleryPageAdapter {
+public class DragSortFavoritesAdapter extends AbstractGalleryPageAdapter<IMangaItem> {
 
-	private PageTypeFinder mTypeFinder;
+	private FavoritesViewConstructor mConstructor;
 
 	public DragSortFavoritesAdapter(GalleryOverviewModuleInterface galleryInterface,
 			GalleryItemClickListener itemClickListener, FavoritesLoader loader) {
 		super(galleryInterface, itemClickListener, loader);
 
-		mTypeFinder = new PageTypeFinder();
-	}
-
-	@Override
-	public int getItemViewType(int position) {
-		return getItem(position).visit(mTypeFinder);
-	}
-
-	/**
-	 * TODO should be implemented better to allow extension of types based on the number of subclasses of IMangaItem
-	 *
-	 * @return
-	 */
-	@Override
-	public int getViewTypeCount() {
-		return 1;
+		mConstructor = new FavoritesViewConstructor();
 	}
 
 	@Override
 	public View getView(int i, View view, ViewGroup viewGroup) {
-		if (view == null) {
-			view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.favorite_container, viewGroup, false);
-			view.setEnabled(false);
-		}
-
-		FrameLayout container = (FrameLayout) view.findViewById(R.id.frame_container);
-		View favoriteView;
-
-		if (container.getChildCount() == 0) {
-			favoriteView = super.getView(i, null, container);
-		}
-		else {
-			favoriteView = super.getView(i, container.getChildAt(0), container);
-		}
-
-		if (favoriteView != null) {
-			View overflow = favoriteView.findViewById(R.id.item_overflow);
-			if (overflow != null) {
-				overflow.setVisibility(View.GONE);
-			}
-
-			View favorite = favoriteView.findViewById(R.id.item_favorite);
-			if (favorite != null) {
-				favorite.setVisibility(View.GONE);
-			}
-
-			container.addView(favoriteView);
-		}
-		return view;
+		return mConstructor.getView(getItem(i), view, viewGroup);
 	}
 
-	/**
-	 * Returns a unique type based on the MangaItem so that the views can be recycled properly
-	 */
-	private class PageTypeFinder implements IMangaVisitor<Integer> {
+	private class FavoritesViewConstructor implements IMangaVisitor<View> {
+
+		private View mConvertView;
+		private ViewGroup mViewGroup;
 
 		@Override
-		public Integer execute(DummyMangaItem dummyMangaItem) {
-			return 0;
+		public View execute(DummyMangaItem dummyMangaItem) {
+			if (mConvertView == null) {
+				mConvertView = LayoutInflater.from(mViewGroup.getContext())
+						.inflate(R.layout.favorites_item, mViewGroup, false);
+			}
+
+			((TextView) mConvertView.findViewById(R.id.item_title)).setText(dummyMangaItem.getTitle());
+
+			return mConvertView;
+		}
+
+		public View getView(IMangaItem item, View convertView, ViewGroup viewGroup) {
+			mConvertView = convertView;
+			mViewGroup = viewGroup;
+			return item.visit(this);
 		}
 	}
 }

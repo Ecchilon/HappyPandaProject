@@ -7,8 +7,8 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.BaseAdapter;
 import com.ecchilon.happypandaproject.bookmarks.UndoBarController;
+import com.ecchilon.happypandaproject.gallery.AbstractGalleryPageAdapter;
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
 
@@ -16,7 +16,7 @@ import com.mobeta.android.dslv.DragSortListView;
 public abstract class OrganizeActivity extends ActionBarActivity implements DragSortListView.DropListener,
 		DragSortListView.RemoveListener, UndoBarController.UndoListener {
 
-	private BaseAdapter mAdapter;
+	private AbstractGalleryPageAdapter mAdapter;
 	private UndoBarController mUndoControl;
 
 	@Override
@@ -36,6 +36,7 @@ public abstract class OrganizeActivity extends ActionBarActivity implements Drag
 		mListView.setDropListener(this);
 		mListView.setRemoveListener(this);
 		mListView.setAdapter(mAdapter);
+		mListView.setOnScrollListener(mAdapter);
 		mListView.setFloatViewManager(controller);
 		mListView.setOnTouchListener(controller);
 		mListView.setDragEnabled(true);
@@ -58,7 +59,7 @@ public abstract class OrganizeActivity extends ActionBarActivity implements Drag
 		Parcelable p = getParcelable(which);
 		removeItem(which);
 
-		mAdapter.notifyDataSetChanged();
+		mAdapter.clear(true);
 
 		if (mUndoControl != null) {
 			mUndoControl.showUndoBar(false, getString(R.string.undo_message), p);
@@ -90,7 +91,7 @@ public abstract class OrganizeActivity extends ActionBarActivity implements Drag
 	public final void drop(int from, int to) {
 		moveItem(from, to);
 
-		mAdapter.notifyDataSetChanged();
+		mAdapter.clear(true);
 	}
 
 	@Override
@@ -98,7 +99,7 @@ public abstract class OrganizeActivity extends ActionBarActivity implements Drag
 		restoreItem(token);
 	}
 
-	protected abstract BaseAdapter getAdapter();
+	protected abstract AbstractGalleryPageAdapter getAdapter();
 
 	protected abstract void moveItem(int from, int to);
 

@@ -37,5 +37,6 @@
 	<string name="page_favorite">Favorites</string>
 	<string name="title_activity_favorites">FavoritesActivity</string>
 	<string name="title_activity_organize">Organize</string>
+	<string name="action_edit">Edit</string>
 
 </resources>

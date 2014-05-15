@@ -4,18 +4,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.Menu;
-import android.widget.BaseAdapter;
 import com.ecchilon.happypandaproject.OrganizeActivity;
 import com.ecchilon.happypandaproject.R;
+import com.ecchilon.happypandaproject.gallery.AbstractGalleryPageAdapter;
 import com.ecchilon.happypandaproject.gson.GsonMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 
 public class FavoritesActivity extends OrganizeActivity {
 
 	private FavoritesLoader mFavorites;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		mFavorites = new FavoritesLoader(this);
+
+		super.onCreate(savedInstanceState);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -26,18 +34,16 @@ public class FavoritesActivity extends OrganizeActivity {
 	}
 
 	@Override
-	protected BaseAdapter getAdapter() {
+	protected AbstractGalleryPageAdapter getAdapter() {
 		FavoritesInterface favoritesInterface = new FavoritesInterface(mFavorites);
-		return new FavoritesAdapter(favoritesInterface, null, mFavorites);
+		return new DragSortFavoritesAdapter(favoritesInterface, null, mFavorites);
 	}
 
 	@Override
 	protected void moveItem(int from, int to) {
 		IMangaItem item = mFavorites.getFavorite(from);
 		mFavorites.removeFavorite(item);
-
 		mFavorites.addFavorite(item, to);
-
 	}
 
 	@Override
@@ -60,7 +66,7 @@ public class FavoritesActivity extends OrganizeActivity {
 		Collections.sort(favorites, new Comparator<IMangaItem>() {
 			@Override
 			public int compare(IMangaItem o, IMangaItem o2) {
-				return 0;
+				return o.getTitle().compareTo(o2.getTitle());
 			}
 		});
 

@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import com.ecchilon.happypandaproject.favorites.FavoritesLoader;
 import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
+import com.ecchilon.happypandaproject.imageviewer.IMangaVisitor;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
+import com.ecchilon.happypandaproject.sites.test.DummyMangaItem;
 import com.ecchilon.happypandaproject.util.PagedScrollAdapter;
 
 /**
@@ -35,6 +37,7 @@ public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends P
 	private GalleryItemClickListener mGalleryItemClickListener;
 	private GalleryOverviewModuleInterface<T> mGalleryInterface;
 	private FavoritesLoader mLoader;
+	private PageTypeFinder mTypeFinder;
 
 	private PopupMenu mCurrentOverflowMenu;
 
@@ -43,6 +46,8 @@ public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends P
 		mGalleryInterface = galleryInterface;
 		mGalleryItemClickListener = itemClickListener;
 		mLoader = loader;
+
+		mTypeFinder = new PageTypeFinder();
 	}
 
 	protected GalleryItemClickListener getGalleryItemClickListener() {
@@ -131,6 +136,12 @@ public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends P
 		}
 	}
 
+
+	@Override
+	public int getItemViewType(int position) {
+		return getItem(position).visit(mTypeFinder);
+	}
+
 	/**
 	 * Returns whether this item has been added to favorites
 	 *
@@ -147,6 +158,17 @@ public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends P
 	public void closeCurrentOverflowMenu() {
 		if (mCurrentOverflowMenu != null) {
 			mCurrentOverflowMenu.dismiss();
+		}
+	}
+
+	/**
+	 * Returns a unique type based on the MangaItem so that the views can be recycled properly
+	 */
+	private class PageTypeFinder implements IMangaVisitor<Integer> {
+
+		@Override
+		public Integer execute(DummyMangaItem dummyMangaItem) {
+			return 0;
 		}
 	}
 }

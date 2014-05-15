@@ -12,9 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import com.ecchilon.happypandaproject.drawer.NavigationDrawerFragment;
 import com.ecchilon.happypandaproject.drawer.SubtitleVisitor;
+import com.ecchilon.happypandaproject.favorites.FavoritesActivity;
 import com.ecchilon.happypandaproject.gallery.GalleryActivity;
 import com.ecchilon.happypandaproject.gallery.GalleryFragment;
+import com.ecchilon.happypandaproject.gallery.navitems.FavoritesNavItem;
 import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
+import com.ecchilon.happypandaproject.gallery.navitems.LibraryNavPage;
+import com.ecchilon.happypandaproject.gallery.navitems.MyThingsPage;
 import com.ecchilon.happypandaproject.gson.GsonNavItem;
 import com.ecchilon.happypandaproject.sites.util.SiteFactory;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
@@ -90,8 +94,6 @@ public class GalleryOverviewActivity extends ActionBarActivity
 		fragmentManager.beginTransaction()
 				.replace(R.id.container, frag, FRAG_TAG)
 				.commit();
-
-		supportInvalidateOptionsMenu();
 	}
 
 	/**
@@ -143,6 +145,22 @@ public class GalleryOverviewActivity extends ActionBarActivity
 		return super.onCreateOptionsMenu(menu);
 	}
 
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		MenuItem edit = menu.findItem(R.id.action_edit);
+
+		if (edit != null) {
+			if (mNavigationDrawerFragment.getCurrentSelectedItem() instanceof MyThingsPage) {
+				edit.setVisible(true);
+			}
+			else {
+				edit.setVisible(false);
+			}
+		}
+
+		return super.onPrepareOptionsMenu(menu);
+	}
+
 	/**
 	 * Listens for presses of the @R.action_settings menu item
 	 *
@@ -151,15 +169,31 @@ public class GalleryOverviewActivity extends ActionBarActivity
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		switch (item.getItemId()) {
 			case R.id.action_settings:
 				//TODO show setting activity
 				return true;
+			case R.id.action_edit:
+				INavItem page = mNavigationDrawerFragment.getCurrentSelectedItem();
+				if (page instanceof FavoritesNavItem) {
+					startFavoriteOrganize();
+				}
+				else if (page instanceof LibraryNavPage) {
+					startLibraryOrganize();
+				}
+				return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void startLibraryOrganize() {
+		//TODO implement local storage
+		throw new UnsupportedOperationException("Better implement this!");
+	}
+
+	private void startFavoriteOrganize() {
+		Intent favoritesIntent = new Intent(this, FavoritesActivity.class);
+		startActivity(favoritesIntent);
 	}
 
 	/**
