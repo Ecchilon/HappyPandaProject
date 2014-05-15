@@ -105,4 +105,12 @@ public class FavoritesLoader {
 	private boolean isDirty() {
 		return mPreferences.getBoolean(FAVORITES_CHANGED, true);
 	}
+
+	public int getCount() {
+		if (isDirty()) {
+			reloadFavorites();
+		}
+
+		return mFavorites.size();
+	}
 }

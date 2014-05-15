@@ -8,9 +8,9 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.view.Menu;
+import android.widget.BaseAdapter;
 import com.ecchilon.happypandaproject.OrganizeActivity;
 import com.ecchilon.happypandaproject.R;
-import com.ecchilon.happypandaproject.gallery.AbstractGalleryPageAdapter;
 import com.ecchilon.happypandaproject.gson.GsonMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 
@@ -34,9 +34,8 @@ public class FavoritesActivity extends OrganizeActivity {
 	}
 
 	@Override
-	protected AbstractGalleryPageAdapter getAdapter() {
-		FavoritesInterface favoritesInterface = new FavoritesInterface(mFavorites);
-		return new DragSortFavoritesAdapter(favoritesInterface, null, mFavorites);
+	protected BaseAdapter getAdapter() {
+		return new DragSortFavoritesAdapter(mFavorites);
 	}
 
 	@Override
@@ -71,6 +70,11 @@ public class FavoritesActivity extends OrganizeActivity {
 		});
 
 		mFavorites.setFavorites(favorites);
+	}
+
+	@Override
+	protected int getUndoMessageID() {
+		return R.string.undo_message_favorite;
 	}
 
 	@Override

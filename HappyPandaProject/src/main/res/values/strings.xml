@@ -38,5 +38,6 @@
 	<string name="title_activity_favorites">FavoritesActivity</string>
 	<string name="title_activity_organize">Organize</string>
 	<string name="action_edit">Edit</string>
+	<string name="undo_message_favorite">Favorite Removed</string>
 
 </resources>
