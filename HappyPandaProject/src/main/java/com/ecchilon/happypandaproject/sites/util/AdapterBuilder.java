@@ -10,6 +10,9 @@ import com.ecchilon.happypandaproject.gallery.navitems.FavoritesNavItem;
 import com.ecchilon.happypandaproject.gallery.navitems.LibraryNavPage;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuContentModule;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuContentParser;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuNavItem;
 import com.ecchilon.happypandaproject.sites.test.DummyGalleryModuleInterface;
 import com.ecchilon.happypandaproject.sites.test.DummyNavItem;
 
@@ -30,7 +33,7 @@ public class AdapterBuilder implements INavVisitor<AbstractGalleryPageAdapter> {
 	 * otherwise
 	 *
 	 * @param loader
-	 * @return reference to self to stick true to the 'Builder' pattern
+	 * @return reference to self for chaining
 	 */
 	public AdapterBuilder withFavoritesLoader(FavoritesLoader loader) {
 		mLoader = loader;
@@ -41,7 +44,7 @@ public class AdapterBuilder implements INavVisitor<AbstractGalleryPageAdapter> {
 	 * Sets a custom module interface for building the adapter. A default interface is constructed otherwise
 	 *
 	 * @param moduleInterface
-	 * @return reference to self to stick true to the 'Builder' pattern
+	 * @return reference to self for chaining
 	 */
 	public AdapterBuilder withModuleInterface(GalleryOverviewModuleInterface<IMangaItem> moduleInterface) {
 		mModuleInterface = moduleInterface;
@@ -52,7 +55,7 @@ public class AdapterBuilder implements INavVisitor<AbstractGalleryPageAdapter> {
 	 * Sets a listener for the handling clicking of the items in the fragments. Can be null.
 	 *
 	 * @param listener
-	 * @return reference to self to stick true to the 'Builder' pattern
+	 * @return reference to self for chaining
 	 */
 	public AdapterBuilder withGalleryItemListener(AbstractGalleryPageAdapter.GalleryItemClickListener listener) {
 		mListener = listener;
@@ -100,5 +103,17 @@ public class AdapterBuilder implements INavVisitor<AbstractGalleryPageAdapter> {
 	public AbstractGalleryPageAdapter execute(LibraryNavPage libraryNavPage) {
 		//TODO implement
 		throw new UnsupportedOperationException("Oops. Better implement this quickly!");
+	}
+
+	@Override
+	public AbstractGalleryPageAdapter execute(FakkuNavItem fakkuNavItem) {
+		if (mLoader == null) {
+			throw new IllegalArgumentException("Favorites Loader can't be null!");
+		}
+
+		FakkuContentModule contentModule = new FakkuContentModule(fakkuNavItem.getBaseUrl());
+		contentModule.setStringContentParser(new FakkuContentParser());
+
+		return new BaseGalleryPageAdapter(contentModule, mListener, mLoader);
 	}
 }

@@ -39,5 +39,11 @@
 	<string name="title_activity_organize">Organize</string>
 	<string name="action_edit">Edit</string>
 	<string name="undo_message_favorite">Favorite Removed</string>
+	<string name="fakku_subtitle">Fakku</string>
+	<string name="fakku_overview_title">Fakku</string>
+	<string name="overview_title">Frontpage</string>
+	<string name="thumb_description">thumbnail of this manga</string>
+	<string name="favorite_description">favorite this manga</string>
+	<string name="overflow_description">show more options</string>
 
 </resources>

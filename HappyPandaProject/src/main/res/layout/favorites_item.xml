@@ -13,7 +13,7 @@
 			android:layout_gravity="center_vertical"/>
 
 	<com.android.volley.toolbox.NetworkImageView
-			android:id="@+id/item_thumb"
+			android:id="@+id/manga_thumb"
 			android:layout_width="@dimen/card_thumb_width"
 			android:layout_height="@dimen/card_thumb_height"
 			android:layout_alignParentTop="true"
@@ -23,11 +23,11 @@
 			android:src="@drawable/actionbar_icon"/>
 
 	<TextView
-			android:id="@+id/item_title"
+			android:id="@+id/manga_title"
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
-			android:layout_alignBottom="@id/item_thumb"
-			android:layout_toRightOf="@+id/item_thumb"
+			android:layout_alignBottom="@id/manga_thumb"
+			android:layout_toRightOf="@+id/manga_thumb"
 			android:layout_centerVertical="true"
 			android:layout_marginTop="@dimen/item_padding"
 			android:layout_marginLeft="@dimen/item_padding"

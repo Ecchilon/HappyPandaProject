@@ -6,6 +6,7 @@ import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
 import com.ecchilon.happypandaproject.gallery.navitems.LibraryNavPage;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.sites.GalleryPagesModuleInterface;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuNavItem;
 import com.ecchilon.happypandaproject.sites.test.DummyImageModuleInterface;
 import com.ecchilon.happypandaproject.sites.test.DummyNavItem;
 
@@ -52,6 +53,11 @@ public class SiteFactory {
 		//TODO search library as well!
 		@Override
 		public INavItem execute(LibraryNavPage libraryNavPage) {
+			return null;
+		}
+
+		@Override
+		public INavItem execute(FakkuNavItem fakkuNavItem) {
 			return null;
 		}
 	}

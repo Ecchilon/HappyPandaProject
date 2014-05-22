@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaVisitor;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuMangaItem;
 import com.ecchilon.happypandaproject.sites.test.DummyMangaItem;
 
 /**
@@ -55,9 +56,16 @@ public class DragSortFavoritesAdapter extends BaseAdapter {
 						.inflate(R.layout.favorites_item, mViewGroup, false);
 			}
 
-			((TextView) mConvertView.findViewById(R.id.item_title)).setText(dummyMangaItem.getTitle());
+			((TextView) mConvertView.findViewById(R.id.manga_title)).setText(dummyMangaItem.getTitle());
 
 			return mConvertView;
+		}
+
+		@Override
+		public View execute(FakkuMangaItem fakkuMangaItem) {
+			//TODO implement!
+
+			return null;
 		}
 
 		public View getView(IMangaItem item, View convertView, ViewGroup viewGroup) {

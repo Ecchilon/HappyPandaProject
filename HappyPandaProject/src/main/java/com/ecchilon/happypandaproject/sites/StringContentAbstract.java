@@ -12,33 +12,35 @@ import com.ecchilon.happypandaproject.util.VolleySingleton;
  */
 public abstract class StringContentAbstract implements GalleryOverviewModuleInterface {
 
-   private StringContentParser mContentParser;
+	private StringContentParser mContentParser;
 
-    public void setStringContentParser(StringContentParser parser) { mContentParser = parser; }
+	public final void setStringContentParser(StringContentParser parser) {
+		mContentParser = parser;
+	}
 
-    @Override
-    public void getPage(int index, final GalleryPageCreatedCallback listener) {
-        // StringContentParser should always be set
-        if(mContentParser == null){
-            listener.PageCreationFailed();
-            return;
-        }
+	@Override
+	public void getPage(int index, final GalleryPageCreatedCallback listener) {
+		// StringContentParser should always be set
+		if (mContentParser == null) {
+			listener.PageCreationFailed();
+			return;
+		}
 
-        //adds the string request to the queue.
-        VolleySingleton.addRequest(new StringRequest(getUrl(index), new Response.Listener<String>() {
-            @Override
-            public void onResponse(String s) {
-                //since onResponse is handled on the UIThread, create a new task to prevent the UI from stalling
-                new StringPageLoadTask(mContentParser, listener).execute(s);
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                listener.PageCreationFailed();
-            }
-        }
-        ));
-    }
+		//adds the string request to the queue.
+		VolleySingleton.addRequest(new StringRequest(getUrl(index), new Response.Listener<String>() {
+			@Override
+			public void onResponse(String s) {
+				//since onResponse is handled on the UIThread, create a new task to prevent the UI from stalling
+				new StringPageLoadTask(mContentParser, listener).execute(s);
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError volleyError) {
+				listener.PageCreationFailed();
+			}
+		}
+		));
+	}
 
-    public abstract String getUrl(int index);
+	public abstract String getUrl(int index);
 }

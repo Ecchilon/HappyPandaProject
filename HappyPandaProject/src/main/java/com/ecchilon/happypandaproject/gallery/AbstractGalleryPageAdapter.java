@@ -13,6 +13,7 @@ import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaVisitor;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuMangaItem;
 import com.ecchilon.happypandaproject.sites.test.DummyMangaItem;
 import com.ecchilon.happypandaproject.util.PagedScrollAdapter;
 
@@ -136,6 +137,10 @@ public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends P
 		}
 	}
 
+	@Override
+	public int getViewTypeCount() {
+		return 2;
+	}
 
 	@Override
 	public int getItemViewType(int position) {
@@ -169,6 +174,11 @@ public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends P
 		@Override
 		public Integer execute(DummyMangaItem dummyMangaItem) {
 			return 0;
+		}
+
+		@Override
+		public Integer execute(FakkuMangaItem fakkuMangaItem) {
+			return 1;
 		}
 	}
 }

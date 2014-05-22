@@ -1,5 +1,6 @@
 package com.ecchilon.happypandaproject.imageviewer;
 
+import com.ecchilon.happypandaproject.sites.fakku.FakkuMangaItem;
 import com.ecchilon.happypandaproject.sites.test.DummyMangaItem;
 
 /**
@@ -7,4 +8,6 @@ import com.ecchilon.happypandaproject.sites.test.DummyMangaItem;
  */
 public interface IMangaVisitor<T> {
 	T execute(DummyMangaItem dummyMangaItem);
+
+	T execute(FakkuMangaItem fakkuMangaItem);
 }
