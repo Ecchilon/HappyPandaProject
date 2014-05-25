@@ -2,6 +2,7 @@ package com.ecchilon.happypandaproject.gallery;
 
 import java.util.List;
 
+import android.content.Context;
 import android.view.Menu;
 import android.view.SubMenu;
 import com.ecchilon.happypandaproject.R;
@@ -13,9 +14,11 @@ import com.ecchilon.happypandaproject.sites.fakku.FakkuMangaItem;
 public class OverflowConstructor {
 	private Menu mMenu;
 	private MenuConstructor mConstructor;
+	private Context mAppContext;
 
-	public OverflowConstructor() {
+	public OverflowConstructor(Context context) {
 		mConstructor = new MenuConstructor();
+		mAppContext = context.getApplicationContext();
 	}
 
 	public void fillOverflowMenu(Menu menu, IMangaItem item) {
@@ -29,16 +32,16 @@ public class OverflowConstructor {
 	private class MenuConstructor implements IMangaVisitor<Void> {
 		@Override
 		public Void execute(FakkuMangaItem fakkuMangaItem) {
-			fillList(fakkuMangaItem.getArtists(), R.string.artists_item);
-			fillList(fakkuMangaItem.getTags(), R.string.tags_item);
-			fillItem(fakkuMangaItem.getSeries());
+			fillList(fakkuMangaItem.getArtists(), R.string.artists_item, R.string.artist_item);
+			fillItem(fakkuMangaItem.getSeries(), R.string.series_item);
+			fillList(fakkuMangaItem.getTags(), R.string.tags_item, R.string.tag_item);
 
 			return null;
 		}
 
-		private <T extends INavItem> void fillList(List<T> items, int optionalTitleRes) {
+		private <T extends INavItem> void fillList(List<T> items, int titleRes, int prefixRes) {
 			if (items.size() > 1) {
-				SubMenu subMenu = mMenu.addSubMenu(optionalTitleRes);
+				SubMenu subMenu = mMenu.addSubMenu(titleRes);
 
 				for (INavItem item : items) {
 					subMenu.add(Menu.NONE, item.hashCode(), Menu.NONE, item.getTitle());
@@ -46,12 +49,13 @@ public class OverflowConstructor {
 			}
 			else if (items.size() == 1) {
 				INavItem item = items.get(0);
-				mMenu.add(Menu.NONE, item.hashCode(), Menu.NONE, item.getTitle());
+				mMenu.add(Menu.NONE, item.hashCode(), Menu.NONE,
+						mAppContext.getString(prefixRes) + " " + item.getTitle());
 			}
 		}
 
-		private <T extends INavItem> void fillItem(INavItem item) {
-			mMenu.add(Menu.NONE, item.hashCode(), Menu.NONE, item.getTitle());
+		private <T extends INavItem> void fillItem(INavItem item, int prefixRes) {
+			mMenu.add(Menu.NONE, item.hashCode(), Menu.NONE, mAppContext.getString(prefixRes) + " " + item.getTitle());
 		}
 	}
 }

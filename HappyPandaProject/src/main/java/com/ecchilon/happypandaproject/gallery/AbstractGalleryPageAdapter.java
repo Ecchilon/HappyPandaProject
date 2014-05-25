@@ -1,5 +1,6 @@
 package com.ecchilon.happypandaproject.gallery;
 
+import android.content.Context;
 import android.support.v7.widget.PopupMenu;
 import android.view.Menu;
 import android.view.View;
@@ -39,13 +40,13 @@ public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends P
 	private PopupMenu mCurrentOverflowMenu;
 
 	public AbstractGalleryPageAdapter(GalleryOverviewModuleInterface<T> galleryInterface,
-			GalleryItemClickListener itemClickListener, FavoritesLoader loader) {
+			GalleryItemClickListener itemClickListener, FavoritesLoader loader, Context context) {
 		mGalleryInterface = galleryInterface;
 		mGalleryItemClickListener = itemClickListener;
 		mLoader = loader;
 
 		mTypeFinder = new PageTypeFinder();
-		mOverflowConstructor = new OverflowConstructor();
+		mOverflowConstructor = new OverflowConstructor(context);
 	}
 
 	protected GalleryItemClickListener getGalleryItemClickListener() {

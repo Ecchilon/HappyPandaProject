@@ -47,5 +47,8 @@
 	<string name="overflow_description">show more options</string>
 	<string name="artists_item">Artists</string>
 	<string name="tags_item">Tags</string>
+	<string name="artist_item">Artist:</string>
+	<string name="tag_item">Tag:</string>
+	<string name="series_item">Series:</string>
 
 </resources>

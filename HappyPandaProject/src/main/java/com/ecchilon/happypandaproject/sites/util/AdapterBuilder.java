@@ -21,9 +21,11 @@ public class AdapterBuilder implements INavVisitor<AbstractGalleryPageAdapter> {
 	private FavoritesLoader mLoader;
 	private GalleryOverviewModuleInterface<IMangaItem> mModuleInterface;
 	private AbstractGalleryPageAdapter.GalleryItemClickListener mListener;
+	private Context mAppContext;
 
 	public AdapterBuilder(Context context) {
-		mLoader = new FavoritesLoader(context);
+		mAppContext = context.getApplicationContext();
+		mLoader = new FavoritesLoader(mAppContext);
 	}
 
 	/**
@@ -75,7 +77,7 @@ public class AdapterBuilder implements INavVisitor<AbstractGalleryPageAdapter> {
 			tempModuleInterface = new FavoritesInterface(mLoader);
 		}
 
-		return new BaseGalleryPageAdapter(tempModuleInterface, mListener, mLoader);
+		return new BaseGalleryPageAdapter(tempModuleInterface, mListener, mLoader, mAppContext);
 
 	}
 
@@ -94,6 +96,6 @@ public class AdapterBuilder implements INavVisitor<AbstractGalleryPageAdapter> {
 		FakkuContentModule contentModule = new FakkuContentModule(fakkuNavItem.getUrl());
 		contentModule.setStringContentParser(new FakkuContentParser());
 
-		return new BaseGalleryPageAdapter(contentModule, mListener, mLoader);
+		return new BaseGalleryPageAdapter(contentModule, mListener, mLoader, mAppContext);
 	}
 }

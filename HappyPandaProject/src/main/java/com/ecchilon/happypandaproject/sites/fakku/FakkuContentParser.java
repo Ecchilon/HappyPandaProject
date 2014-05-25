@@ -30,7 +30,6 @@ public class FakkuContentParser implements StringPageLoadTask.StringContentParse
 			FakkuNavItem title =
 					new FakkuNavItem(titleElement.attr("title"), DOMAIN_URL + titleElement.attr("href"));
 
-			//TODO fill overflow and other display values!
 			Element seriesElement = item.getElementsByAttributeValueStarting("href", "/series/").first();
 			FakkuNavItem series =
 					new FakkuNavItem(seriesElement.text(), DOMAIN_URL + seriesElement.attr("href") + BASE_PAGE);

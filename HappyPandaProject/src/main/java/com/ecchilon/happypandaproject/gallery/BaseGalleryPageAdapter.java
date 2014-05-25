@@ -22,8 +22,8 @@ public class BaseGalleryPageAdapter extends AbstractGalleryPageAdapter<IMangaIte
 	private ViewConstructor mViewConstructor;
 
 	public BaseGalleryPageAdapter(GalleryOverviewModuleInterface galleryInterface,
-			GalleryItemClickListener itemClickListener, FavoritesLoader loader) {
-		super(galleryInterface, itemClickListener, loader);
+			GalleryItemClickListener itemClickListener, FavoritesLoader loader, Context context) {
+		super(galleryInterface, itemClickListener, loader, context);
 
 		mViewConstructor = new ViewConstructor();
 	}
