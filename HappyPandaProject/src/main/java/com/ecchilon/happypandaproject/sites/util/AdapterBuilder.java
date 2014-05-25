@@ -13,8 +13,6 @@ import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.sites.fakku.FakkuContentModule;
 import com.ecchilon.happypandaproject.sites.fakku.FakkuContentParser;
 import com.ecchilon.happypandaproject.sites.fakku.FakkuNavItem;
-import com.ecchilon.happypandaproject.sites.test.DummyGalleryModuleInterface;
-import com.ecchilon.happypandaproject.sites.test.DummyNavItem;
 
 /**
  * Builder class for constructing the GalleryPageAdapters for in the fragments Created by Alex on 10-5-2014.
@@ -63,24 +61,6 @@ public class AdapterBuilder implements INavVisitor<AbstractGalleryPageAdapter> {
 	}
 
 	@Override
-	public AbstractGalleryPageAdapter execute(DummyNavItem dummyNavItem) {
-
-		if (mLoader == null) {
-			throw new IllegalArgumentException("Favorites Loader can't be null!");
-		}
-
-		GalleryOverviewModuleInterface<IMangaItem> tempModuleInterface;
-		if (mModuleInterface != null) {
-			tempModuleInterface = mModuleInterface;
-		}
-		else {
-			tempModuleInterface = new DummyGalleryModuleInterface();
-		}
-
-		return new BaseGalleryPageAdapter(tempModuleInterface, mListener, mLoader);
-	}
-
-	@Override
 	public AbstractGalleryPageAdapter execute(FavoritesNavItem favoritesNavItem) {
 
 		if (mLoader == null) {
@@ -111,7 +91,7 @@ public class AdapterBuilder implements INavVisitor<AbstractGalleryPageAdapter> {
 			throw new IllegalArgumentException("Favorites Loader can't be null!");
 		}
 
-		FakkuContentModule contentModule = new FakkuContentModule(fakkuNavItem.getBaseUrl());
+		FakkuContentModule contentModule = new FakkuContentModule(fakkuNavItem.getUrl());
 		contentModule.setStringContentParser(new FakkuContentParser());
 
 		return new BaseGalleryPageAdapter(contentModule, mListener, mLoader);

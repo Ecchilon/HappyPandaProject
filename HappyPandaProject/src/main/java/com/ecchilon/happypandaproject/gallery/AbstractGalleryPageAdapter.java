@@ -1,11 +1,7 @@
 package com.ecchilon.happypandaproject.gallery;
 
-import java.util.Map;
-import java.util.Set;
-
 import android.support.v7.widget.PopupMenu;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import com.ecchilon.happypandaproject.favorites.FavoritesLoader;
@@ -14,24 +10,23 @@ import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaVisitor;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
 import com.ecchilon.happypandaproject.sites.fakku.FakkuMangaItem;
-import com.ecchilon.happypandaproject.sites.test.DummyMangaItem;
 import com.ecchilon.happypandaproject.util.PagedScrollAdapter;
 
 /**
  * Created by Alex on 1/4/14.
  */
-public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends PagedScrollAdapter<T> {
-
+public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends PagedScrollAdapter<T> implements
+		OverFlowClickListener.ClickListenerCallback {
 	public interface PageCreationFailedListener {
 		public void PageCreationFailed();
 	}
 
 	public interface GalleryItemClickListener {
-		public void GalleryItemClicked(IMangaItem item);
+		public void galleryItemClicked(IMangaItem item);
 
-		public void GalleryNavItemClicked(INavItem item);
+		public void galleryNavItemClicked(INavItem item);
 
-		public void GalleryItemFavoriteClicked(IMangaItem item);
+		public void galleryItemFavoriteClicked(IMangaItem item);
 	}
 
 	private PageCreationFailedListener mListener;
@@ -39,6 +34,7 @@ public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends P
 	private GalleryOverviewModuleInterface<T> mGalleryInterface;
 	private FavoritesLoader mLoader;
 	private PageTypeFinder mTypeFinder;
+	private OverflowConstructor mOverflowConstructor;
 
 	private PopupMenu mCurrentOverflowMenu;
 
@@ -49,6 +45,7 @@ public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends P
 		mLoader = loader;
 
 		mTypeFinder = new PageTypeFinder();
+		mOverflowConstructor = new OverflowConstructor();
 	}
 
 	protected GalleryItemClickListener getGalleryItemClickListener() {
@@ -74,17 +71,22 @@ public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends P
 	@Override
 	public abstract View getView(int i, View view, ViewGroup viewGroup);
 
+	@Override
+	public GalleryItemClickListener getClickListener() {
+		return mGalleryItemClickListener;
+	}
+
 	/**
 	 * Shows a new overflow menu anchored to the provided view, with the items as defined in #overflowItems. On click,
-	 * the selected INavItem will be passed to the available @GalleryItemClickListener#GalleryNavItemClicked
+	 * the selected INavItem will be passed to the available @GalleryItemClickListener#galleryNavItemClicked
 	 *
 	 * @param anchor
-	 * @param overflowItems
+	 * @param overflowManga
 	 */
-	protected void showOverflowView(View anchor, final Map<String, INavItem> overflowItems) {
+	protected void showOverflowView(View anchor, IMangaItem overflowManga) {
 		closeCurrentOverflowMenu();
 
-		if (overflowItems == null) {
+		if (overflowManga == null) {
 			return;
 		}
 
@@ -92,7 +94,7 @@ public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends P
 
 		Menu overflowMenu = popupMenu.getMenu();
 
-		fillMenu(overflowMenu, overflowItems.keySet());
+		mOverflowConstructor.fillOverflowMenu(overflowMenu, overflowManga);
 
 		popupMenu.setOnDismissListener(new PopupMenu.OnDismissListener() {
 			@Override
@@ -103,38 +105,10 @@ public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends P
 			}
 		});
 
-		popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-			@Override
-			public boolean onMenuItemClick(MenuItem menuItem) {
-				String key = menuItem.getTitle().toString();
-				if (overflowItems.containsKey(key)) {
-					INavItem value = overflowItems.get(key);
-
-					if (mGalleryItemClickListener != null) {
-						mGalleryItemClickListener.GalleryNavItemClicked(value);
-					}
-				}
-
-				closeCurrentOverflowMenu();
-
-				return true;
-			}
-		});
+		popupMenu.setOnMenuItemClickListener(new OverFlowClickListener(overflowManga, this));
 
 		mCurrentOverflowMenu = popupMenu;
 		mCurrentOverflowMenu.show();
-	}
-
-	/**
-	 * Fills the menu with set of string from map. since these strings are unique keys, no int id is needed
-	 *
-	 * @param menu
-	 * @param itemNames
-	 */
-	private void fillMenu(Menu menu, Set<String> itemNames) {
-		for (String name : itemNames) {
-			menu.add(name);
-		}
 	}
 
 	@Override
@@ -172,13 +146,8 @@ public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends P
 	private class PageTypeFinder implements IMangaVisitor<Integer> {
 
 		@Override
-		public Integer execute(DummyMangaItem dummyMangaItem) {
-			return 0;
-		}
-
-		@Override
 		public Integer execute(FakkuMangaItem fakkuMangaItem) {
-			return 1;
+			return 0;
 		}
 	}
 }

@@ -176,7 +176,7 @@ public class GalleryFragment extends Fragment implements AbstractGalleryPageAdap
 	 * @param item
 	 */
 	@Override
-	public void GalleryItemClicked(IMangaItem item) {
+	public void galleryItemClicked(IMangaItem item) {
 		Intent imageViewIntent = new Intent(getActivity(), ImageViewerActivity.class);
 		imageViewIntent.putExtra(ImageViewerActivity.GALLERY_ITEM_KEY, GsonMangaItem.getJson(item));
 		startActivity(imageViewIntent);
@@ -188,14 +188,14 @@ public class GalleryFragment extends Fragment implements AbstractGalleryPageAdap
 	 * @param item
 	 */
 	@Override
-	public void GalleryNavItemClicked(INavItem item) {
+	public void galleryNavItemClicked(INavItem item) {
 		Intent galleryIntent = new Intent(getActivity(), GalleryActivity.class);
 		galleryIntent.putExtra(NAV_KEY, GsonNavItem.getJson(item));
 		startActivity(galleryIntent);
 	}
 
 	@Override
-	public void GalleryItemFavoriteClicked(IMangaItem item) {
+	public void galleryItemFavoriteClicked(IMangaItem item) {
 		if (!mLoader.containsFavorite(item)) {
 			mLoader.addFavorite(item);
 			mAdapter.notifyDataSetChanged();

@@ -12,7 +12,6 @@ import com.ecchilon.happypandaproject.gallery.navitems.FavoritesNavItem;
 import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
 import com.ecchilon.happypandaproject.gson.GsonDrawerItem;
 import com.ecchilon.happypandaproject.sites.fakku.FakkuNavItem;
-import com.ecchilon.happypandaproject.sites.test.DummyNavItem;
 
 /**
  * Created by Alex on 11-4-2014.
@@ -41,8 +40,6 @@ public class NavDrawerFactory {
 
 	//TODO fill frontpages
 	private static void loadFrontPages(List<IDrawerItem> itemList, Context context) {
-		itemList.add(
-				new NavDrawerItem(context.getString(R.string.page_dummy), new DummyNavItem("Dummy Overview"), true));
 		String fakkuTitle = context.getString(R.string.fakku_overview_title);
 		itemList.add(new NavDrawerItem(fakkuTitle,
 				new FakkuNavItem(context.getString(R.string.overview_title), FAKKU_OVERVIEW_URL), true));

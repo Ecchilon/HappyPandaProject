@@ -14,6 +14,7 @@ import org.jsoup.select.Elements;
  */
 public class FakkuContentParser implements StringPageLoadTask.StringContentParser {
 	private static final String DOMAIN_URL = "http://www.fakku.net";
+	private static final String BASE_PAGE = "/page/";
 
 	@Override
 	public List<IMangaItem> parseContent(Document content) {
@@ -26,13 +27,28 @@ public class FakkuContentParser implements StringPageLoadTask.StringContentParse
 
 			Element titleElement = item.getElementsByAttributeValue("class", "content-title").first();
 
-			String title = titleElement.attr("title");
-
-			String link = DOMAIN_URL + titleElement.attr("href");
+			FakkuNavItem title =
+					new FakkuNavItem(titleElement.attr("title"), DOMAIN_URL + titleElement.attr("href"));
 
 			//TODO fill overflow and other display values!
+			Element seriesElement = item.getElementsByAttributeValueStarting("href", "/series/").first();
+			FakkuNavItem series =
+					new FakkuNavItem(seriesElement.text(), DOMAIN_URL + seriesElement.attr("href") + BASE_PAGE);
 
-			fakkuMangaList.add(new FakkuMangaItem(title, link, coverUrl));
+			Elements artistElementList = item.getElementsByAttributeValueStarting("href", "/artists/");
+			List<FakkuNavItem> artists = new ArrayList<FakkuNavItem>();
+			for (Element artistElement : artistElementList) {
+				artists.add(
+						new FakkuNavItem(artistElement.text(), DOMAIN_URL + artistElement.attr("href") + BASE_PAGE));
+			}
+
+			Elements tagsElementList = item.getElementsByAttributeValueStarting("href", "/tags/");
+			List<FakkuNavItem> tags = new ArrayList<FakkuNavItem>();
+			for (Element tagElement : tagsElementList) {
+				tags.add(new FakkuNavItem(tagElement.text(), DOMAIN_URL + tagElement.attr("href") + BASE_PAGE));
+			}
+
+			fakkuMangaList.add(new FakkuMangaItem(title, coverUrl, series, artists, tags));
 		}
 
 		return fakkuMangaList;

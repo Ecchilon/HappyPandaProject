@@ -9,15 +9,15 @@ import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
 public class FakkuNavItem implements INavItem {
 
 	private String mName;
-	private String mBaseUrl;
+	private String mUrl;
 
 	public FakkuNavItem(String name, String baseUrl) {
 		mName = name;
-		mBaseUrl = baseUrl;
+		mUrl = baseUrl;
 	}
 
-	public String getBaseUrl() {
-		return mBaseUrl;
+	public String getUrl() {
+		return mUrl;
 	}
 
 
@@ -29,5 +29,25 @@ public class FakkuNavItem implements INavItem {
 	@Override
 	public String getTitle() {
 		return mName;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+
+		if (!(o instanceof FakkuNavItem)) {
+			return false;
+		}
+
+		FakkuNavItem other = (FakkuNavItem) o;
+
+		return other.mName.equals(mName) && other.mUrl.equals(mUrl);
+	}
+
+	@Override
+	public int hashCode() {
+		return mName.hashCode() ^ mUrl.hashCode();
 	}
 }

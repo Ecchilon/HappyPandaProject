@@ -1,5 +1,7 @@
 package com.ecchilon.happypandaproject.sites.fakku;
 
+import java.util.List;
+
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaVisitor;
 
@@ -8,22 +10,35 @@ import com.ecchilon.happypandaproject.imageviewer.IMangaVisitor;
  */
 public class FakkuMangaItem implements IMangaItem {
 
-	private String mUrl;
-	private String mName;
+	private FakkuNavItem mTitle;
+	private FakkuNavItem mSeries;
 	private String mCoverUrl;
+	private List<FakkuNavItem> mArtists;
+	private List<FakkuNavItem> mTags;
 
-	public FakkuMangaItem(String name, String url, String coverUrl) {
-		mName = name;
-		mUrl = url;
+	public FakkuMangaItem(FakkuNavItem title, String coverUrl, FakkuNavItem series,
+			List<FakkuNavItem> artists, List<FakkuNavItem> tags) {
+		mTitle = title;
 		mCoverUrl = coverUrl;
+		mSeries = series;
+		mArtists = artists;
+		mTags = tags;
 	}
 
-	public String getName() {
-		return mName;
+	public FakkuNavItem getSeries() {
+		return mSeries;
 	}
 
 	public String getUrl() {
-		return mUrl;
+		return mTitle.getTitle();
+	}
+
+	public List<FakkuNavItem> getTags() {
+		return mTags;
+	}
+
+	public List<FakkuNavItem> getArtists() {
+		return mArtists;
 	}
 
 	public String getCoverUrl() {
@@ -37,6 +52,6 @@ public class FakkuMangaItem implements IMangaItem {
 
 	@Override
 	public String getTitle() {
-		return mName;
+		return mTitle.getTitle();
 	}
 }

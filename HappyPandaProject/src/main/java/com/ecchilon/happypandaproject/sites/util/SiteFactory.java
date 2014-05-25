@@ -8,7 +8,6 @@ import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.sites.GalleryPagesModuleInterface;
 import com.ecchilon.happypandaproject.sites.fakku.FakkuNavItem;
 import com.ecchilon.happypandaproject.sites.test.DummyImageModuleInterface;
-import com.ecchilon.happypandaproject.sites.test.DummyNavItem;
 
 /**
  * Created by Alex on 1/4/14.
@@ -37,11 +36,6 @@ public class SiteFactory {
 
 		public SearchNavVisitor(String query) {
 			mQuery = query;
-		}
-
-		@Override
-		public INavItem execute(DummyNavItem dummyNavItem) {
-			return new DummyNavItem(mQuery);
 		}
 
 		//TODO allow user to search and return available favorites based on search

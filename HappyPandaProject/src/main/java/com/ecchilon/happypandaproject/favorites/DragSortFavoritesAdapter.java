@@ -1,15 +1,11 @@
 package com.ecchilon.happypandaproject.favorites;
 
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
-import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaVisitor;
 import com.ecchilon.happypandaproject.sites.fakku.FakkuMangaItem;
-import com.ecchilon.happypandaproject.sites.test.DummyMangaItem;
 
 /**
  * Created by Alex on 11-5-2014.
@@ -48,18 +44,6 @@ public class DragSortFavoritesAdapter extends BaseAdapter {
 
 		private View mConvertView;
 		private ViewGroup mViewGroup;
-
-		@Override
-		public View execute(DummyMangaItem dummyMangaItem) {
-			if (mConvertView == null) {
-				mConvertView = LayoutInflater.from(mViewGroup.getContext())
-						.inflate(R.layout.favorites_item, mViewGroup, false);
-			}
-
-			((TextView) mConvertView.findViewById(R.id.manga_title)).setText(dummyMangaItem.getTitle());
-
-			return mConvertView;
-		}
 
 		@Override
 		public View execute(FakkuMangaItem fakkuMangaItem) {
