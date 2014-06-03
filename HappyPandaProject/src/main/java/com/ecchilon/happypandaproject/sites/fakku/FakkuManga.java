@@ -8,7 +8,7 @@ import com.ecchilon.happypandaproject.imageviewer.IMangaVisitor;
 /**
  * Created by Alex on 22-5-2014.
  */
-public class FakkuMangaItem implements IMangaItem {
+public class FakkuManga implements IMangaItem {
 
 	private FakkuNavItem mTitle;
 	private FakkuNavItem mSeries;
@@ -16,7 +16,7 @@ public class FakkuMangaItem implements IMangaItem {
 	private List<FakkuNavItem> mArtists;
 	private List<FakkuNavItem> mTags;
 
-	public FakkuMangaItem(FakkuNavItem title, String coverUrl, FakkuNavItem series,
+	public FakkuManga(FakkuNavItem title, String coverUrl, FakkuNavItem series,
 			List<FakkuNavItem> artists, List<FakkuNavItem> tags) {
 		mTitle = title;
 		mCoverUrl = coverUrl;
@@ -30,7 +30,7 @@ public class FakkuMangaItem implements IMangaItem {
 	}
 
 	public String getUrl() {
-		return mTitle.getTitle();
+		return mTitle.getUrl();
 	}
 
 	public List<FakkuNavItem> getTags() {

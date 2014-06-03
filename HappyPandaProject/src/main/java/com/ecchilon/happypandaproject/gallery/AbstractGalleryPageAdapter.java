@@ -10,7 +10,7 @@ import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaVisitor;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
-import com.ecchilon.happypandaproject.sites.fakku.FakkuMangaItem;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuManga;
 import com.ecchilon.happypandaproject.util.PagedScrollAdapter;
 
 /**
@@ -147,7 +147,7 @@ public abstract class AbstractGalleryPageAdapter<T extends IMangaItem> extends P
 	private class PageTypeFinder implements IMangaVisitor<Integer> {
 
 		@Override
-		public Integer execute(FakkuMangaItem fakkuMangaItem) {
+		public Integer execute(FakkuManga fakkuManga) {
 			return 0;
 		}
 	}

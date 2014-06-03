@@ -5,7 +5,7 @@ import android.view.MenuItem;
 import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaVisitor;
-import com.ecchilon.happypandaproject.sites.fakku.FakkuMangaItem;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuManga;
 import com.ecchilon.happypandaproject.sites.fakku.FakkuNavItem;
 
 public class OverFlowClickListener implements PopupMenu.OnMenuItemClickListener {
@@ -45,20 +45,20 @@ public class OverFlowClickListener implements PopupMenu.OnMenuItemClickListener 
 	private class MenuItemFinder implements IMangaVisitor<INavItem> {
 
 		@Override
-		public INavItem execute(FakkuMangaItem fakkuMangaItem) {
+		public INavItem execute(FakkuManga fakkuManga) {
 			//TODO find items
 
-			if (fakkuMangaItem.getSeries().hashCode() == clickedItem) {
-				return fakkuMangaItem.getSeries();
+			if (fakkuManga.getSeries().hashCode() == clickedItem) {
+				return fakkuManga.getSeries();
 			}
 
-			for (FakkuNavItem artist : fakkuMangaItem.getArtists()) {
+			for (FakkuNavItem artist : fakkuManga.getArtists()) {
 				if (artist.hashCode() == clickedItem) {
 					return artist;
 				}
 			}
 
-			for (FakkuNavItem tag : fakkuMangaItem.getTags()) {
+			for (FakkuNavItem tag : fakkuManga.getTags()) {
 				if (tag.hashCode() == clickedItem) {
 					return tag;
 				}

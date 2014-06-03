@@ -47,7 +47,7 @@ public class FakkuContentParser implements StringPageLoadTask.StringContentParse
 				tags.add(new FakkuNavItem(tagElement.text(), DOMAIN_URL + tagElement.attr("href") + BASE_PAGE));
 			}
 
-			fakkuMangaList.add(new FakkuMangaItem(title, coverUrl, series, artists, tags));
+			fakkuMangaList.add(new FakkuManga(title, coverUrl, series, artists, tags));
 		}
 
 		return fakkuMangaList;

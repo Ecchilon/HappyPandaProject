@@ -11,7 +11,7 @@ import com.ecchilon.happypandaproject.favorites.FavoritesLoader;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaVisitor;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
-import com.ecchilon.happypandaproject.sites.fakku.FakkuMangaItem;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuManga;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 
 /**
@@ -39,34 +39,34 @@ public class BaseGalleryPageAdapter extends AbstractGalleryPageAdapter<IMangaIte
 		private ViewGroup mViewGroup;
 
 		@Override
-		public View execute(final FakkuMangaItem fakkuMangaItem) {
+		public View execute(final FakkuManga fakkuManga) {
 			Context c = mViewGroup.getContext();
 
 			if (mConvertView == null) {
 				mConvertView = View.inflate(c, R.layout.dummy_gallery_item, null);
 			}
 
-			((TextView) mConvertView.findViewById(R.id.manga_title)).setText(fakkuMangaItem.getTitle());
+			((TextView) mConvertView.findViewById(R.id.manga_title)).setText(fakkuManga.getTitle());
 
 			//set all gallery item values
-			if (fakkuMangaItem.getCoverUrl() != null) {
+			if (fakkuManga.getCoverUrl() != null) {
 				NetworkImageView networkImageView = (NetworkImageView) mConvertView.findViewById(R.id.manga_thumb);
-				networkImageView.setImageUrl(fakkuMangaItem.getCoverUrl(), VolleySingleton.getImageLoader());
+				networkImageView.setImageUrl(fakkuManga.getCoverUrl(), VolleySingleton.getImageLoader());
 			}
 
-			setupFavoriteButton((ImageView) mConvertView.findViewById(R.id.manga_favorite), fakkuMangaItem);
+			setupFavoriteButton((ImageView) mConvertView.findViewById(R.id.manga_favorite), fakkuManga);
 
 			mConvertView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					getGalleryItemClickListener().galleryItemClicked(fakkuMangaItem);
+					getGalleryItemClickListener().galleryItemClicked(fakkuManga);
 				}
 			});
 
 			mConvertView.findViewById(R.id.manga_overflow).setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					showOverflowView(view, fakkuMangaItem);
+					showOverflowView(view, fakkuManga);
 				}
 			});
 

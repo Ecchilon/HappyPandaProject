@@ -9,7 +9,7 @@ import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaVisitor;
-import com.ecchilon.happypandaproject.sites.fakku.FakkuMangaItem;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuManga;
 
 public class OverflowConstructor {
 	private Menu mMenu;
@@ -31,10 +31,10 @@ public class OverflowConstructor {
 	 */
 	private class MenuConstructor implements IMangaVisitor<Void> {
 		@Override
-		public Void execute(FakkuMangaItem fakkuMangaItem) {
-			fillList(fakkuMangaItem.getArtists(), R.string.artists_item, R.string.artist_item);
-			fillItem(fakkuMangaItem.getSeries(), R.string.series_item);
-			fillList(fakkuMangaItem.getTags(), R.string.tags_item, R.string.tag_item);
+		public Void execute(FakkuManga fakkuManga) {
+			fillList(fakkuManga.getArtists(), R.string.artists_item, R.string.artist_item);
+			fillItem(fakkuManga.getSeries(), R.string.series_item);
+			fillList(fakkuManga.getTags(), R.string.tags_item, R.string.tag_item);
 
 			return null;
 		}

@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaVisitor;
-import com.ecchilon.happypandaproject.sites.fakku.FakkuMangaItem;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuManga;
 
 /**
  * Created by Alex on 11-5-2014.
@@ -46,7 +46,7 @@ public class DragSortFavoritesAdapter extends BaseAdapter {
 		private ViewGroup mViewGroup;
 
 		@Override
-		public View execute(FakkuMangaItem fakkuMangaItem) {
+		public View execute(FakkuManga fakkuManga) {
 			//TODO implement!
 
 			return null;

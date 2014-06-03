@@ -8,87 +8,91 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.ecchilon.happypandaproject.R;
-import com.ecchilon.happypandaproject.sites.GalleryPagesModuleInterface;
+import com.ecchilon.happypandaproject.sites.MangaModuleInterface;
 import com.ecchilon.happypandaproject.util.NetworkListenerImageView;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 
 /**
  * Created by Alex on 1/24/14.
  */
-public class ScreenSlidePageFragment extends Fragment implements GalleryPagesModuleInterface.GalleryImageCreatedCallback, NetworkListenerImageView.NetworkImageListener {
+public class ScreenSlidePageFragment extends Fragment implements MangaModuleInterface.GalleryImageCreatedCallback,
+		NetworkListenerImageView.NetworkImageListener {
 
-    public static final int MAX_NUM_RETRIES = 2;
+	public static final int MAX_NUM_RETRIES = 2;
 
-    private NetworkListenerImageView mNetworkImageView;
+	private NetworkListenerImageView mNetworkImageView;
 	private ProgressBar loadingBar;
 	private TextView failureText;
 
 	private String mImageUrl;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.loading_image_view, container, false);
+		View view = inflater.inflate(R.layout.loading_image_view, container, false);
 
-        mNetworkImageView = (NetworkListenerImageView) view.findViewById(R.id.image_view);
-        loadingBar = (ProgressBar) view.findViewById(R.id.loading_view);
-        failureText = (TextView) view.findViewById(R.id.failure_text);
+		mNetworkImageView = (NetworkListenerImageView) view.findViewById(R.id.image_view);
+		loadingBar = (ProgressBar) view.findViewById(R.id.loading_view);
+		failureText = (TextView) view.findViewById(R.id.failure_text);
 
-        mNetworkImageView.setNetworkImageListener(this);
+		mNetworkImageView.setNetworkImageListener(this);
 
-        return view;
-    }
+		return view;
+	}
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
 
-        if(mImageUrl != null)
-            mNetworkImageView.setImageUrl(mImageUrl, VolleySingleton.getImageLoader());
-    }
+		if (mImageUrl != null) {
+			mNetworkImageView.setImageUrl(mImageUrl, VolleySingleton.getImageLoader());
+		}
+	}
 
 
-    @Override
-    public void ImageBitmapCreated(Bitmap bitmap) {
-        mNetworkImageView.setImageBitmap(bitmap);
-    }
+	@Override
+	public void ImageBitmapCreated(Bitmap bitmap) {
+		mNetworkImageView.setImageBitmap(bitmap);
+	}
 
-    @Override
-    public void ImageURLCreated(String imageURL) {
-        if(mNetworkImageView != null && imageURL != null)
-            mNetworkImageView.setImageUrl(imageURL, VolleySingleton.getImageLoader());
+	@Override
+	public void ImageURLCreated(String imageURL) {
+		if (mNetworkImageView != null && imageURL != null) {
+			mNetworkImageView.setImageUrl(imageURL, VolleySingleton.getImageLoader());
+		}
 
-        mImageUrl = imageURL;
-    }
+		mImageUrl = imageURL;
+	}
 
-    @Override
-    public void ImageCreationFailed() {
-        //TODO so what happens now?...
-    }
+	@Override
+	public void ImageCreationFailed() {
+		//TODO so what happens now?...
+	}
 
 	private int retries = 0;
 
-    @Override
-    public void ImageLoadFailed(NetworkListenerImageView view) {
-        /**if image is not the same (listener has been set to this image), just ignore since it's
-         an view that was discarded? */
-        if(mNetworkImageView != view) return;
-        //retries url again if it failed
-        if(mNetworkImageView != null && mImageUrl != null && retries++ < MAX_NUM_RETRIES)
-            mNetworkImageView.setImageUrl(mImageUrl, VolleySingleton.getImageLoader());
-        else
-        {
-            loadingBar.setVisibility(View.GONE);
-            failureText.setVisibility(View.VISIBLE);
-        }
-    }
+	@Override
+	public void ImageLoadFailed(NetworkListenerImageView view) {
+		/**if image is not the same (listener has been set to this image), just ignore since it's
+		 an view that was discarded? */
+		if (mNetworkImageView != view) {
+			return;
+		}
+		//retries url again if it failed
+		if (mNetworkImageView != null && mImageUrl != null && retries++ < MAX_NUM_RETRIES) {
+			mNetworkImageView.setImageUrl(mImageUrl, VolleySingleton.getImageLoader());
+		}
+		else {
+			loadingBar.setVisibility(View.GONE);
+			failureText.setVisibility(View.VISIBLE);
+		}
+	}
 
-    @Override
-    public void ImageLoadSucceeded(NetworkListenerImageView view) {
-        //TODO disable loading
-        loadingBar.setVisibility(View.GONE);
-    }
+	@Override
+	public void ImageLoadSucceeded(NetworkListenerImageView view) {
+		//TODO disable loading
+		loadingBar.setVisibility(View.GONE);
+	}
 }
