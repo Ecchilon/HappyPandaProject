@@ -6,7 +6,7 @@ import android.os.Environment;
 import android.support.v4.content.LocalBroadcastManager;
 import com.ecchilon.happypandaproject.gson.GsonMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
-import com.ecchilon.happypandaproject.sites.GalleryPagesModuleInterface;
+import com.ecchilon.happypandaproject.sites.MangaModuleInterface;
 
 /**
  * Created by Alex on 1/26/14.
@@ -55,16 +55,21 @@ public class StorageService extends IntentService {
 		        Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
     }
 
-	public static GalleryPagesModuleInterface getGallery(IMangaItem item) {
+	public static MangaModuleInterface getGallery(IMangaItem item) {
 
-		return new GalleryPagesModuleInterface() {
-            @Override
+		return new MangaModuleInterface() {
+			@Override
             public int getPageCount() {
                 return 0;
             }
 
-            @Override
-            public void getImage(int index, GalleryImageCreatedCallback listener) {
+			@Override
+			public void setContentChangedListener(ContentChangedListener listener) {
+
+			}
+
+			@Override
+			public void getImage(int index, GalleryImageCreatedCallback listener) {
 
             }
         };

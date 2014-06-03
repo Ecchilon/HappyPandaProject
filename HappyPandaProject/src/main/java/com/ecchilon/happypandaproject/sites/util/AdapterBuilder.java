@@ -7,10 +7,12 @@ import com.ecchilon.happypandaproject.favorites.FavoritesLoader;
 import com.ecchilon.happypandaproject.gallery.AbstractGalleryPageAdapter;
 import com.ecchilon.happypandaproject.gallery.BaseGalleryPageAdapter;
 import com.ecchilon.happypandaproject.gallery.navitems.FavoritesNavItem;
+import com.ecchilon.happypandaproject.gallery.navitems.LibraryNavPage;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
-import com.ecchilon.happypandaproject.sites.test.DummyGalleryModuleInterface;
-import com.ecchilon.happypandaproject.sites.test.DummyNavItem;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuContentModule;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuContentParser;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuNavItem;
 
 /**
  * Builder class for constructing the GalleryPageAdapters for in the fragments Created by Alex on 10-5-2014.
@@ -19,9 +21,11 @@ public class AdapterBuilder implements INavVisitor<AbstractGalleryPageAdapter> {
 	private FavoritesLoader mLoader;
 	private GalleryOverviewModuleInterface<IMangaItem> mModuleInterface;
 	private AbstractGalleryPageAdapter.GalleryItemClickListener mListener;
+	private Context mAppContext;
 
 	public AdapterBuilder(Context context) {
-		mLoader = new FavoritesLoader(context);
+		mAppContext = context.getApplicationContext();
+		mLoader = new FavoritesLoader(mAppContext);
 	}
 
 	/**
@@ -29,7 +33,7 @@ public class AdapterBuilder implements INavVisitor<AbstractGalleryPageAdapter> {
 	 * otherwise
 	 *
 	 * @param loader
-	 * @return reference to self to stick true to the 'Builder' pattern
+	 * @return reference to self for chaining
 	 */
 	public AdapterBuilder withFavoritesLoader(FavoritesLoader loader) {
 		mLoader = loader;
@@ -40,7 +44,7 @@ public class AdapterBuilder implements INavVisitor<AbstractGalleryPageAdapter> {
 	 * Sets a custom module interface for building the adapter. A default interface is constructed otherwise
 	 *
 	 * @param moduleInterface
-	 * @return reference to self to stick true to the 'Builder' pattern
+	 * @return reference to self for chaining
 	 */
 	public AdapterBuilder withModuleInterface(GalleryOverviewModuleInterface<IMangaItem> moduleInterface) {
 		mModuleInterface = moduleInterface;
@@ -51,29 +55,11 @@ public class AdapterBuilder implements INavVisitor<AbstractGalleryPageAdapter> {
 	 * Sets a listener for the handling clicking of the items in the fragments. Can be null.
 	 *
 	 * @param listener
-	 * @return reference to self to stick true to the 'Builder' pattern
+	 * @return reference to self for chaining
 	 */
 	public AdapterBuilder withGalleryItemListener(AbstractGalleryPageAdapter.GalleryItemClickListener listener) {
 		mListener = listener;
 		return this;
-	}
-
-	@Override
-	public AbstractGalleryPageAdapter execute(DummyNavItem dummyNavItem) {
-
-		if (mLoader == null) {
-			throw new IllegalArgumentException("Favorites Loader can't be null!");
-		}
-
-		GalleryOverviewModuleInterface<IMangaItem> tempModuleInterface;
-		if (mModuleInterface != null) {
-			tempModuleInterface = mModuleInterface;
-		}
-		else {
-			tempModuleInterface = new DummyGalleryModuleInterface();
-		}
-
-		return new BaseGalleryPageAdapter(tempModuleInterface, mListener, mLoader);
 	}
 
 	@Override
@@ -91,7 +77,25 @@ public class AdapterBuilder implements INavVisitor<AbstractGalleryPageAdapter> {
 			tempModuleInterface = new FavoritesInterface(mLoader);
 		}
 
-		return new BaseGalleryPageAdapter(tempModuleInterface, mListener, mLoader);
+		return new BaseGalleryPageAdapter(tempModuleInterface, mListener, mLoader, mAppContext);
 
+	}
+
+	@Override
+	public AbstractGalleryPageAdapter execute(LibraryNavPage libraryNavPage) {
+		//TODO implement
+		throw new UnsupportedOperationException("Oops. Better implement this quickly!");
+	}
+
+	@Override
+	public AbstractGalleryPageAdapter execute(FakkuNavItem fakkuNavItem) {
+		if (mLoader == null) {
+			throw new IllegalArgumentException("Favorites Loader can't be null!");
+		}
+
+		FakkuContentModule contentModule = new FakkuContentModule(fakkuNavItem.getUrl());
+		contentModule.setStringContentParser(new FakkuContentParser());
+
+		return new BaseGalleryPageAdapter(contentModule, mListener, mLoader, mAppContext);
 	}
 }

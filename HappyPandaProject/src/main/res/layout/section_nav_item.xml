@@ -11,7 +11,7 @@
 			android:layout_height="@dimen/section_icon_size"
 			android:adjustViewBounds="true"
 			android:layout_marginLeft="@dimen/drawer_divider_padding"
-			android:layout_marginRight="@dimen/drawer_image_margin"
+			android:layout_marginRight="@dimen/item_margin"
 			android:maxWidth="@dimen/section_icon_size"
 			android:visibility="gone"
 			/>

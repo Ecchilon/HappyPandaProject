@@ -35,5 +35,20 @@
 	<string name="added_favorite">added to favorites!</string>
 	<string name="section_my_items">My Things</string>
 	<string name="page_favorite">Favorites</string>
+	<string name="title_activity_favorites">FavoritesActivity</string>
+	<string name="title_activity_organize">Organize</string>
+	<string name="action_edit">Edit</string>
+	<string name="undo_message_favorite">Favorite Removed</string>
+	<string name="fakku_subtitle">Fakku</string>
+	<string name="fakku_overview_title">Fakku</string>
+	<string name="overview_title">Frontpage</string>
+	<string name="thumb_description">thumbnail of this manga</string>
+	<string name="favorite_description">favorite this manga</string>
+	<string name="overflow_description">show more options</string>
+	<string name="artists_item">Artists</string>
+	<string name="tags_item">Tags</string>
+	<string name="artist_item">Artist:</string>
+	<string name="tag_item">Tag:</string>
+	<string name="series_item">Series:</string>
 
 </resources>

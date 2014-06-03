@@ -3,10 +3,13 @@ package com.ecchilon.happypandaproject.sites.util;
 import com.ecchilon.happypandaproject.drawer.INavVisitor;
 import com.ecchilon.happypandaproject.gallery.navitems.FavoritesNavItem;
 import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
+import com.ecchilon.happypandaproject.gallery.navitems.LibraryNavPage;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
-import com.ecchilon.happypandaproject.sites.GalleryPagesModuleInterface;
-import com.ecchilon.happypandaproject.sites.test.DummyImageModuleInterface;
-import com.ecchilon.happypandaproject.sites.test.DummyNavItem;
+import com.ecchilon.happypandaproject.imageviewer.IMangaVisitor;
+import com.ecchilon.happypandaproject.sites.MangaModuleInterface;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuManga;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuMangaModule;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuNavItem;
 
 /**
  * Created by Alex on 1/4/14.
@@ -25,8 +28,16 @@ public class SiteFactory {
 	}
 
 	//TODO should probably be separated from the overview modules
-	public static GalleryPagesModuleInterface getGalleryPagesInterface(IMangaItem item) {
-		return new DummyImageModuleInterface();
+	public static MangaModuleInterface getGalleryPagesInterface(IMangaItem item) {
+		return item.visit(new GalleryVisitor());
+	}
+
+	private static class GalleryVisitor implements IMangaVisitor<MangaModuleInterface> {
+
+		@Override
+		public MangaModuleInterface execute(FakkuManga fakkuManga) {
+			return new FakkuMangaModule(fakkuManga);
+		}
 	}
 
 	private static class SearchNavVisitor implements INavVisitor<INavItem> {
@@ -37,14 +48,20 @@ public class SiteFactory {
 			mQuery = query;
 		}
 
-		@Override
-		public INavItem execute(DummyNavItem dummyNavItem) {
-			return new DummyNavItem(mQuery);
-		}
-
 		//TODO allow user to search and return available favorites based on search
 		@Override
 		public INavItem execute(FavoritesNavItem favoritesNavItem) {
+			return null;
+		}
+
+		//TODO search library as well!
+		@Override
+		public INavItem execute(LibraryNavPage libraryNavPage) {
+			return null;
+		}
+
+		@Override
+		public INavItem execute(FakkuNavItem fakkuNavItem) {
 			return null;
 		}
 	}

@@ -33,7 +33,6 @@ public class StringPageLoadTask extends AsyncTask<String, Void, List<IMangaItem>
 
 		Document doc = Jsoup.parse(strings[0].substring(startIndex, endIndex + 7));
 
-		//TODO consider try-catching the parser, since this is the actual 'external' part of the application
 		if (mParser != null) {
 			return mParser.parseContent(doc);
 		}

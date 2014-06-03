@@ -44,6 +44,12 @@ public class FavoritesLoader {
 		return new ArrayList<IMangaItem>(mFavorites);
 	}
 
+	public void setFavorites(ArrayList<IMangaItem> newFavorites) {
+		mFavorites = newFavorites;
+
+		writeFavorites();
+	}
+
 	public boolean containsFavorite(IMangaItem item) {
 		if (isDirty()) {
 			reloadFavorites();
@@ -58,6 +64,23 @@ public class FavoritesLoader {
 		}
 
 		mFavorites.add(item);
+		writeFavorites();
+	}
+
+	public IMangaItem getFavorite(int position) {
+		if (isDirty()) {
+			reloadFavorites();
+		}
+
+		return mFavorites.get(position);
+	}
+
+	public void addFavorite(IMangaItem item, int position) {
+		if (isDirty()) {
+			reloadFavorites();
+		}
+
+		mFavorites.add(position, item);
 		writeFavorites();
 	}
 
@@ -81,5 +104,13 @@ public class FavoritesLoader {
 
 	private boolean isDirty() {
 		return mPreferences.getBoolean(FAVORITES_CHANGED, true);
+	}
+
+	public int getCount() {
+		if (isDirty()) {
+			reloadFavorites();
+		}
+
+		return mFavorites.size();
 	}
 }

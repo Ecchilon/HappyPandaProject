@@ -1,4 +1,4 @@
-package com.ecchilon.happypandaproject;
+package com.ecchilon.happypandaproject.gallery;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +11,11 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import com.ecchilon.happypandaproject.R;
 import com.ecchilon.happypandaproject.drawer.NavDrawerFactory;
 import com.ecchilon.happypandaproject.drawer.NavDrawerItem;
 import com.ecchilon.happypandaproject.drawer.NavigationDrawerFragment;
 import com.ecchilon.happypandaproject.drawer.SubtitleVisitor;
-import com.ecchilon.happypandaproject.gallery.GalleryFragment;
 import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
 import com.ecchilon.happypandaproject.gson.GsonDrawerItem;
 import com.ecchilon.happypandaproject.gson.GsonNavItem;

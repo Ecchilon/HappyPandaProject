@@ -11,7 +11,7 @@ import com.ecchilon.happypandaproject.favorites.FavoritesLoader;
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
 import com.ecchilon.happypandaproject.imageviewer.IMangaVisitor;
 import com.ecchilon.happypandaproject.sites.GalleryOverviewModuleInterface;
-import com.ecchilon.happypandaproject.sites.test.DummyMangaItem;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuManga;
 import com.ecchilon.happypandaproject.util.VolleySingleton;
 
 /**
@@ -22,8 +22,8 @@ public class BaseGalleryPageAdapter extends AbstractGalleryPageAdapter<IMangaIte
 	private ViewConstructor mViewConstructor;
 
 	public BaseGalleryPageAdapter(GalleryOverviewModuleInterface galleryInterface,
-			GalleryItemClickListener itemClickListener, FavoritesLoader loader) {
-		super(galleryInterface, itemClickListener, loader);
+			GalleryItemClickListener itemClickListener, FavoritesLoader loader, Context context) {
+		super(galleryInterface, itemClickListener, loader, context);
 
 		mViewConstructor = new ViewConstructor();
 	}
@@ -39,34 +39,34 @@ public class BaseGalleryPageAdapter extends AbstractGalleryPageAdapter<IMangaIte
 		private ViewGroup mViewGroup;
 
 		@Override
-		public View execute(final DummyMangaItem dummyMangaItem) {
+		public View execute(final FakkuManga fakkuManga) {
 			Context c = mViewGroup.getContext();
 
 			if (mConvertView == null) {
 				mConvertView = View.inflate(c, R.layout.dummy_gallery_item, null);
 			}
 
-			((TextView) mConvertView.findViewById(R.id.item_title)).setText(dummyMangaItem.getTitle());
+			((TextView) mConvertView.findViewById(R.id.manga_title)).setText(fakkuManga.getTitle());
 
 			//set all gallery item values
-			if (dummyMangaItem.getThumbUrl() != null) {
-				NetworkImageView networkImageView = (NetworkImageView) mConvertView.findViewById(R.id.item_thumb);
-				networkImageView.setImageUrl(dummyMangaItem.getThumbUrl(), VolleySingleton.getImageLoader());
+			if (fakkuManga.getCoverUrl() != null) {
+				NetworkImageView networkImageView = (NetworkImageView) mConvertView.findViewById(R.id.manga_thumb);
+				networkImageView.setImageUrl(fakkuManga.getCoverUrl(), VolleySingleton.getImageLoader());
 			}
 
-			setupFavoriteButton((ImageView) mConvertView.findViewById(R.id.item_favorite), dummyMangaItem);
+			setupFavoriteButton((ImageView) mConvertView.findViewById(R.id.manga_favorite), fakkuManga);
 
 			mConvertView.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					getGalleryItemClickListener().GalleryItemClicked(dummyMangaItem);
+					getGalleryItemClickListener().galleryItemClicked(fakkuManga);
 				}
 			});
 
-			mConvertView.findViewById(R.id.item_overflow).setOnClickListener(new View.OnClickListener() {
+			mConvertView.findViewById(R.id.manga_overflow).setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					showOverflowView(view, null);
+					showOverflowView(view, fakkuManga);
 				}
 			});
 
@@ -93,7 +93,7 @@ public class BaseGalleryPageAdapter extends AbstractGalleryPageAdapter<IMangaIte
 		 * @param view
 		 * @param item
 		 */
-		private void setupFavoriteButton(ImageView view, final DummyMangaItem item) {
+		private void setupFavoriteButton(ImageView view, final IMangaItem item) {
 
 			if (isFavorite(item)) {
 				view.setImageResource(R.drawable.ic_action_favorite_disabled);
@@ -105,7 +105,7 @@ public class BaseGalleryPageAdapter extends AbstractGalleryPageAdapter<IMangaIte
 			view.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View view) {
-					getGalleryItemClickListener().GalleryItemFavoriteClicked(item);
+					getGalleryItemClickListener().galleryItemFavoriteClicked(item);
 				}
 			});
 		}

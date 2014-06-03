@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.ecchilon.happypandaproject.gallery.navitems.FavoritesNavItem;
 import com.ecchilon.happypandaproject.gallery.navitems.INavItem;
-import com.ecchilon.happypandaproject.sites.test.DummyNavItem;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuNavItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -18,8 +18,8 @@ public class GsonNavItem {
 	//TODO find an acceptable way around this ugly code
 	static {
 		RuntimeTypeAdapterFactory<INavItem> rta = RuntimeTypeAdapterFactory.of(INavItem.class);
-		rta.registerSubtype(DummyNavItem.class);
 		rta.registerSubtype(FavoritesNavItem.class);
+		rta.registerSubtype(FakkuNavItem.class);
 
 		GSON = new GsonBuilder()
 				.registerTypeAdapterFactory(rta)

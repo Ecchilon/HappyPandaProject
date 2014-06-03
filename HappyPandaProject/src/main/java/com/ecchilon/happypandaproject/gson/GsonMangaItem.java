@@ -3,7 +3,7 @@ package com.ecchilon.happypandaproject.gson;
 import java.util.List;
 
 import com.ecchilon.happypandaproject.imageviewer.IMangaItem;
-import com.ecchilon.happypandaproject.sites.test.DummyMangaItem;
+import com.ecchilon.happypandaproject.sites.fakku.FakkuManga;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -17,7 +17,7 @@ public class GsonMangaItem {
 	//TODO find an acceptable way around this ugly code
 	static {
 		RuntimeTypeAdapterFactory<IMangaItem> rta = RuntimeTypeAdapterFactory.of(IMangaItem.class);
-		rta.registerSubtype(DummyMangaItem.class);
+		rta.registerSubtype(FakkuManga.class);
 
 		GSON = new GsonBuilder()
 				.registerTypeAdapterFactory(rta)
